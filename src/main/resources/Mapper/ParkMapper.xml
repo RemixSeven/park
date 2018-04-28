@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ymwang.park.dao.ParkMapper">
+  <resultMap id="BaseResultMap" type="com.ymwang.park.model.Park">
+    <id column="park_id" jdbcType="VARCHAR" property="parkId" />
+    <result column="park_name" jdbcType="VARCHAR" property="parkName" />
+    <result column="park_adress" jdbcType="VARCHAR" property="parkAdress" />
+    <result column="park_detail" jdbcType="VARCHAR" property="parkDetail" />
+    <result column="open_time" jdbcType="TIMESTAMP" property="openTime" />
+    <result column="close_time" jdbcType="TIMESTAMP" property="closeTime" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    park_id, park_name, park_adress, park_detail, open_time, close_time, longitude, latitude
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from park
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from park
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ymwang.park.model.Park">
+    insert into park (park_id, park_name, park_adress, 
+      park_detail, open_time, close_time, 
+      longitude, latitude)
+    values (#{parkId,jdbcType=VARCHAR}, #{parkName,jdbcType=VARCHAR}, #{parkAdress,jdbcType=VARCHAR}, 
+      #{parkDetail,jdbcType=VARCHAR}, #{openTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
+      #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ymwang.park.model.Park">
+    insert into park
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="parkId != null">
+        park_id,
+      </if>
+      <if test="parkName != null">
+        park_name,
+      </if>
+      <if test="parkAdress != null">
+        park_adress,
+      </if>
+      <if test="parkDetail != null">
+        park_detail,
+      </if>
+      <if test="openTime != null">
+        open_time,
+      </if>
+      <if test="closeTime != null">
+        close_time,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="parkId != null">
+        #{parkId,jdbcType=VARCHAR},
+      </if>
+      <if test="parkName != null">
+        #{parkName,jdbcType=VARCHAR},
+      </if>
+      <if test="parkAdress != null">
+        #{parkAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="parkDetail != null">
+        #{parkDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="openTime != null">
+        #{openTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null">
+        #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ymwang.park.model.Park">
+    update park
+    <set>
+      <if test="parkName != null">
+        park_name = #{parkName,jdbcType=VARCHAR},
+      </if>
+      <if test="parkAdress != null">
+        park_adress = #{parkAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="parkDetail != null">
+        park_detail = #{parkDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="openTime != null">
+        open_time = #{openTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null">
+        close_time = #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ymwang.park.model.Park">
+    update park
+    set park_name = #{parkName,jdbcType=VARCHAR},
+      park_adress = #{parkAdress,jdbcType=VARCHAR},
+      park_detail = #{parkDetail,jdbcType=VARCHAR},
+      open_time = #{openTime,jdbcType=TIMESTAMP},
+      close_time = #{closeTime,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR}
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ymwang.park.dao.ChargeMapper">
+  <resultMap id="BaseResultMap" type="com.ymwang.park.model.Charge">
+    <id column="charge_id" jdbcType="VARCHAR" property="chargeId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
+    <result column="enter_time" jdbcType="TIMESTAMP" property="enterTime" />
+    <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    charge_id, user_id, user_name, money, car_number, enter_time, out_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from charge
+    where charge_id = #{chargeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from charge
+    where charge_id = #{chargeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ymwang.park.model.Charge">
+    insert into charge (charge_id, user_id, user_name, 
+      money, car_number, enter_time, 
+      out_time)
+    values (#{chargeId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{money,jdbcType=INTEGER}, #{carNumber,jdbcType=VARCHAR}, #{enterTime,jdbcType=TIMESTAMP}, 
+      #{outTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ymwang.park.model.Charge">
+    insert into charge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="chargeId != null">
+        charge_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="carNumber != null">
+        car_number,
+      </if>
+      <if test="enterTime != null">
+        enter_time,
+      </if>
+      <if test="outTime != null">
+        out_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="chargeId != null">
+        #{chargeId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="carNumber != null">
+        #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="enterTime != null">
+        #{enterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTime != null">
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ymwang.park.model.Charge">
+    update charge
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="carNumber != null">
+        car_number = #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="enterTime != null">
+        enter_time = #{enterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTime != null">
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where charge_id = #{chargeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ymwang.park.model.Charge">
+    update charge
+    set user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      money = #{money,jdbcType=INTEGER},
+      car_number = #{carNumber,jdbcType=VARCHAR},
+      enter_time = #{enterTime,jdbcType=TIMESTAMP},
+      out_time = #{outTime,jdbcType=TIMESTAMP}
+    where charge_id = #{chargeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

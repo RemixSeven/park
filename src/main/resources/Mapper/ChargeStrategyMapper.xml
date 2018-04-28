@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ymwang.park.dao.ChargeStrategyMapper">
+  <resultMap id="BaseResultMap" type="com.ymwang.park.model.ChargeStrategy">
+    <id column="strategy_id" jdbcType="INTEGER" property="strategyId" />
+    <result column="park_id" jdbcType="VARCHAR" property="parkId" />
+    <result column="one_hour2" jdbcType="INTEGER" property="oneHour2" />
+    <result column="three_hour2" jdbcType="INTEGER" property="threeHour2" />
+    <result column="five_hour" jdbcType="INTEGER" property="fiveHour" />
+    <result column="capping" jdbcType="INTEGER" property="capping" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    strategy_id, park_id, one_hour2, three_hour2, five_hour, capping
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from charge_strategy
+    where strategy_id = #{strategyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from charge_strategy
+    where strategy_id = #{strategyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ymwang.park.model.ChargeStrategy">
+    insert into charge_strategy (strategy_id, park_id, one_hour2, 
+      three_hour2, five_hour, capping
+      )
+    values (#{strategyId,jdbcType=INTEGER}, #{parkId,jdbcType=VARCHAR}, #{oneHour2,jdbcType=INTEGER}, 
+      #{threeHour2,jdbcType=INTEGER}, #{fiveHour,jdbcType=INTEGER}, #{capping,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ymwang.park.model.ChargeStrategy">
+    insert into charge_strategy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="strategyId != null">
+        strategy_id,
+      </if>
+      <if test="parkId != null">
+        park_id,
+      </if>
+      <if test="oneHour2 != null">
+        one_hour2,
+      </if>
+      <if test="threeHour2 != null">
+        three_hour2,
+      </if>
+      <if test="fiveHour != null">
+        five_hour,
+      </if>
+      <if test="capping != null">
+        capping,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="strategyId != null">
+        #{strategyId,jdbcType=INTEGER},
+      </if>
+      <if test="parkId != null">
+        #{parkId,jdbcType=VARCHAR},
+      </if>
+      <if test="oneHour2 != null">
+        #{oneHour2,jdbcType=INTEGER},
+      </if>
+      <if test="threeHour2 != null">
+        #{threeHour2,jdbcType=INTEGER},
+      </if>
+      <if test="fiveHour != null">
+        #{fiveHour,jdbcType=INTEGER},
+      </if>
+      <if test="capping != null">
+        #{capping,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ymwang.park.model.ChargeStrategy">
+    update charge_strategy
+    <set>
+      <if test="parkId != null">
+        park_id = #{parkId,jdbcType=VARCHAR},
+      </if>
+      <if test="oneHour2 != null">
+        one_hour2 = #{oneHour2,jdbcType=INTEGER},
+      </if>
+      <if test="threeHour2 != null">
+        three_hour2 = #{threeHour2,jdbcType=INTEGER},
+      </if>
+      <if test="fiveHour != null">
+        five_hour = #{fiveHour,jdbcType=INTEGER},
+      </if>
+      <if test="capping != null">
+        capping = #{capping,jdbcType=INTEGER},
+      </if>
+    </set>
+    where strategy_id = #{strategyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ymwang.park.model.ChargeStrategy">
+    update charge_strategy
+    set park_id = #{parkId,jdbcType=VARCHAR},
+      one_hour2 = #{oneHour2,jdbcType=INTEGER},
+      three_hour2 = #{threeHour2,jdbcType=INTEGER},
+      five_hour = #{fiveHour,jdbcType=INTEGER},
+      capping = #{capping,jdbcType=INTEGER}
+    where strategy_id = #{strategyId,jdbcType=INTEGER}
+  </update>
+</mapper>

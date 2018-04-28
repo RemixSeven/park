@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ymwang.park.dao.CarMapper">
+  <resultMap id="BaseResultMap" type="com.ymwang.park.model.Car">
+    <id column="car_number" jdbcType="VARCHAR" property="carNumber" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="car_name" jdbcType="VARCHAR" property="carName" />
+    <result column="car_color" jdbcType="VARCHAR" property="carColor" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    car_number, user_id, car_name, car_color
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car
+    where car_number = #{carNumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from car
+    where car_number = #{carNumber,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ymwang.park.model.Car">
+    insert into car (car_number, user_id, car_name, 
+      car_color)
+    values (#{carNumber,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{carName,jdbcType=VARCHAR}, 
+      #{carColor,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ymwang.park.model.Car">
+    insert into car
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="carNumber != null">
+        car_number,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="carName != null">
+        car_name,
+      </if>
+      <if test="carColor != null">
+        car_color,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="carNumber != null">
+        #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="carName != null">
+        #{carName,jdbcType=VARCHAR},
+      </if>
+      <if test="carColor != null">
+        #{carColor,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ymwang.park.model.Car">
+    update car
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="carName != null">
+        car_name = #{carName,jdbcType=VARCHAR},
+      </if>
+      <if test="carColor != null">
+        car_color = #{carColor,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where car_number = #{carNumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ymwang.park.model.Car">
+    update car
+    set user_id = #{userId,jdbcType=VARCHAR},
+      car_name = #{carName,jdbcType=VARCHAR},
+      car_color = #{carColor,jdbcType=VARCHAR}
+    where car_number = #{carNumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

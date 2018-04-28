@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="SYS-WEB-DETAIL-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-web-detail.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-web-detail.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date [%X{loginUserID},%X{remoteAddr},%X{method},%X{requestURIWithQueryString},%X{userAgent}] %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="SYS-WEB-DETAIL" additivity="false" level="INFO">
+		<appender-ref ref="SYS-WEB-DETAIL-APPENDER"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+	<appender name="SYS-DAL-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-dal-digest.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-dal-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="SYS-DAL-DIGEST" additivity="false" level="INFO">
+		<appender-ref ref="SYS-DAL-DIGEST-APPENDER"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+	<appender name="SYS-SAL-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-sal-digest.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-sal-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="SYS-SAL-DIGEST" additivity="false" level="INFO">
+		<appender-ref ref="SYS-SAL-DIGEST-APPENDER"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+
+	<appender name="SYS-SERVICE-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-service-digest.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-service-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="SYS-SERVICE-DIGEST" additivity="false" level="INFO">
+		<appender-ref ref="SYS-SERVICE-DIGEST-APPENDER"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+	<appender name="SYS-PAGE-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-page-digest.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-page-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="SYS-PAGE-DIGEST" additivity="false" level="INFO">
+		<appender-ref ref="SYS-PAGE-DIGEST-APPENDER"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+	<appender name="SYS-METHOD-DEBUG-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-method-debug.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-method-debug.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="SYS-METHOD-DEBUG" additivity="false" level="INFO">
+		<appender-ref ref="SYS-METHOD-DEBUG-APPENDER"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+	<appender name="SYS-JMS-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-jms-digest.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-jms-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="SYS-JMS-DIGEST" additivity="false">
+		<appender-ref ref="SYS-JMS-DIGEST-APPENDER"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+	<appender name="SYS-CACHE-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-cache-digest.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-cache-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="SYS-CACHE-DIGEST" additivity="false">
+		<appender-ref ref="SYS-CACHE-DIGEST-APPENDER"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+
+
+	<appender name="DEFAULT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-default.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>NEUTRAL</onMismatch>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>NEUTRAL</onMismatch>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-default.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date [%-5level] [%thread] %logger{80} - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 时间滚动输出 level为 ERROR 日志 -->
+	<appender name="ERROR-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/common-error.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/common-error.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date [%-5level] [%thread] %logger{80} - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+
+
+	<!-- Spring日志控制 -->
+	<logger name="org.springframework.core" level="INFO" />
+	<logger name="org.springframework.beans.factory" level="INFO" />
+	<logger name="org.springframework.context" level="INFO" />
+	<logger name="org.springframework.aop" level="INFO" />
+	<logger name="org.springframework.jdbc" level="INFO" />
+	<logger name="org.springframework.transaction.annotation" level="INFO" />
+	<logger name="org.apache.activemq" level="ERROR" />
+	<!--mybatis框架日志控制-->
+	<logger name="MyBatis" level="info"/>
+
+	<!-- 框架日志控制 -->
+	<logger name="cn.com.servyou.xqy.framework" level="ERROR" />
+	
+
+
+
+
+	<appender name="druid-parser-info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logging.root}/${app.name}/framework/druid-parser-info.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${logging.root}/${app.name}/framework/druid-parser-info.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%date [%-5level] [%thread] %logger{80} - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.alibaba.druid.sql.parser" additivity="false">
+		<level value="info" />
+		<appender-ref ref="druid-parser-info" />
+	</logger>
+
+	<logger name="com.alibaba.druid.filter.stat" additivity="false">
+		<level value="info" />
+		<appender-ref ref="druid-parser-info" />
+	</logger>
+
+	<!-- 控制台输出 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder charset="UTF-8">
+			<pattern>%date [%-5level] [%thread] %logger{80} - %msg%X{traceId}%n</pattern>
+		</encoder>
+	</appender>
+	
+	<root level="INFO">
+		<appender-ref ref="DEFAULT-APPENDER" />
+		<appender-ref ref="ERROR-APPENDER" />
+		<appender-ref ref="console" />
+	</root>
+</configuration>

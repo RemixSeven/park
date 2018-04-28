@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ymwang.park.dao.PlaceMapper">
+  <resultMap id="BaseResultMap" type="com.ymwang.park.model.Place">
+    <id column="p_id" jdbcType="VARCHAR" property="pId" />
+    <result column="park_id" jdbcType="VARCHAR" property="parkId" />
+    <result column="p_num" jdbcType="INTEGER" property="pNum" />
+    <result column="is_reserve" jdbcType="CHAR" property="isReserve" />
+    <result column="is_inuse" jdbcType="CHAR" property="isInuse" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    p_id, park_id, p_num, is_reserve, is_inuse
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from place
+    where p_id = #{pId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from place
+    where p_id = #{pId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ymwang.park.model.Place">
+    insert into place (p_id, park_id, p_num, 
+      is_reserve, is_inuse)
+    values (#{pId,jdbcType=VARCHAR}, #{parkId,jdbcType=VARCHAR}, #{pNum,jdbcType=INTEGER}, 
+      #{isReserve,jdbcType=CHAR}, #{isInuse,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ymwang.park.model.Place">
+    insert into place
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pId != null">
+        p_id,
+      </if>
+      <if test="parkId != null">
+        park_id,
+      </if>
+      <if test="pNum != null">
+        p_num,
+      </if>
+      <if test="isReserve != null">
+        is_reserve,
+      </if>
+      <if test="isInuse != null">
+        is_inuse,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pId != null">
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="parkId != null">
+        #{parkId,jdbcType=VARCHAR},
+      </if>
+      <if test="pNum != null">
+        #{pNum,jdbcType=INTEGER},
+      </if>
+      <if test="isReserve != null">
+        #{isReserve,jdbcType=CHAR},
+      </if>
+      <if test="isInuse != null">
+        #{isInuse,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ymwang.park.model.Place">
+    update place
+    <set>
+      <if test="parkId != null">
+        park_id = #{parkId,jdbcType=VARCHAR},
+      </if>
+      <if test="pNum != null">
+        p_num = #{pNum,jdbcType=INTEGER},
+      </if>
+      <if test="isReserve != null">
+        is_reserve = #{isReserve,jdbcType=CHAR},
+      </if>
+      <if test="isInuse != null">
+        is_inuse = #{isInuse,jdbcType=CHAR},
+      </if>
+    </set>
+    where p_id = #{pId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ymwang.park.model.Place">
+    update place
+    set park_id = #{parkId,jdbcType=VARCHAR},
+      p_num = #{pNum,jdbcType=INTEGER},
+      is_reserve = #{isReserve,jdbcType=CHAR},
+      is_inuse = #{isInuse,jdbcType=CHAR}
+    where p_id = #{pId,jdbcType=VARCHAR}
+  </update>
+</mapper>
