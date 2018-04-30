@@ -1,24 +1,24 @@
 package com.ymwang.park.model;
 
 public class ChargeStrategy {
-    private Integer strategyId;
+    private String strategyId;
 
     private String parkId;
 
-    private Integer oneHour2;
+    private Integer oneHour;
 
-    private Integer threeHour2;
+    private Integer threeHour;
 
     private Integer fiveHour;
 
     private Integer capping;
 
-    public Integer getStrategyId() {
+    public String getStrategyId() {
         return strategyId;
     }
 
-    public void setStrategyId(Integer strategyId) {
-        this.strategyId = strategyId;
+    public void setStrategyId(String strategyId) {
+        this.strategyId = strategyId == null ? null : strategyId.trim();
     }
 
     public String getParkId() {
@@ -29,20 +29,20 @@ public class ChargeStrategy {
         this.parkId = parkId == null ? null : parkId.trim();
     }
 
-    public Integer getOneHour2() {
-        return oneHour2;
+    public Integer getOneHour() {
+        return oneHour;
     }
 
-    public void setOneHour2(Integer oneHour2) {
-        this.oneHour2 = oneHour2;
+    public void setOneHour(Integer oneHour) {
+        this.oneHour = oneHour;
     }
 
-    public Integer getThreeHour2() {
-        return threeHour2;
+    public Integer getThreeHour() {
+        return threeHour;
     }
 
-    public void setThreeHour2(Integer threeHour2) {
-        this.threeHour2 = threeHour2;
+    public void setThreeHour(Integer threeHour) {
+        this.threeHour = threeHour;
     }
 
     public Integer getFiveHour() {

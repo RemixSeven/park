@@ -7,7 +7,7 @@ public class Park {
 
     private String parkName;
 
-    private String parkAdress;
+    private String parkAddress;
 
     private String parkDetail;
 
@@ -36,11 +36,11 @@ public class Park {
     }
 
     public String getParkAdress() {
-        return parkAdress;
+        return parkAddress;
     }
 
     public void setParkAdress(String parkAdress) {
-        this.parkAdress = parkAdress == null ? null : parkAdress.trim();
+        this.parkAddress = parkAdress == null ? null : parkAdress.trim();
     }
 
     public String getParkDetail() {

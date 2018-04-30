@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.ymwang.park.model.Park">
     <id column="park_id" jdbcType="VARCHAR" property="parkId" />
     <result column="park_name" jdbcType="VARCHAR" property="parkName" />
-    <result column="park_adress" jdbcType="VARCHAR" property="parkAdress" />
+    <result column="park_address" jdbcType="VARCHAR" property="parkAddress" />
     <result column="park_detail" jdbcType="VARCHAR" property="parkDetail" />
     <result column="open_time" jdbcType="TIMESTAMP" property="openTime" />
     <result column="close_time" jdbcType="TIMESTAMP" property="closeTime" />
@@ -12,7 +12,7 @@
     <result column="latitude" jdbcType="VARCHAR" property="latitude" />
   </resultMap>
   <sql id="Base_Column_List">
-    park_id, park_name, park_adress, park_detail, open_time, close_time, longitude, latitude
+    park_id, park_name, park_address, park_detail, open_time, close_time, longitude, latitude
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -20,15 +20,20 @@
     from park
     where park_id = #{parkId,jdbcType=VARCHAR}
   </select>
+  <select id="queryPark"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from park
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from park
     where park_id = #{parkId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.ymwang.park.model.Park">
-    insert into park (park_id, park_name, park_adress, 
+    insert into park (park_id, park_name, park_address,
       park_detail, open_time, close_time, 
       longitude, latitude)
-    values (#{parkId,jdbcType=VARCHAR}, #{parkName,jdbcType=VARCHAR}, #{parkAdress,jdbcType=VARCHAR}, 
+    values (#{parkId,jdbcType=VARCHAR}, #{parkName,jdbcType=VARCHAR}, #{parkAddress,jdbcType=VARCHAR},
       #{parkDetail,jdbcType=VARCHAR}, #{openTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
       #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR})
   </insert>
@@ -41,8 +46,8 @@
       <if test="parkName != null">
         park_name,
       </if>
-      <if test="parkAdress != null">
-        park_adress,
+      <if test="parkAddress != null">
+        park_address,
       </if>
       <if test="parkDetail != null">
         park_detail,
@@ -67,8 +72,8 @@
       <if test="parkName != null">
         #{parkName,jdbcType=VARCHAR},
       </if>
-      <if test="parkAdress != null">
-        #{parkAdress,jdbcType=VARCHAR},
+      <if test="parkAddress != null">
+        #{parkAddress,jdbcType=VARCHAR},
       </if>
       <if test="parkDetail != null">
         #{parkDetail,jdbcType=VARCHAR},
@@ -93,8 +98,8 @@
       <if test="parkName != null">
         park_name = #{parkName,jdbcType=VARCHAR},
       </if>
-      <if test="parkAdress != null">
-        park_adress = #{parkAdress,jdbcType=VARCHAR},
+      <if test="parkAddress != null">
+        park_address = #{parkAddress,jdbcType=VARCHAR},
       </if>
       <if test="parkDetail != null">
         park_detail = #{parkDetail,jdbcType=VARCHAR},
@@ -117,7 +122,7 @@
   <update id="updateByPrimaryKey" parameterType="com.ymwang.park.model.Park">
     update park
     set park_name = #{parkName,jdbcType=VARCHAR},
-      park_adress = #{parkAdress,jdbcType=VARCHAR},
+      park_address = #{parkAddress,jdbcType=VARCHAR},
       park_detail = #{parkDetail,jdbcType=VARCHAR},
       open_time = #{openTime,jdbcType=TIMESTAMP},
       close_time = #{closeTime,jdbcType=TIMESTAMP},

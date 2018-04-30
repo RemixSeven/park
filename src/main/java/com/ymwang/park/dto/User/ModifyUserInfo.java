@@ -1,4 +1,4 @@
-package com.ymwang.park.controller.dto;
+package com.ymwang.park.dto.User;
 
 import lombok.Data;
 

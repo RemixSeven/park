@@ -1,7 +1,11 @@
 package com.ymwang.park.dao;
 
 import com.ymwang.park.model.Place;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface PlaceMapper {
     int deleteByPrimaryKey(String pId);
 
@@ -14,4 +18,5 @@ public interface PlaceMapper {
     int updateByPrimaryKeySelective(Place record);
 
     int updateByPrimaryKey(Place record);
+    List<Place> queryPlace(String parkId);
 }

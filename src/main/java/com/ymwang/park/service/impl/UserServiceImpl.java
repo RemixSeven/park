@@ -1,10 +1,11 @@
 package com.ymwang.park.service.impl;
 
-import com.ymwang.park.controller.dto.*;
 import com.ymwang.park.dao.UserMapper;
+import com.ymwang.park.dto.User.*;
 import com.ymwang.park.model.User;
 import com.ymwang.park.service.UserService;
 import com.ymwang.park.utils.BizException;
+import com.ymwang.park.utils.PatternUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto modifyUserInfo(ModifyUserInfo modifyUserInfo) {
+        if(PatternUtil.checkMobile(modifyUserInfo.getPhone())==false){
+            throw new BizException("api.user.mobile", "手机号格式错误");
+        }
         User user=userMapper.selectByUserName(modifyUserInfo.getUserName());
         user.setName(modifyUserInfo.getName());
         user.setPhone(modifyUserInfo.getPhone());
@@ -88,6 +92,12 @@ public class UserServiceImpl implements UserService {
         if (isUserNameExist(userRequest)) {
             throw new BizException("api.username.exist", "该用户已存在，不能重复添加");
         } else {
+            if(PatternUtil.checkMobile(userRequest.getPhone())==false){
+                throw new BizException("api.user.mobile", "手机号格式错误");
+            }
+            if(PatternUtil.checkCharacter(userRequest.getUserName())==false){
+                throw new BizException("api.user.username", "用户名只能是字母和数字");
+            }
             User user = new User();
             user.setUserId(UUID.randomUUID().toString().replaceAll("-", ""));
             user.setUserName(userRequest.getUserName());

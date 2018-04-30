@@ -1,6 +1,6 @@
 package com.ymwang.park.controller;
 
-import com.ymwang.park.controller.dto.*;
+import com.ymwang.park.dto.User.*;
 import com.ymwang.park.service.UserService;
 import com.ymwang.park.utils.ResultMessage;
 import com.ymwang.park.utils.SingleResult;

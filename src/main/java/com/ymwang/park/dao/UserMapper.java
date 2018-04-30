@@ -1,7 +1,9 @@
 package com.ymwang.park.dao;
 
 import com.ymwang.park.model.User;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserMapper {
     int deleteByPrimaryKey(String userId);
 

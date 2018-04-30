@@ -1,7 +1,9 @@
 package com.ymwang.park.dao;
 
 import com.ymwang.park.model.Charge;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ChargeMapper {
     int deleteByPrimaryKey(String chargeId);
 

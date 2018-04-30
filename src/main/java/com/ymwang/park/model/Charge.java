@@ -7,6 +7,8 @@ public class Charge {
 
     private String userId;
 
+    private String parkId;
+
     private String userName;
 
     private Integer money;
@@ -31,6 +33,14 @@ public class Charge {
 
     public void setUserId(String userId) {
         this.userId = userId == null ? null : userId.trim();
+    }
+
+    public String getParkId() {
+        return parkId;
+    }
+
+    public void setParkId(String parkId) {
+        this.parkId = parkId == null ? null : parkId.trim();
     }
 
     public String getUserName() {

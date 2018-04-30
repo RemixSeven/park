@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.ymwang.park.model.Charge">
     <id column="charge_id" jdbcType="VARCHAR" property="chargeId" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="park_id" jdbcType="VARCHAR" property="parkId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="money" jdbcType="INTEGER" property="money" />
     <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
@@ -11,7 +12,7 @@
     <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    charge_id, user_id, user_name, money, car_number, enter_time, out_time
+    charge_id, user_id, park_id, user_name, money, car_number, enter_time, out_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -24,12 +25,12 @@
     where charge_id = #{chargeId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.ymwang.park.model.Charge">
-    insert into charge (charge_id, user_id, user_name, 
-      money, car_number, enter_time, 
-      out_time)
-    values (#{chargeId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
-      #{money,jdbcType=INTEGER}, #{carNumber,jdbcType=VARCHAR}, #{enterTime,jdbcType=TIMESTAMP}, 
-      #{outTime,jdbcType=TIMESTAMP})
+    insert into charge (charge_id, user_id, park_id, 
+      user_name, money, car_number, 
+      enter_time, out_time)
+    values (#{chargeId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{parkId,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{money,jdbcType=INTEGER}, #{carNumber,jdbcType=VARCHAR}, 
+      #{enterTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ymwang.park.model.Charge">
     insert into charge
@@ -39,6 +40,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="parkId != null">
+        park_id,
       </if>
       <if test="userName != null">
         user_name,
@@ -63,6 +67,9 @@
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
+      <if test="parkId != null">
+        #{parkId,jdbcType=VARCHAR},
+      </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
       </if>
@@ -86,6 +93,9 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
+      <if test="parkId != null">
+        park_id = #{parkId,jdbcType=VARCHAR},
+      </if>
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
@@ -107,6 +117,7 @@
   <update id="updateByPrimaryKey" parameterType="com.ymwang.park.model.Charge">
     update charge
     set user_id = #{userId,jdbcType=VARCHAR},
+      park_id = #{parkId,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
       money = #{money,jdbcType=INTEGER},
       car_number = #{carNumber,jdbcType=VARCHAR},

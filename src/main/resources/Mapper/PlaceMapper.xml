@@ -5,11 +5,11 @@
     <id column="p_id" jdbcType="VARCHAR" property="pId" />
     <result column="park_id" jdbcType="VARCHAR" property="parkId" />
     <result column="p_num" jdbcType="INTEGER" property="pNum" />
-    <result column="is_reserve" jdbcType="CHAR" property="isReserve" />
-    <result column="is_inuse" jdbcType="CHAR" property="isInuse" />
+    <result column="reserve_id" jdbcType="VARCHAR" property="reserveId" />
+    <result column="inuser_id" jdbcType="VARCHAR" property="inuserId" />
   </resultMap>
   <sql id="Base_Column_List">
-    p_id, park_id, p_num, is_reserve, is_inuse
+    p_id, park_id, p_num, reserve_id, inuser_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -17,15 +17,21 @@
     from place
     where p_id = #{pId,jdbcType=VARCHAR}
   </select>
+  <select id="queryPlace" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from place
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from place
     where p_id = #{pId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.ymwang.park.model.Place">
     insert into place (p_id, park_id, p_num, 
-      is_reserve, is_inuse)
+      reserve_id, inuser_id)
     values (#{pId,jdbcType=VARCHAR}, #{parkId,jdbcType=VARCHAR}, #{pNum,jdbcType=INTEGER}, 
-      #{isReserve,jdbcType=CHAR}, #{isInuse,jdbcType=CHAR})
+      #{reserveId,jdbcType=VARCHAR}, #{inuserId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ymwang.park.model.Place">
     insert into place
@@ -39,11 +45,11 @@
       <if test="pNum != null">
         p_num,
       </if>
-      <if test="isReserve != null">
-        is_reserve,
+      <if test="reserveId != null">
+        reserve_id,
       </if>
-      <if test="isInuse != null">
-        is_inuse,
+      <if test="inuserId != null">
+        inuser_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -56,11 +62,11 @@
       <if test="pNum != null">
         #{pNum,jdbcType=INTEGER},
       </if>
-      <if test="isReserve != null">
-        #{isReserve,jdbcType=CHAR},
+      <if test="reserveId != null">
+        #{reserveId,jdbcType=VARCHAR},
       </if>
-      <if test="isInuse != null">
-        #{isInuse,jdbcType=CHAR},
+      <if test="inuserId != null">
+        #{inuserId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -73,11 +79,11 @@
       <if test="pNum != null">
         p_num = #{pNum,jdbcType=INTEGER},
       </if>
-      <if test="isReserve != null">
-        is_reserve = #{isReserve,jdbcType=CHAR},
+      <if test="reserveId != null">
+        reserve_id = #{reserveId,jdbcType=VARCHAR},
       </if>
-      <if test="isInuse != null">
-        is_inuse = #{isInuse,jdbcType=CHAR},
+      <if test="inuserId != null">
+        inuser_id = #{inuserId,jdbcType=VARCHAR},
       </if>
     </set>
     where p_id = #{pId,jdbcType=VARCHAR}
@@ -86,8 +92,8 @@
     update place
     set park_id = #{parkId,jdbcType=VARCHAR},
       p_num = #{pNum,jdbcType=INTEGER},
-      is_reserve = #{isReserve,jdbcType=CHAR},
-      is_inuse = #{isInuse,jdbcType=CHAR}
+      reserve_id = #{reserveId,jdbcType=VARCHAR},
+      inuser_id = #{inuserId,jdbcType=VARCHAR}
     where p_id = #{pId,jdbcType=VARCHAR}
   </update>
 </mapper>

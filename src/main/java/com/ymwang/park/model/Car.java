@@ -1,6 +1,8 @@
 package com.ymwang.park.model;
 
 public class Car {
+    private String carId;
+
     private String carNumber;
 
     private String userId;
@@ -8,6 +10,14 @@ public class Car {
     private String carName;
 
     private String carColor;
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId == null ? null : carId.trim();
+    }
 
     public String getCarNumber() {
         return carNumber;

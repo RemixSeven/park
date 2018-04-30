@@ -7,9 +7,9 @@ public class Place {
 
     private Integer pNum;
 
-    private String isReserve;
+    private String reserveId;
 
-    private String isInuse;
+    private String inuserId;
 
     public String getpId() {
         return pId;
@@ -35,19 +35,19 @@ public class Place {
         this.pNum = pNum;
     }
 
-    public String getIsReserve() {
-        return isReserve;
+    public String getReserveId() {
+        return reserveId;
     }
 
-    public void setIsReserve(String isReserve) {
-        this.isReserve = isReserve == null ? null : isReserve.trim();
+    public void setReserveId(String reserveId) {
+        this.reserveId = reserveId == null ? null : reserveId.trim();
     }
 
-    public String getIsInuse() {
-        return isInuse;
+    public String getInuserId() {
+        return inuserId;
     }
 
-    public void setIsInuse(String isInuse) {
-        this.isInuse = isInuse == null ? null : isInuse.trim();
+    public void setInuserId(String inuserId) {
+        this.inuserId = inuserId == null ? null : inuserId.trim();
     }
 }
