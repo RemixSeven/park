@@ -21,8 +21,8 @@ import java.util.List;
 public class CarController {
     @Autowired
     CarService carService;
-    @RequestMapping(method = RequestMethod.POST,value = "/addCar")
-    public SingleResult<String> addCar(@RequestBody AddCarDto addCarDto){
+    @RequestMapping(method = RequestMethod.POST, path = "addCar")
+    public SingleResult<String> addCar(@RequestBody AddCarDto addCarDto ){
         carService.addCar(addCarDto);
         SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
         response.setData(null);

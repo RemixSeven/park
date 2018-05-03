@@ -35,12 +35,12 @@ public class Park {
         this.parkName = parkName == null ? null : parkName.trim();
     }
 
-    public String getParkAdress() {
+    public String getParkAddress() {
         return parkAddress;
     }
 
-    public void setParkAdress(String parkAdress) {
-        this.parkAddress = parkAdress == null ? null : parkAdress.trim();
+    public void setParkAddress(String parkAddress) {
+        this.parkAddress = parkAddress == null ? null : parkAddress.trim();
     }
 
     public String getParkDetail() {

@@ -17,6 +17,18 @@
     from car
     where car_id = #{carId,jdbcType=VARCHAR}
   </select>
+  <select id="selectByCarNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from car
+    where car_number = #{carNumber,jdbcType=VARCHAR}
+  </select>
+  <select id="queryCar" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from car
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from car
     where car_id = #{carId,jdbcType=VARCHAR}

@@ -27,7 +27,7 @@ public class ParkServiceImpl implements ParkService {
         Park park=new Park();
         park.setParkId(UUID.randomUUID().toString().replaceAll("-", ""));
         park.setParkName(addParkDto.getParkName());
-        park.setParkAdress(addParkDto.getParkAddress());
+        park.setParkAddress(addParkDto.getParkAddress());
         park.setOpenTime(addParkDto.getOpenTime());
         park.setCloseTime(addParkDto.getCloseTime());
         park.setLatitude(addParkDto.getLatitude());
@@ -40,7 +40,7 @@ public class ParkServiceImpl implements ParkService {
         Park park=new Park();
         park.setParkId(parkDto.getParkId());
         park.setParkName(parkDto.getParkName());
-        park.setParkAdress(parkDto.getParkAddress());
+        park.setParkAddress(parkDto.getParkAddress());
         park.setOpenTime(parkDto.getOpenTime());
         park.setCloseTime(parkDto.getCloseTime());
         park.setLatitude(parkDto.getLatitude());
@@ -61,7 +61,7 @@ public class ParkServiceImpl implements ParkService {
             ParkDto parkDto=new ParkDto();
             parkDto.setParkId(park.getParkId());
             parkDto.setParkName(park.getParkName());
-            parkDto.setParkAddress(park.getParkAdress());
+            parkDto.setParkAddress(park.getParkAddress());
             parkDto.setParkDetail(park.getParkDetail());
             parkDto.setOpenTime(park.getOpenTime());
             parkDto.setCloseTime(park.getCloseTime());

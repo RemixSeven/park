@@ -19,4 +19,5 @@ public interface CarMapper {
 
     int updateByPrimaryKey(Car record);
     List<Car> queryCar(String userId);
+    Car selectByCarNumber(String carNumber);
 }

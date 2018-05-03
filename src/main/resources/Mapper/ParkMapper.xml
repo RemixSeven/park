@@ -6,13 +6,14 @@
     <result column="park_name" jdbcType="VARCHAR" property="parkName" />
     <result column="park_address" jdbcType="VARCHAR" property="parkAddress" />
     <result column="park_detail" jdbcType="VARCHAR" property="parkDetail" />
-    <result column="open_time" jdbcType="TIMESTAMP" property="openTime" />
-    <result column="close_time" jdbcType="TIMESTAMP" property="closeTime" />
+    <result column="open_time" jdbcType="TIME" property="openTime" />
+    <result column="close_time" jdbcType="TIME" property="closeTime" />
     <result column="longitude" jdbcType="VARCHAR" property="longitude" />
     <result column="latitude" jdbcType="VARCHAR" property="latitude" />
   </resultMap>
   <sql id="Base_Column_List">
-    park_id, park_name, park_address, park_detail, open_time, close_time, longitude, latitude
+    park_id, park_name, park_address, park_detail, open_time, close_time, longitude, 
+    latitude
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -30,11 +31,11 @@
     where park_id = #{parkId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.ymwang.park.model.Park">
-    insert into park (park_id, park_name, park_address,
+    insert into park (park_id, park_name, park_address, 
       park_detail, open_time, close_time, 
       longitude, latitude)
-    values (#{parkId,jdbcType=VARCHAR}, #{parkName,jdbcType=VARCHAR}, #{parkAddress,jdbcType=VARCHAR},
-      #{parkDetail,jdbcType=VARCHAR}, #{openTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
+    values (#{parkId,jdbcType=VARCHAR}, #{parkName,jdbcType=VARCHAR}, #{parkAddress,jdbcType=VARCHAR}, 
+      #{parkDetail,jdbcType=VARCHAR}, #{openTime,jdbcType=TIME}, #{closeTime,jdbcType=TIME}, 
       #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ymwang.park.model.Park">
@@ -79,10 +80,10 @@
         #{parkDetail,jdbcType=VARCHAR},
       </if>
       <if test="openTime != null">
-        #{openTime,jdbcType=TIMESTAMP},
+        #{openTime,jdbcType=TIME},
       </if>
       <if test="closeTime != null">
-        #{closeTime,jdbcType=TIMESTAMP},
+        #{closeTime,jdbcType=TIME},
       </if>
       <if test="longitude != null">
         #{longitude,jdbcType=VARCHAR},
@@ -105,10 +106,10 @@
         park_detail = #{parkDetail,jdbcType=VARCHAR},
       </if>
       <if test="openTime != null">
-        open_time = #{openTime,jdbcType=TIMESTAMP},
+        open_time = #{openTime,jdbcType=TIME},
       </if>
       <if test="closeTime != null">
-        close_time = #{closeTime,jdbcType=TIMESTAMP},
+        close_time = #{closeTime,jdbcType=TIME},
       </if>
       <if test="longitude != null">
         longitude = #{longitude,jdbcType=VARCHAR},
@@ -124,8 +125,8 @@
     set park_name = #{parkName,jdbcType=VARCHAR},
       park_address = #{parkAddress,jdbcType=VARCHAR},
       park_detail = #{parkDetail,jdbcType=VARCHAR},
-      open_time = #{openTime,jdbcType=TIMESTAMP},
-      close_time = #{closeTime,jdbcType=TIMESTAMP},
+      open_time = #{openTime,jdbcType=TIME},
+      close_time = #{closeTime,jdbcType=TIME},
       longitude = #{longitude,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=VARCHAR}
     where park_id = #{parkId,jdbcType=VARCHAR}

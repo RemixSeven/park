@@ -4,6 +4,7 @@ import com.ymwang.park.dto.Park.AddParkDto;
 import com.ymwang.park.dto.Park.DeleteParkDto;
 import com.ymwang.park.dto.Park.ParkDto;
 import com.ymwang.park.service.ParkService;
+import com.ymwang.park.utils.DateUtils;
 import com.ymwang.park.utils.ResultMessage;
 import com.ymwang.park.utils.SingleResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +30,8 @@ public class ParkController {
         parkService.addPark(addParkDto);
         SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
         response.setData(null);
+        Date date=new Date();
+        date.getTime();
         return response;
     }
     @RequestMapping(method = RequestMethod.POST,value = "/editPark")

@@ -23,8 +23,11 @@ public class CarServiceImpl implements CarService {
     CarMapper carMapper;
     @Override
     public void addCar(AddCarDto addCarDto) {
-        if(PatternUtil.checkCarNumber(addCarDto.getCarNumber())==false){
+        if(!PatternUtil.checkCarNumber(addCarDto.getCarNumber())){
             throw new BizException("api.car.carNumber", "车牌号格式错误");
+        }
+        if (isCarNumberExist(addCarDto.getCarNumber())){
+            throw new BizException("api.car.carNumber.exist", "该车已绑定，请勿重复添加");
         }
         Car car=new Car();
         car.setCarId(UUID.randomUUID().toString().replaceAll("-", ""));
@@ -34,11 +37,20 @@ public class CarServiceImpl implements CarService {
         car.setCarColor(addCarDto.getCarColor());
         carMapper.insertSelective(car);
     }
-
+    private boolean isCarNumberExist(String  carNumber) {
+        if ((carMapper.selectByCarNumber(carNumber))==null)
+        {
+            return false;
+        }
+        return true;
+    }
     @Override
     public void editCar(CarDto carDto) {
         if(PatternUtil.checkCarNumber(carDto.getCarNumber())==false){
             throw new BizException("api.car.carNumber", "车牌号格式错误");
+        }
+        if (isCarNumberExist(carDto.getCarNumber())){
+            throw new BizException("api.car.carNumber.exist", "该车已绑定，请勿重复添加");
         }
         Car car=new Car();
         car.setCarId(carDto.getCarId());
