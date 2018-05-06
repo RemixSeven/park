@@ -1,8 +1,6 @@
 package com.ymwang.park.service;
 
-import com.ymwang.park.dto.Park.AddParkDto;
-import com.ymwang.park.dto.Park.DeleteParkDto;
-import com.ymwang.park.dto.Park.ParkDto;
+import com.ymwang.park.dto.Park.*;
 
 import java.util.List;
 
@@ -14,5 +12,5 @@ public interface ParkService {
     void addPark(AddParkDto addParkDto);
     void editPark(ParkDto parkDto);
     void deletePark(DeleteParkDto deleteParkDto);
-    List<ParkDto> queryPark();
+    List<QueryParkReponse> queryPark(QueryParkDto queryParkDto);
 }

@@ -4,10 +4,11 @@ import lombok.Data;
 
 /**
  * @Author: wym
- * @Date: 2018/4/30
+ * @Date: 2018/5/6
  */
 @Data
-public class ReservePlaceDto {
+public class ParkPlaceDto {
     private String userId;
-    private String pId;
+    private Integer pNum;
+    private String parkId;
 }

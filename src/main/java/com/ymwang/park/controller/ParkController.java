@@ -1,8 +1,6 @@
 package com.ymwang.park.controller;
 
-import com.ymwang.park.dto.Park.AddParkDto;
-import com.ymwang.park.dto.Park.DeleteParkDto;
-import com.ymwang.park.dto.Park.ParkDto;
+import com.ymwang.park.dto.Park.*;
 import com.ymwang.park.service.ParkService;
 import com.ymwang.park.utils.DateUtils;
 import com.ymwang.park.utils.ResultMessage;
@@ -49,10 +47,10 @@ public class ParkController {
         return response;
     }
     @RequestMapping(method = RequestMethod.POST,value = "/queryPark")
-    public SingleResult<List<ParkDto>> queryPark(){
-        List<ParkDto> parkDtos=parkService.queryPark();
-        SingleResult<List<ParkDto>> response = new SingleResult(ResultMessage.SUCCESS);
-        response.setData(parkDtos);
+    public SingleResult<List<QueryParkReponse>> queryPark(@RequestBody QueryParkDto queryParkDto){
+        List<QueryParkReponse> queryParkReponses=parkService.queryPark(queryParkDto);
+        SingleResult<List<QueryParkReponse>> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(queryParkReponses);
         return response;
     }
 }

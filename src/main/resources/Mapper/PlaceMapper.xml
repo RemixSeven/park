@@ -23,6 +23,18 @@
     from place
     where park_id = #{parkId,jdbcType=VARCHAR}
   </select>
+  <select id="reservePlace" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from place
+    where reserve_id = #{reserveId,jdbcType=VARCHAR}
+  </select>
+  <select id="inusePlace" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from place
+    where p_num = #{pNum,jdbcType=INTEGER} and park_id = #{parkId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from place
     where p_id = #{pId,jdbcType=VARCHAR}

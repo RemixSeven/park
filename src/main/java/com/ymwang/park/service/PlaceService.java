@@ -1,6 +1,7 @@
 package com.ymwang.park.service;
 
 import com.ymwang.park.dto.Place.*;
+import com.ymwang.park.model.Place;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface PlaceService {
     void reservePlace(ReservePlaceDto reservePlaceDto);
     void deletePlace(DeletePlaceDto deletePlaceDto);
     List<PlaceDto> queryPlace(QueryPlaceDto queryPlaceDto);
+    void parkPlace(ParkPlaceDto parkPlaceDto);
+
 }

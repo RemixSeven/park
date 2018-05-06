@@ -7,6 +7,7 @@ import com.ymwang.park.dto.ChargeStrategy.DeleteChargeStrategy;
 import com.ymwang.park.dto.ChargeStrategy.QueryChargeStrategyDto;
 import com.ymwang.park.model.ChargeStrategy;
 import com.ymwang.park.service.ChargeStrategyService;
+import com.ymwang.park.utils.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,10 @@ public class ChargeStrategyServiceImpl implements ChargeStrategyService {
 
     @Override
     public void addChargeStrategy(AddChargeStrategy addChargeStrategy) {
+        ChargeStrategy chargeStrategyInfo=chargeStrategyMapper.queryChargeStrategy(addChargeStrategy.getParkId());
+        if (chargeStrategyInfo!=null){
+            throw new BizException("api.chargeStrategy.park.unique","一个停车场只能有一个收费策略");
+        }
         ChargeStrategy chargeStrategy=new ChargeStrategy();
         chargeStrategy.setStrategyId(UUID.randomUUID().toString().replaceAll("-", ""));
         chargeStrategy.setParkId(addChargeStrategy.getParkId());
@@ -53,7 +58,6 @@ public class ChargeStrategyServiceImpl implements ChargeStrategyService {
         ChargeStrategy chargeStrategy=chargeStrategyMapper.queryChargeStrategy(queryChargeStrategyDto.getParkId());
         ChargeStrategyDto chargeStrategyDto=new ChargeStrategyDto();
         chargeStrategyDto.setStrategyId(chargeStrategy.getStrategyId());
-        chargeStrategyDto.setParkId(chargeStrategy.getParkId());
         chargeStrategyDto.setOneHour(chargeStrategy.getOneHour());
         chargeStrategyDto.setThreeHour(chargeStrategy.getThreeHour());
         chargeStrategyDto.setFiveHour(chargeStrategy.getFiveHour());

@@ -1,6 +1,7 @@
 package com.ymwang.park.dao;
 
 import com.ymwang.park.model.Place;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface PlaceMapper {
 
     int updateByPrimaryKey(Place record);
     List<Place> queryPlace(String parkId);
+    Place reservePlace(String reserveId);
+    Place inusePlace(@Param("pNum") Integer pNum,@Param("parkId")String parkId);
 }

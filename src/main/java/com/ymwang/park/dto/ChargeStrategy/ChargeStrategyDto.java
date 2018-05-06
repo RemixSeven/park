@@ -10,8 +10,6 @@ import lombok.Data;
 public class ChargeStrategyDto {
     private String strategyId;
 
-    private String parkId;
-
     private Integer oneHour;
 
     private Integer threeHour;

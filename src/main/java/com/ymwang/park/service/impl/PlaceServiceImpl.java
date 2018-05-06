@@ -34,16 +34,14 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public void reservePlace(ReservePlaceDto reservePlaceDto) {
         Place placeInfo=placeMapper.selectByPrimaryKey(reservePlaceDto.getPId());
-        if (null!=placeInfo.getReserveId()||placeInfo.getReserveId().trim().length()!=0){
+        if (placeInfo.getReserveId()!=null&&!"".equals(placeInfo.getReserveId().trim())){
             throw new BizException("api.place.reserve.isReserve","预约失败,该车位已被预订");
         }
-        if (null!=placeInfo.getInuserId()||placeInfo.getInuserId().trim().length()!=0){
+        if (placeInfo.getInuserId()!=null&&!"".equals(placeInfo.getInuserId().trim())){
             throw new BizException("api.place.reserve.isUsed","预约失败,该车位已被使用");
         }
         Place place=new Place();
-        place.setpId(reservePlaceDto.getPId());
-        place.setParkId(reservePlaceDto.getParkId());
-        place.setpNum(reservePlaceDto.getPNum());
+        place.setpId(placeInfo.getpId());
         place.setReserveId(reservePlaceDto.getUserId());
         placeMapper.updateByPrimaryKeySelective(place);
     }
@@ -67,5 +65,36 @@ public class PlaceServiceImpl implements PlaceService {
             placeDtos.add(placeDto);
         }
         return placeDtos;
+    }
+
+    @Override
+    public void parkPlace(ParkPlaceDto parkPlaceDto) {
+        if (isReservePlace(parkPlaceDto)){
+            Place reservePlace=placeMapper.reservePlace(parkPlaceDto.getUserId());
+            if (reservePlace.getpNum()!=parkPlaceDto.getPNum()){
+                throw new BizException("api.place.park.reserve","停车失败,停车位与预约车位不一致");
+            }
+        }
+        if (isInusePlace(parkPlaceDto)){
+            throw new BizException("api.place.isUsed","停车失败,该车位已被使用");
+        }
+        Place place=placeMapper.inusePlace(parkPlaceDto.getPNum(),parkPlaceDto.getParkId());
+        place.setReserveId(null);
+        place.setInuserId(parkPlaceDto.getUserId());
+        placeMapper.updateByPrimaryKeySelective(place);
+    }
+
+    private boolean isInusePlace(ParkPlaceDto parkPlaceDto) {
+        if (placeMapper.inusePlace(parkPlaceDto.getPNum(),parkPlaceDto.getParkId())==null){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isReservePlace(ParkPlaceDto parkPlaceDto) {
+        if (placeMapper.reservePlace(parkPlaceDto.getUserId())==null){
+            return false;
+        }
+        return true;
     }
 }

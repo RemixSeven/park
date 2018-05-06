@@ -49,4 +49,11 @@ public class PlaceController {
         response.setData(placeDtos);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/parkPlace")
+    public SingleResult<String> parkPlace(@RequestBody ParkPlaceDto parkPlaceDto){
+        placeService.parkPlace(parkPlaceDto);
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
+    }
 }

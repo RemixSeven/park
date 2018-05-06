@@ -1,5 +1,7 @@
 package com.ymwang.park.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 public class Charge {
@@ -14,9 +16,9 @@ public class Charge {
     private Integer money;
 
     private String carNumber;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date enterTime;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date outTime;
 
     public String getChargeId() {

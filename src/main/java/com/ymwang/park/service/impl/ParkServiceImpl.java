@@ -1,17 +1,15 @@
 package com.ymwang.park.service.impl;
 
-import com.ymwang.park.dto.Park.AddParkDto;
-import com.ymwang.park.dto.Park.DeleteParkDto;
-import com.ymwang.park.dto.Park.ParkDto;
+import com.ymwang.park.dto.Park.*;
 import com.ymwang.park.dao.ParkMapper;
 import com.ymwang.park.model.Park;
 import com.ymwang.park.service.ParkService;
+import com.ymwang.park.utils.LocationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @Author: wym
@@ -28,6 +26,7 @@ public class ParkServiceImpl implements ParkService {
         park.setParkId(UUID.randomUUID().toString().replaceAll("-", ""));
         park.setParkName(addParkDto.getParkName());
         park.setParkAddress(addParkDto.getParkAddress());
+        park.setParkDetail(addParkDto.getParkDetail());
         park.setOpenTime(addParkDto.getOpenTime());
         park.setCloseTime(addParkDto.getCloseTime());
         park.setLatitude(addParkDto.getLatitude());
@@ -41,6 +40,7 @@ public class ParkServiceImpl implements ParkService {
         park.setParkId(parkDto.getParkId());
         park.setParkName(parkDto.getParkName());
         park.setParkAddress(parkDto.getParkAddress());
+        park.setParkDetail(parkDto.getParkDetail());
         park.setOpenTime(parkDto.getOpenTime());
         park.setCloseTime(parkDto.getCloseTime());
         park.setLatitude(parkDto.getLatitude());
@@ -54,21 +54,33 @@ public class ParkServiceImpl implements ParkService {
     }
 
     @Override
-    public List<ParkDto> queryPark() {
-        List<ParkDto> parkDtos=new ArrayList<>();
+    public List<QueryParkReponse> queryPark(QueryParkDto queryParkDto) {
+        List<QueryParkReponse> queryParkReponses=new ArrayList<>();
         List<Park> parks=parkMapper.queryPark();
         for (Park park:parks){
-            ParkDto parkDto=new ParkDto();
-            parkDto.setParkId(park.getParkId());
-            parkDto.setParkName(park.getParkName());
-            parkDto.setParkAddress(park.getParkAddress());
-            parkDto.setParkDetail(park.getParkDetail());
-            parkDto.setOpenTime(park.getOpenTime());
-            parkDto.setCloseTime(park.getCloseTime());
-            parkDto.setLatitude(park.getLatitude());
-            parkDto.setLongitude(park.getLongitude());
-            parkDtos.add(parkDto);
+            double distance=LocationUtils.getDistance(Double.parseDouble(queryParkDto.getLatitude()),Double.parseDouble(queryParkDto.getLongitude()),Double.parseDouble(park.getLatitude()),Double.parseDouble(park.getLongitude()));
+            QueryParkReponse queryParkReponse=new QueryParkReponse();
+            queryParkReponse.setParkId(park.getParkId());
+            queryParkReponse.setParkName(park.getParkName());
+            queryParkReponse.setParkAddress(park.getParkAddress());
+            queryParkReponse.setParkDetail(park.getParkDetail());
+            queryParkReponse.setOpenTime(park.getOpenTime());
+            queryParkReponse.setCloseTime(park.getCloseTime());
+            queryParkReponse.setLatitude(park.getLatitude());
+            queryParkReponse.setLongitude(park.getLongitude());
+            queryParkReponse.setDistance(distance);
+            queryParkReponses.add(queryParkReponse);
         }
-        return parkDtos;
+        Collections.sort(queryParkReponses,new Comparator<QueryParkReponse>() {
+
+            @Override
+            public int compare(QueryParkReponse o1, QueryParkReponse o2) {
+                // TODO Auto-generated method stub
+                BigDecimal b1 = new BigDecimal(o1.getDistance());
+                BigDecimal b2 = new BigDecimal(o2.getDistance());
+                return (int) b1.subtract(b2).doubleValue();
+            }
+        });
+        return queryParkReponses;
     }
 }

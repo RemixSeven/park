@@ -1,5 +1,7 @@
 package com.ymwang.park.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 public class Park {
@@ -10,9 +12,9 @@ public class Park {
     private String parkAddress;
 
     private String parkDetail;
-
+    @JSONField(format="HH:mm:ss")
     private Date openTime;
-
+    @JSONField(format="HH:mm:ss")
     private Date closeTime;
 
     private String longitude;

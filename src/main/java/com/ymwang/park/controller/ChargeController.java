@@ -26,12 +26,5 @@ public class ChargeController {
         response.setData(null);
         return response;
     }
-    /* @RequestMapping(method = RequestMethod.POST,value = "/realTimeCharge")
-    public SingleResult<String> realTimeCharge(@RequestBody AddChargeDto addChargeDto){
-        chargeService.addCharge(addChargeDto);
-        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
-        response.setData(null);
-        return response;
-    }*/
 
 }

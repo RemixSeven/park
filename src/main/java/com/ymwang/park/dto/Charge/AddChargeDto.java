@@ -1,5 +1,6 @@
 package com.ymwang.park.dto.Charge;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,8 +20,9 @@ public class AddChargeDto {
     private Integer money;
 
     private String carNumber;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date enterTime;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date outTime;
+    private String pId;
 }

@@ -7,10 +7,10 @@ import java.util.Date;
 
 /**
  * @Author: wym
- * @Date: 2018/4/28
+ * @Date: 2018/5/6
  */
 @Data
-public class ParkDto {
+public class QueryParkReponse {
     private String parkId;
     private String parkName;
 
@@ -25,4 +25,5 @@ public class ParkDto {
     private String longitude;
 
     private String latitude;
+    private double distance;
 }

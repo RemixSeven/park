@@ -1,5 +1,6 @@
 package com.ymwang.park.dto.Park;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,9 +16,9 @@ public class AddParkDto {
     private String parkAddress;
 
     private String parkDetail;
-
+    @JSONField(format="HH:mm:ss")
     private Date openTime;
-
+    @JSONField(format="HH:mm:ss")
     private Date closeTime;
 
     private String longitude;
