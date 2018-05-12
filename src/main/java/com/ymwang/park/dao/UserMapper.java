@@ -3,6 +3,8 @@ package com.ymwang.park.dao;
 import com.ymwang.park.model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserMapper {
     int deleteByPrimaryKey(String userId);
@@ -17,5 +19,5 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
     User selectByUserName(String userName);
-
+    List<User> selectByList();
 }

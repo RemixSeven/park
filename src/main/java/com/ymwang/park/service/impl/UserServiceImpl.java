@@ -1,8 +1,12 @@
 package com.ymwang.park.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ymwang.park.dao.UserMapper;
+import com.ymwang.park.dao.WalletMapper;
 import com.ymwang.park.dto.User.*;
 import com.ymwang.park.model.User;
+import com.ymwang.park.model.Wallet;
 import com.ymwang.park.service.UserService;
 import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.PatternUtil;
@@ -10,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -20,7 +26,8 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
-
+    @Autowired
+    WalletMapper walletMapper;
     @Override
     public void userRegister(UserRequest userRequest) throws BizException{
         if (userRequest.getUserType().equals("0")) {
@@ -81,6 +88,29 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
+    @Override
+    public QueryUserDto queryUser(QueryUserRequest queryUserRequest) {
+        QueryUserDto queryUserDto=new QueryUserDto();
+        PageHelper.startPage(queryUserRequest.getPageNum(),queryUserRequest.getPageSize());
+        List<User> users=userMapper.selectByList();
+        List<UserDto> userDtos=new ArrayList<>();
+        for (User user:users){
+            UserDto userDto=new UserDto();
+            userDto.setUserId(user.getUserId());
+            userDto.setUserName(user.getUserName());
+            userDto.setName(user.getName());
+            userDto.setPhone(user.getPhone());
+            userDto.setUserType(user.getUserType());
+            userDtos.add(userDto);
+        }
+        PageInfo<UserDto> pageInfo=new PageInfo<UserDto>(userDtos);
+        long total=pageInfo.getTotal();
+        queryUserDto.setCount(String.valueOf(total));
+        queryUserDto.setUserDtos(userDtos);
+
+        return queryUserDto;
+    }
+
     private boolean isUserNameExist(UserRequest userRequest) {
         if ((userMapper.selectByUserName(userRequest.getUserName()))==null)
         {
@@ -106,6 +136,11 @@ public class UserServiceImpl implements UserService {
             user.setName(userRequest.getName());
             user.setPassword(userRequest.getPassword());
             userMapper.insertSelective(user);
+            Wallet wallet=new Wallet();
+            wallet.setWalletId(UUID.randomUUID().toString().replaceAll("-", ""));
+            wallet.setBalance(0);
+            wallet.setUserId(user.getUserId());
+            walletMapper.insertSelective(wallet);
         }
     }
 }

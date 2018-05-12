@@ -1,0 +1,16 @@
+package com.ymwang.park.service;
+
+import com.ymwang.park.dto.Commentary.*;
+
+import java.util.List;
+
+/**
+ * @Author: wym
+ * @Date: 2018/5/8
+ */
+public interface CommentaryService {
+    void addCommentary(AddCommentaryDto addCommentaryDto);
+    void deleteCommentary(DeleteCommentary deleteCommentary);
+    QueryCommentaryDto queryCommentary(QueryCommentaryRuquest queryCommentaryRuquest);
+    QueryCommentaryDto commentaryByUser(QueryCommentaryByUser queryCommentaryByUser);
+}

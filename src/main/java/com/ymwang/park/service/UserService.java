@@ -11,4 +11,5 @@ public interface UserService {
     public UserDto login(LoginRequest loginRequest);
     public void modifyPassword(ModifyPasswordDto modifyPasswordDto);
     public UserDto modifyUserInfo(ModifyUserInfo modifyUserInfo);
+    QueryUserDto queryUser(QueryUserRequest queryUserRequest);
 }
