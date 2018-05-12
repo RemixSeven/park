@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @Author: wym
- * @Date: 2018/5/11
+ * @Date: 2018/5/13
  */
 @Data
 public class QueryChargeRequest {
