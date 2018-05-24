@@ -27,6 +27,13 @@ public class CommentaryController {
         response.setData(null);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/modifyCommentary")
+    public SingleResult<String> modifyCommentary(@RequestBody ModifyCommentaryDto modifyCommentaryDto){
+        commentaryService.modifyCommentary(modifyCommentaryDto);
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
+    }
     @RequestMapping(method = RequestMethod.POST,value = "/deleteCommentary")
     public SingleResult<String> deleteCommentary(@RequestBody DeleteCommentary deleteCommentary){
         commentaryService.deleteCommentary(deleteCommentary);

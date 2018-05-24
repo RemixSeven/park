@@ -65,10 +65,32 @@ public class PatternUtil {
         }
         return false;
     }
+    public static boolean checkChineseCharacter(String content){
+        if (!StringUtils.isEmpty(content)) {
+            String trueCard = content.trim();
+            String regEx = "(\\w*[\\u4E00-\\u9FFF]+\\w*)*";
+            Pattern keywordPattern = Pattern.compile(regEx);
+            Matcher matcher = keywordPattern.matcher(trueCard);
+            return matcher.find();
+        }
+        return false;
+    }
+    public static PatternEnum transform(String content) {
+        PatternEnum patternEnum = PatternEnum.UNRECOGNIZED;
+        if (checkMobile(content)){
+            patternEnum = PatternEnum.MOBILE;
+        } else if (checkCharacter(content)){
+            patternEnum = PatternEnum.CHARACTER;
+        }else if (checkChineseCharacter(content)){
+            patternEnum = PatternEnum.CHINESE;
+        }
+        return patternEnum;
+    }
     public enum PatternEnum {
         MOBILE("1", "手机号码"),
         CHARACTER("2","字母数字"),
         CARNUMBER("3","车牌号"),
+        CHINESE("4","汉字"),
         UNRECOGNIZED("-1", "未知");
         @Getter
         private String dm;

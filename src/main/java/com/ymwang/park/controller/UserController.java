@@ -51,4 +51,11 @@ public class UserController {
         response.setData(queryUserDto);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/queryUserByContent")
+    public SingleResult<QueryUserDto> queryUserByContent(@RequestBody QueryUserByContent queryUserByContent){
+        QueryUserDto queryUserDto=userService.queryUserByContent(queryUserByContent);
+        SingleResult<QueryUserDto> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(queryUserDto);
+        return response;
+    }
 }

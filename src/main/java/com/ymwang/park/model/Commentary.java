@@ -16,7 +16,7 @@ public class Commentary {
     private Date createTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
-
+    private int score;
     public String getcId() {
         return cId;
     }
@@ -63,5 +63,13 @@ public class Commentary {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

@@ -13,4 +13,5 @@ public interface ParkService {
     void editPark(ParkDto parkDto);
     void deletePark(DeleteParkDto deleteParkDto);
     List<QueryParkReponse> queryPark(QueryParkDto queryParkDto);
+    List<ParkDto> queryParkByContent(QueryParkByContentDto queryParkByContentDto);
 }

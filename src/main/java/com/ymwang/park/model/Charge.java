@@ -20,6 +20,7 @@ public class Charge {
     private Date enterTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date outTime;
+    private String valid;
 
     public String getChargeId() {
         return chargeId;
@@ -83,5 +84,12 @@ public class Charge {
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
+    }
+    public String getValid() {
+        return valid;
+    }
+
+    public void setValid(String valid) {
+        this.valid = valid == null ? null : valid.trim();
     }
 }

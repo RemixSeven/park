@@ -20,6 +20,7 @@ public class Park {
     private String longitude;
 
     private String latitude;
+    private String valid;
 
     public String getParkId() {
         return parkId;
@@ -83,5 +84,12 @@ public class Park {
 
     public void setLatitude(String latitude) {
         this.latitude = latitude == null ? null : latitude.trim();
+    }
+    public String getValid() {
+        return valid;
+    }
+
+    public void setValid(String valid) {
+        this.valid = valid == null ? null : valid.trim();
     }
 }

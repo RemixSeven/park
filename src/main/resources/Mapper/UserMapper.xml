@@ -8,6 +8,7 @@
     <result column="user_type" jdbcType="CHAR" property="userType" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="valid" jdbcType="CHAR" property="valid" />
   </resultMap>
   <sql id="Base_Column_List">
     user_id, user_name, password, user_type, phone, name
@@ -23,7 +24,25 @@
     select
     <include refid="Base_Column_List" />
     from user
-    where user_type ='0'
+    where user_type ='0' AND valid='1'
+  </select>
+  <select id="getByUserName"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_type ='0'AND user_name like concat(concat('%',#{userName}),'%') AND  valid='1'
+  </select>
+  <select id="getByPhone"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_type ='0'AND phone like concat(concat('%',#{phone}),'%') AND valid='1'
+  </select>
+  <select id="getByName"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_type ='0'AND name like concat(concat('%',#{name}),'%') AND valid='1'
   </select>
   <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -37,9 +56,9 @@
   </delete>
   <insert id="insert" parameterType="com.ymwang.park.model.User">
     insert into user (user_id, user_name, password, 
-      user_type, phone, name)
+      user_type, phone, name,valid)
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=CHAR}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+      #{userType,jdbcType=CHAR}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}),#{valid,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ymwang.park.model.User">
     insert into user
@@ -62,6 +81,9 @@
       <if test="name != null">
         name,
       </if>
+      <if test="valid != null">
+        valid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -81,6 +103,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -102,6 +127,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="valid != null">
+        valid=#{valid,jdbcType=CHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
@@ -111,7 +139,8 @@
       password = #{password,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=CHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR}
+      name = #{name,jdbcType=VARCHAR},
+      valid=#{valid,jdbcType=CHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
 </mapper>

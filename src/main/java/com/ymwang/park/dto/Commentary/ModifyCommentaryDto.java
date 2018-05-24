@@ -4,10 +4,11 @@ import lombok.Data;
 
 /**
  * @Author: wym
- * @Date: 2018/5/8
+ * @Date: 2018/5/23
  */
 @Data
-public class AddCommentaryDto {
+public class ModifyCommentaryDto {
+    private String cId;
     private String userId;
 
     private String parkId;

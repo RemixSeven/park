@@ -42,7 +42,7 @@ public class PlaceServiceImpl implements PlaceService {
         }
         Place place=new Place();
         place.setpId(placeInfo.getpId());
-        place.setReserveId(reservePlaceDto.getUserId());
+        place.setReserveId(reservePlaceDto.getCarNumber());
         placeMapper.updateByPrimaryKeySelective(place);
     }
 
@@ -70,7 +70,7 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public void parkPlace(ParkPlaceDto parkPlaceDto) {
         if (isReservePlace(parkPlaceDto)){
-            Place reservePlace=placeMapper.reservePlace(parkPlaceDto.getUserId());
+            Place reservePlace=placeMapper.reservePlace(parkPlaceDto.getCarNumber());
             if (reservePlace.getpNum()!=parkPlaceDto.getPNum()){
                 throw new BizException("api.place.park.reserve","停车失败,停车位与预约车位不一致");
             }
@@ -80,7 +80,7 @@ public class PlaceServiceImpl implements PlaceService {
         }
         Place place=placeMapper.inusePlace(parkPlaceDto.getPNum(),parkPlaceDto.getParkId());
         place.setReserveId(null);
-        place.setInuserId(parkPlaceDto.getUserId());
+        place.setInuserId(parkPlaceDto.getCarNumber());
         placeMapper.updateByPrimaryKeySelective(place);
     }
 
@@ -92,7 +92,7 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     private boolean isReservePlace(ParkPlaceDto parkPlaceDto) {
-        if (placeMapper.reservePlace(parkPlaceDto.getUserId())==null){
+        if (placeMapper.reservePlace(parkPlaceDto.getCarNumber())==null){
             return false;
         }
         return true;

@@ -53,4 +53,12 @@ public class ParkController {
         response.setData(queryParkReponses);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/queryParkByContent")
+    public SingleResult<List<ParkDto>> queryParkByContent(@RequestBody QueryParkByContentDto queryParkByContentDto){
+        List<ParkDto> parkDtos=parkService.queryParkByContent(queryParkByContentDto);
+        SingleResult<List<ParkDto>> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(parkDtos);
+        return response;
+    }
+
 }

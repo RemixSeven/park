@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface CommentaryService {
     void addCommentary(AddCommentaryDto addCommentaryDto);
+    void modifyCommentary(ModifyCommentaryDto modifyCommentaryDto);
     void deleteCommentary(DeleteCommentary deleteCommentary);
     QueryCommentaryDto queryCommentary(QueryCommentaryRuquest queryCommentaryRuquest);
     QueryCommentaryDto commentaryByUser(QueryCommentaryByUser queryCommentaryByUser);

@@ -1,6 +1,7 @@
 package com.ymwang.park.dto.Park;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.ymwang.park.dto.ChargeStrategy.ChargeStrategyDto;
 import lombok.Data;
 
 import java.util.Date;
@@ -26,4 +27,10 @@ public class QueryParkReponse {
 
     private String latitude;
     private double distance;
+    /*    车位总数*/
+    private int placeTotal;
+    /*    车位剩余数*/
+    private int placeSurplus;
+/*    private ChargeStrategyDto chargeStrategyDto;*/
+    private int OneHour;
 }

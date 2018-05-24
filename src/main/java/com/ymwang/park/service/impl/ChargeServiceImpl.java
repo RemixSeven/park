@@ -16,6 +16,7 @@ import com.ymwang.park.model.Place;
 import com.ymwang.park.model.Wallet;
 
 import com.ymwang.park.service.ChargeService;
+import com.ymwang.park.utils.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,10 @@ public class ChargeServiceImpl implements ChargeService {
 
     @Override
     public void addCharge(AddChargeDto addChargeDto) {
+        Wallet wallet=walletMapper.queryWallet(addChargeDto.getUserId());
+        if (wallet.getBalance()-addChargeDto.getMoney()<0){
+            throw new BizException("api.charge.not.sufficient.funds","扣款失败，余额不足，请充值之后再付款");
+        }
         Charge charge=new Charge();
         charge.setChargeId(UUID.randomUUID().toString().replaceAll("-", ""));
         charge.setCarNumber(addChargeDto.getCarNumber());
@@ -54,7 +59,6 @@ public class ChargeServiceImpl implements ChargeService {
         Place place=placeMapper.selectByPrimaryKey(addChargeDto.getPId());
         place.setInuserId(null);
         placeMapper.updateByPrimaryKeySelective(place);
-        Wallet wallet=walletMapper.queryWallet(addChargeDto.getUserId());
         wallet.setBalance(wallet.getBalance()-addChargeDto.getMoney());
         walletMapper.updateByPrimaryKeySelective(wallet);
     }

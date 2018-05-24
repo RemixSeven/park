@@ -10,6 +10,7 @@
     <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
     <result column="enter_time" jdbcType="TIMESTAMP" property="enterTime" />
     <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
+    <result column="valid" jdbcType="CHAR" property="valid" />
   </resultMap>
   <sql id="Base_Column_List">
     charge_id, user_id, park_id, user_name, money, car_number, enter_time, out_time
@@ -24,7 +25,7 @@
     select
     <include refid="Base_Column_List" />
     from charge
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR} AND valid='1'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from charge
@@ -33,10 +34,10 @@
   <insert id="insert" parameterType="com.ymwang.park.model.Charge">
     insert into charge (charge_id, user_id, park_id, 
       user_name, money, car_number, 
-      enter_time, out_time)
+      enter_time, out_time,valid)
     values (#{chargeId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{parkId,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{money,jdbcType=INTEGER}, #{carNumber,jdbcType=VARCHAR}, 
-      #{enterTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=TIMESTAMP})
+      #{enterTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=TIMESTAMP},#{valid,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ymwang.park.model.Charge">
     insert into charge
@@ -65,6 +66,9 @@
       <if test="outTime != null">
         out_time,
       </if>
+      <if test="valid != null">
+        valid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="chargeId != null">
@@ -90,6 +94,9 @@
       </if>
       <if test="outTime != null">
         #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -117,6 +124,9 @@
       <if test="outTime != null">
         out_time = #{outTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="valid != null">
+        valid=#{valid,jdbcType=CHAR},
+      </if>
     </set>
     where charge_id = #{chargeId,jdbcType=VARCHAR}
   </update>
@@ -128,7 +138,8 @@
       money = #{money,jdbcType=INTEGER},
       car_number = #{carNumber,jdbcType=VARCHAR},
       enter_time = #{enterTime,jdbcType=TIMESTAMP},
-      out_time = #{outTime,jdbcType=TIMESTAMP}
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      valid=#{valid,jdbcType=CHAR}
     where charge_id = #{chargeId,jdbcType=VARCHAR}
   </update>
 </mapper>

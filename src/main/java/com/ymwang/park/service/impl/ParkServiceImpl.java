@@ -1,8 +1,13 @@
 package com.ymwang.park.service.impl;
 
+import com.ymwang.park.dao.ChargeStrategyMapper;
+import com.ymwang.park.dao.PlaceMapper;
+import com.ymwang.park.dto.ChargeStrategy.ChargeStrategyDto;
 import com.ymwang.park.dto.Park.*;
 import com.ymwang.park.dao.ParkMapper;
+import com.ymwang.park.model.ChargeStrategy;
 import com.ymwang.park.model.Park;
+import com.ymwang.park.model.Place;
 import com.ymwang.park.service.ParkService;
 import com.ymwang.park.utils.LocationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,10 @@ import java.util.*;
 public class ParkServiceImpl implements ParkService {
     @Autowired
     ParkMapper parkMapper;
+    @Autowired
+    PlaceMapper placeMapper;
+    @Autowired
+    ChargeStrategyMapper chargeStrategyMapper;
 
     @Override
     public void addPark(AddParkDto addParkDto) {
@@ -50,7 +59,9 @@ public class ParkServiceImpl implements ParkService {
 
     @Override
     public void deletePark(DeleteParkDto deleteParkDto) {
-        parkMapper.deleteByPrimaryKey(deleteParkDto.getParkId());
+        Park park=parkMapper.selectByPrimaryKey(deleteParkDto.getParkId());
+        park.setValid("0");
+        parkMapper.updateByPrimaryKeySelective(park);
     }
 
     @Override
@@ -59,17 +70,26 @@ public class ParkServiceImpl implements ParkService {
         List<Park> parks=parkMapper.queryPark();
         for (Park park:parks){
             double distance=LocationUtils.getDistance(Double.parseDouble(queryParkDto.getLatitude()),Double.parseDouble(queryParkDto.getLongitude()),Double.parseDouble(park.getLatitude()),Double.parseDouble(park.getLongitude()));
-            QueryParkReponse queryParkReponse=new QueryParkReponse();
-            queryParkReponse.setParkId(park.getParkId());
-            queryParkReponse.setParkName(park.getParkName());
-            queryParkReponse.setParkAddress(park.getParkAddress());
-            queryParkReponse.setParkDetail(park.getParkDetail());
-            queryParkReponse.setOpenTime(park.getOpenTime());
-            queryParkReponse.setCloseTime(park.getCloseTime());
-            queryParkReponse.setLatitude(park.getLatitude());
-            queryParkReponse.setLongitude(park.getLongitude());
-            queryParkReponse.setDistance(distance);
-            queryParkReponses.add(queryParkReponse);
+            if (distance<5000.00) {
+                QueryParkReponse queryParkReponse = new QueryParkReponse();
+                queryParkReponse.setParkId(park.getParkId());
+                queryParkReponse.setParkName(park.getParkName());
+                queryParkReponse.setParkAddress(park.getParkAddress());
+                queryParkReponse.setParkDetail(park.getParkDetail());
+                queryParkReponse.setOpenTime(park.getOpenTime());
+                queryParkReponse.setCloseTime(park.getCloseTime());
+                queryParkReponse.setLatitude(park.getLatitude());
+                queryParkReponse.setLongitude(park.getLongitude());
+                queryParkReponse.setDistance(distance);
+                int placeTotal=placeMapper.placeTotal(park.getParkId());
+                queryParkReponse.setPlaceTotal(placeTotal);
+                int placeSurplus=placeMapper.placeSurplus(park.getParkId());
+                ChargeStrategy chargeStrategy=chargeStrategyMapper.queryChargeStrategy(park.getParkId());
+                int oneHour=chargeStrategy.getOneHour();
+                queryParkReponse.setOneHour(oneHour);
+                queryParkReponse.setPlaceSurplus(placeSurplus);
+                queryParkReponses.add(queryParkReponse);
+            }
         }
         Collections.sort(queryParkReponses,new Comparator<QueryParkReponse>() {
 
@@ -82,5 +102,24 @@ public class ParkServiceImpl implements ParkService {
             }
         });
         return queryParkReponses;
+    }
+
+    @Override
+    public List<ParkDto> queryParkByContent(QueryParkByContentDto queryParkByContentDto) {
+        List<Park> parks=parkMapper.queryParkByContent(queryParkByContentDto.getContent());
+        List<ParkDto> parkDtos=new ArrayList<>();
+        for (Park park:parks){
+            ParkDto parkDto=new ParkDto();
+            parkDto.setParkId(park.getParkId());
+            parkDto.setParkName(park.getParkName());
+            parkDto.setParkDetail(park.getParkDetail());
+            parkDto.setParkAddress(park.getParkAddress());
+            parkDto.setOpenTime(park.getOpenTime());
+            parkDto.setCloseTime(park.getCloseTime());
+            parkDto.setLatitude(park.getLatitude());
+            parkDto.setLongitude(park.getLongitude());
+            parkDtos.add(parkDto);
+        }
+        return parkDtos;
     }
 }

@@ -9,6 +9,7 @@ import com.ymwang.park.model.User;
 import com.ymwang.park.model.Wallet;
 import com.ymwang.park.service.UserService;
 import com.ymwang.park.utils.BizException;
+import com.ymwang.park.utils.MD5Util;
 import com.ymwang.park.utils.PatternUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto login(LoginRequest loginRequest) {
         User user=userMapper.selectByUserName(loginRequest.getUsername());
-        if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
+        if (user != null && user.getPassword().equals(MD5Util.encrypt16(loginRequest.getPassword()))) {
             UserDto userDto=new UserDto();
             userDto.setName(user.getName());
             userDto.setUserId(user.getUserId());
@@ -61,8 +62,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void modifyPassword(ModifyPasswordDto modifyPasswordDto) {
         User user=userMapper.selectByUserName(modifyPasswordDto.getUsername());
-        if (user != null && user.getPassword().equals(modifyPasswordDto.getPassword())){
-            user.setPassword(modifyPasswordDto.getNewPassword());
+        if (user != null && user.getPassword().equals(MD5Util.encrypt16(modifyPasswordDto.getPassword()))){
+            user.setPassword(MD5Util.encrypt16(modifyPasswordDto.getNewPassword()));
             userMapper.updateByPrimaryKeySelective(user);
         }else {
             throw new BizException("api.modifyPassword","原密码错误，不能修改");
@@ -111,6 +112,42 @@ public class UserServiceImpl implements UserService {
         return queryUserDto;
     }
 
+    @Override
+    public QueryUserDto queryUserByContent(QueryUserByContent queryUserByContent) {
+        QueryUserDto queryUserDto=new QueryUserDto();
+        List<User> users=new ArrayList<>();
+        PatternUtil.PatternEnum patternEnum=PatternUtil.transform(queryUserByContent.getContent());
+        switch (patternEnum){
+            case CHARACTER:
+                users=userMapper.getByUserName(queryUserByContent.getContent());
+                break;
+            case CHINESE:
+                users=userMapper.getByName(queryUserByContent.getContent());
+                break;
+            case MOBILE:
+                users=userMapper.getByPhone(queryUserByContent.getContent());
+                break;
+            default:
+                break;
+        }
+        List<UserDto> userDtos=new ArrayList<>();
+        for (User user:users){
+            UserDto userDto=new UserDto();
+            userDto.setUserId(user.getUserId());
+            userDto.setUserName(user.getUserName());
+            userDto.setName(user.getName());
+            userDto.setPhone(user.getPhone());
+            userDto.setUserType(user.getUserType());
+            userDtos.add(userDto);
+        }
+        PageInfo<UserDto> pageInfo=new PageInfo<UserDto>(userDtos);
+        long total=pageInfo.getTotal();
+        queryUserDto.setCount(String.valueOf(total));
+        queryUserDto.setUserDtos(userDtos);
+
+        return queryUserDto;
+    }
+
     private boolean isUserNameExist(UserRequest userRequest) {
         if ((userMapper.selectByUserName(userRequest.getUserName()))==null)
         {
@@ -134,7 +171,7 @@ public class UserServiceImpl implements UserService {
             user.setPhone(userRequest.getPhone());
             user.setUserType(userRequest.getUserType());
             user.setName(userRequest.getName());
-            user.setPassword(userRequest.getPassword());
+            user.setPassword(MD5Util.encrypt16(userRequest.getPassword()));
             userMapper.insertSelective(user);
             Wallet wallet=new Wallet();
             wallet.setWalletId(UUID.randomUUID().toString().replaceAll("-", ""));

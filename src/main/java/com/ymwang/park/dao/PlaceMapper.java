@@ -22,4 +22,6 @@ public interface PlaceMapper {
     List<Place> queryPlace(String parkId);
     Place reservePlace(String reserveId);
     Place inusePlace(@Param("pNum") Integer pNum,@Param("parkId")String parkId);
+    int placeTotal(@Param("parkId")String parkId);
+    int placeSurplus(@Param("parkId")String parkId);
 }

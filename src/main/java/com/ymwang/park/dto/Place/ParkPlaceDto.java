@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class ParkPlaceDto {
-    private String userId;
+    private String carNumber;
     private Integer pNum;
     private String parkId;
 }

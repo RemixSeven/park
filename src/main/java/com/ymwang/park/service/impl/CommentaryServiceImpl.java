@@ -37,7 +37,19 @@ public class CommentaryServiceImpl implements CommentaryService {
         commentary.setUserId(addCommentaryDto.getUserId());
         commentary.setParkId(addCommentaryDto.getParkId());
         commentary.setcDetail(addCommentaryDto.getCDetail());
+        commentary.setScore(addCommentaryDto.getScore());
         commentaryMapper.insertSelective(commentary);
+    }
+
+    @Override
+    public void modifyCommentary(ModifyCommentaryDto modifyCommentaryDto) {
+        Commentary commentary=new Commentary();
+        commentary.setcId(modifyCommentaryDto.getCId());
+        commentary.setUserId(modifyCommentaryDto.getUserId());
+        commentary.setParkId(modifyCommentaryDto.getParkId());
+        commentary.setcDetail(modifyCommentaryDto.getCDetail());
+        commentary.setScore(modifyCommentaryDto.getScore());
+        commentaryMapper.updateByPrimaryKeySelective(commentary);
     }
 
     @Override
@@ -62,6 +74,8 @@ public class CommentaryServiceImpl implements CommentaryService {
             commentaryDto.setCDetail(commentary.getcDetail());
             commentaryDto.setUserId(commentary.getUserId());
             commentaryDto.setParkId(commentary.getParkId());
+            commentaryDto.setScore(commentary.getScore());
+            commentaryDto.setCommentaryTime(commentary.getUpdateTime());
             User user=userMapper.selectByPrimaryKey(commentary.getUserId());
             commentaryDto.setUserName(user.getUserName());
             commentaryDto.setName(user.getName());
@@ -86,8 +100,11 @@ public class CommentaryServiceImpl implements CommentaryService {
             commentaryDto.setCDetail(commentary.getcDetail());
             commentaryDto.setUserId(commentary.getUserId());
             commentaryDto.setParkId(commentary.getParkId());
+            commentaryDto.setCommentaryTime(commentary.getUpdateTime());
             Park park=parkMapper.selectByPrimaryKey(commentary.getParkId());
             commentaryDto.setParkName(park.getParkName());
+            User user=userMapper.selectByPrimaryKey(commentary.getUserId());
+            commentaryDto.setUserName(user.getUserName());
             commentaryDtos.add(commentaryDto);
         }
         PageInfo<CommentaryDto> pageInfo=new PageInfo<CommentaryDto>(commentaryDtos);

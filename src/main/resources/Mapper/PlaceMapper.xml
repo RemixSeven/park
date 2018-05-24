@@ -29,6 +29,18 @@
     from place
     where reserve_id = #{reserveId,jdbcType=VARCHAR}
   </select>
+
+  <select id="placeTotal" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select
+      count(1)
+    from place where park_id = #{parkId,jdbcType=VARCHAR}
+  </select>
+  <select id="placeSurplus" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select
+      count(1)
+    from place where park_id = #{parkId,jdbcType=VARCHAR} AND reserve_id IS NULL AND inuser_id IS NULL
+  </select>
+
   <select id="inusePlace" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
