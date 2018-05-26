@@ -3,6 +3,8 @@ package com.ymwang.park.dao;
 import com.ymwang.park.model.Bill;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BillMapper {
     int deleteByPrimaryKey(String billId);
@@ -16,4 +18,5 @@ public interface BillMapper {
     int updateByPrimaryKeySelective(Bill record);
 
     int updateByPrimaryKey(Bill record);
+    List<Bill> queryBill(String userId);
 }

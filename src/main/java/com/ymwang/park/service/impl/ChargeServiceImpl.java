@@ -1,28 +1,17 @@
 package com.ymwang.park.service.impl;
 
-import com.ymwang.park.dao.ChargeMapper;
-
-import com.ymwang.park.dao.ParkMapper;
-import com.ymwang.park.dao.PlaceMapper;
-import com.ymwang.park.dao.WalletMapper;
-
-import com.ymwang.park.dto.Charge.AddChargeDto;
-import com.ymwang.park.dto.Charge.QueryChargeRequest;
-import com.ymwang.park.dto.Charge.QueryCharyDto;
-import com.ymwang.park.model.Charge;
-
-import com.ymwang.park.model.Park;
-import com.ymwang.park.model.Place;
-import com.ymwang.park.model.Wallet;
+import com.ymwang.park.dao.*;
+import com.ymwang.park.dto.Charge.*;
+import com.ymwang.park.model.*;
 
 import com.ymwang.park.service.ChargeService;
 import com.ymwang.park.utils.BizException;
+import com.ymwang.park.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @Author: wym
@@ -38,6 +27,8 @@ public class ChargeServiceImpl implements ChargeService {
     WalletMapper walletMapper;
     @Autowired
     ParkMapper parkMapper;
+    @Autowired
+    BillMapper billMapper;
 
     @Override
     public void addCharge(AddChargeDto addChargeDto) {
@@ -61,6 +52,13 @@ public class ChargeServiceImpl implements ChargeService {
         placeMapper.updateByPrimaryKeySelective(place);
         wallet.setBalance(wallet.getBalance()-addChargeDto.getMoney());
         walletMapper.updateByPrimaryKeySelective(wallet);
+        Bill bill=new Bill();
+        bill.setBillId(UUID.randomUUID().toString().replaceAll("-", ""));
+        bill.setType("1");
+        bill.setIsDelete("0");
+        bill.setUserId(addChargeDto.getUserId());
+        bill.setConsume(addChargeDto.getMoney());
+        billMapper.insertSelective(bill);
     }
 
     @Override
@@ -81,5 +79,35 @@ public class ChargeServiceImpl implements ChargeService {
             queryCharyDtos.add(queryCharyDto);
         }
         return queryCharyDtos;
+    }
+
+    @Override
+    public DailyIncomeResponse queryDailyIncome(QueryDailyIncomeRequest queryDailyIncomeRequest) {
+        DailyIncomeResponse dailyIncomeResponse=new DailyIncomeResponse();
+        HashMap map=new HashMap();
+        map.put("parkId",queryDailyIncomeRequest.getParkId());
+        map.put("startDate",DateUtils.formatDate(queryDailyIncomeRequest.getStartDate()));
+        map.put("endDate",DateUtils.formatDate(queryDailyIncomeRequest.getEndDate()));
+        List<DailyIncomeDto> incomes=chargeMapper.queryDailyIncome(map);
+        Park park=parkMapper.selectByPrimaryKey(queryDailyIncomeRequest.getParkId());
+        dailyIncomeResponse.setParkName(park.getParkName());
+        dailyIncomeResponse.setDailyIncomeDtos(incomes);
+        return dailyIncomeResponse;
+    }
+
+    @Override
+    public List<ParkIncome> queryParkIncome(QueryParkIncomeRequest queryParkIncomeRequest) {
+        HashMap map=new HashMap();
+        map.put("month",DateUtils.formatYearMonth(queryParkIncomeRequest.getMonth()));
+        List<ParkIncomeByParkId> parkIncomeByParkIds=chargeMapper.queryParkIncome(map);
+        List<ParkIncome> parkIncomes=new ArrayList<>();
+        for (ParkIncomeByParkId parkIncomeByParkId:parkIncomeByParkIds){
+            ParkIncome parkIncome=new ParkIncome();
+            Park park=parkMapper.selectByPrimaryKey(parkIncomeByParkId.getParkId());
+            parkIncome.setParkName(park.getParkName());
+            parkIncome.setMoney(parkIncomeByParkId.getMoney());
+            parkIncomes.add(parkIncome);
+        }
+        return parkIncomes;
     }
 }

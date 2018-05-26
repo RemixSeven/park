@@ -9,6 +9,7 @@ import com.ymwang.park.model.ChargeStrategy;
 import com.ymwang.park.model.Park;
 import com.ymwang.park.model.Place;
 import com.ymwang.park.service.ParkService;
+import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.LocationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,16 +32,28 @@ public class ParkServiceImpl implements ParkService {
 
     @Override
     public void addPark(AddParkDto addParkDto) {
-        Park park=new Park();
-        park.setParkId(UUID.randomUUID().toString().replaceAll("-", ""));
-        park.setParkName(addParkDto.getParkName());
-        park.setParkAddress(addParkDto.getParkAddress());
-        park.setParkDetail(addParkDto.getParkDetail());
-        park.setOpenTime(addParkDto.getOpenTime());
-        park.setCloseTime(addParkDto.getCloseTime());
-        park.setLatitude(addParkDto.getLatitude());
-        park.setLongitude(addParkDto.getLongitude());
-        parkMapper.insertSelective(park);
+        if (isParkNameExist(addParkDto)) {
+            throw new BizException("api.parkName.exist", "停车场名称不能重复");
+        }else {
+            Park park = new Park();
+            park.setParkId(UUID.randomUUID().toString().replaceAll("-", ""));
+            park.setParkName(addParkDto.getParkName());
+            park.setParkAddress(addParkDto.getParkAddress());
+            park.setParkDetail(addParkDto.getParkDetail());
+            park.setOpenTime(addParkDto.getOpenTime());
+            park.setCloseTime(addParkDto.getCloseTime());
+            park.setLatitude(addParkDto.getLatitude());
+            park.setLongitude(addParkDto.getLongitude());
+            parkMapper.insertSelective(park);
+        }
+    }
+
+    private boolean isParkNameExist(AddParkDto addParkDto) {
+        if ((parkMapper.queryParkByContent(addParkDto.getParkName()))==null)
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override

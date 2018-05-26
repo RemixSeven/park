@@ -1,5 +1,7 @@
 package com.ymwang.park.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 public class Bill {
@@ -12,9 +14,9 @@ public class Bill {
     private String type;
 
     private String isDelete;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     public String getBillId() {

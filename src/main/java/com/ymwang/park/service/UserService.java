@@ -1,6 +1,9 @@
 package com.ymwang.park.service;
 
 import com.ymwang.park.dto.User.*;
+import com.ymwang.park.model.User;
+
+import java.util.List;
 
 /**
  * @Author: wym
@@ -13,4 +16,5 @@ public interface UserService {
     public UserDto modifyUserInfo(ModifyUserInfo modifyUserInfo);
     QueryUserDto queryUser(QueryUserRequest queryUserRequest);
     QueryUserDto queryUserByContent(QueryUserByContent queryUserByContent);
+    List<User> getAllUser();
 }

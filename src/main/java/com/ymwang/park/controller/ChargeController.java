@@ -1,8 +1,6 @@
 package com.ymwang.park.controller;
 
-import com.ymwang.park.dto.Charge.AddChargeDto;
-import com.ymwang.park.dto.Charge.QueryChargeRequest;
-import com.ymwang.park.dto.Charge.QueryCharyDto;
+import com.ymwang.park.dto.Charge.*;
 import com.ymwang.park.dto.User.QueryUserRequest;
 import com.ymwang.park.service.ChargeService;
 import com.ymwang.park.utils.ResultMessage;
@@ -39,5 +37,18 @@ public class ChargeController {
         response.setData(queryCharyDtoList);
         return response;
     }
-
+    @RequestMapping(method = RequestMethod.POST,value = "/queryDailyIncome")
+    public SingleResult<DailyIncomeResponse> queryDailyIncome(@RequestBody QueryDailyIncomeRequest queryDailyIncomeRequest){
+        DailyIncomeResponse dailyIncomeResponse=chargeService.queryDailyIncome(queryDailyIncomeRequest);
+        SingleResult<DailyIncomeResponse> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(dailyIncomeResponse);
+        return response;
+    }
+    @RequestMapping(method = RequestMethod.POST,value = "/queryParkIncome")
+    public SingleResult<List<ParkIncome>> queryParkIncome(@RequestBody QueryParkIncomeRequest queryDailyIncomeRequest){
+        List<ParkIncome> parkIncomes=chargeService.queryParkIncome(queryDailyIncomeRequest);
+        SingleResult<List<ParkIncome>> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(parkIncomes);
+        return response;
+    }
 }

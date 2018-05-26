@@ -12,6 +12,16 @@
     <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
     <result column="valid" jdbcType="CHAR" property="valid" />
   </resultMap>
+  <resultMap id="queryDailyIncome" type="com.ymwang.park.dto.Charge.DailyIncomeDto">
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="parkDate" jdbcType="TIMESTAMP" property="parkDate" />
+  </resultMap>
+  <resultMap id="queryParkIncome" type="com.ymwang.park.dto.Charge.ParkIncomeByParkId">
+    <result column="parkId" jdbcType="VARCHAR" property="parkId" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     charge_id, user_id, park_id, user_name, money, car_number, enter_time, out_time
   </sql>
@@ -20,6 +30,19 @@
     <include refid="Base_Column_List" />
     from charge
     where charge_id = #{chargeId,jdbcType=VARCHAR}
+  </select>
+ <select id="queryDailyIncome" parameterType="java.util.HashMap"  resultMap="queryDailyIncome">
+    select date_format(out_time ,'%Y-%m-%d' ) as parkDate,
+    count(user_id) as num, sum(money) as  money
+    from charge where park_id = #{parkId} and
+    date_format(out_time ,'%Y-%m-%d' ) between #{startDate} and #{endDate}
+    group by date_format(out_time ,'%Y-%m-%d' )
+  </select>
+  <select id="queryParkIncome" parameterType="java.util.HashMap"  resultMap="queryParkIncome">
+    select park_id as parkId,
+    sum(money) as  money from charge where
+    date_format(out_time ,'%Y-%m' ) = #{month}
+    group by park_id
   </select>
   <select id="queryCharge" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
