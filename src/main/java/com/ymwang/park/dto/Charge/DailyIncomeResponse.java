@@ -11,5 +11,5 @@ import java.util.List;
 @Data
 public class DailyIncomeResponse {
     private List<DailyIncomeDto> dailyIncomeDtos;
-    private String parkName;
+    private String count;
 }
