@@ -10,5 +10,5 @@ import java.util.List;
  */
 @Data
 public class BatchForbidUserDto {
-    private List<ForbidUserDto> forbidUserDtos;
+    private String users;
 }

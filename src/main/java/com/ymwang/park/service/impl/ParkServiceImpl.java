@@ -1,5 +1,7 @@
 package com.ymwang.park.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ymwang.park.dao.ChargeStrategyMapper;
 import com.ymwang.park.dao.CommentaryMapper;
 import com.ymwang.park.dao.PlaceMapper;
@@ -140,5 +142,30 @@ public class ParkServiceImpl implements ParkService {
             parkDtos.add(parkDto);
         }
         return parkDtos;
+    }
+
+    @Override
+    public AllParkResponse allPark(AllParkDto allParkDto) {
+        AllParkResponse allParkResponse=new AllParkResponse();
+        PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
+        List<Park> parks=parkMapper.queryPark();
+        List<ParkDto> parkDtos=new ArrayList<>();
+        for (Park park:parks){
+            ParkDto parkDto=new ParkDto();
+            parkDto.setParkId(park.getParkId());
+            parkDto.setParkName(park.getParkName());
+            parkDto.setParkDetail(park.getParkDetail());
+            parkDto.setParkAddress(park.getParkAddress());
+            parkDto.setOpenTime(park.getOpenTime());
+            parkDto.setCloseTime(park.getCloseTime());
+            parkDto.setLatitude(park.getLatitude());
+            parkDto.setLongitude(park.getLongitude());
+            parkDtos.add(parkDto);
+        }
+        PageInfo<ParkDto> pageInfo=new PageInfo<ParkDto>(parkDtos);
+        long total=pageInfo.getTotal();
+        allParkResponse.setCount(String.valueOf(total));
+        allParkResponse.setParkDtos(parkDtos);
+        return allParkResponse;
     }
 }

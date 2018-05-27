@@ -59,5 +59,12 @@ public class ParkController {
         response.setData(parkDtos);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/allPark")
+    public SingleResult<AllParkResponse> allPark(@RequestBody AllParkDto allParkDto){
+        AllParkResponse allParkResponse=parkService.allPark(allParkDto);
+        SingleResult<AllParkResponse> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(allParkResponse);
+        return response;
+    }
 
 }

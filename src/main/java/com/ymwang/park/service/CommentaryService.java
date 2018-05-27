@@ -12,6 +12,7 @@ public interface CommentaryService {
     String addCommentary(AddCommentaryDto addCommentaryDto);
     void modifyCommentary(ModifyCommentaryDto modifyCommentaryDto);
     void deleteCommentary(DeleteCommentary deleteCommentary);
+    void batchDeleteCommentary(BatchDeleteCommentary batchDeleteCommentary);
     QueryCommentaryDto queryCommentary(QueryCommentaryRuquest queryCommentaryRuquest);
     QueryCommentaryDto commentaryByUser(QueryCommentaryByUser queryCommentaryByUser);
 }

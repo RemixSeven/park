@@ -147,7 +147,6 @@ public class UserServiceImpl implements UserService {
         long total=pageInfo.getTotal();
         queryUserDto.setCount(String.valueOf(total));
         queryUserDto.setUserDtos(userDtos);
-
         return queryUserDto;
     }
 
@@ -166,8 +165,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void batchForbidUser(BatchForbidUserDto batchForbidUserDto) {
-        for (ForbidUserDto forbidUserDto:batchForbidUserDto.getForbidUserDtos()){
-            User user=userMapper.selectByPrimaryKey(forbidUserDto.getUserId());
+        String users=batchForbidUserDto.getUsers();
+        String[] split = users.split(",");
+        for (String i:split){
+            User user=userMapper.selectByPrimaryKey(i);
             user.setValid("0");
             userMapper.updateByPrimaryKeySelective(user);
         }

@@ -41,6 +41,13 @@ public class CommentaryController {
         response.setData(null);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/batchdeleteCommentary")
+    public SingleResult<String> batchDeleteCommentary(@RequestBody BatchDeleteCommentary batchDeleteCommentary){
+        commentaryService.batchDeleteCommentary(batchDeleteCommentary);
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
+    }
     @RequestMapping(method = RequestMethod.POST,value = "/batchDeleteCommentary")
     public SingleResult<String> batchDeleteCommentary(@RequestBody DeleteCommentary deleteCommentary){
         commentaryService.deleteCommentary(deleteCommentary);

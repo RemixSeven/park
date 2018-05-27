@@ -6,7 +6,6 @@ import com.ymwang.park.dao.*;
 import com.ymwang.park.dto.Commentary.*;
 import com.ymwang.park.model.*;
 import com.ymwang.park.service.CommentaryService;
-import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,12 +71,23 @@ public class CommentaryServiceImpl implements CommentaryService {
 
     @Override
     public void deleteCommentary(DeleteCommentary deleteCommentary) {
-        Commentary commentary=commentaryMapper.selectByPrimaryKey(deleteCommentary.getCId());
-        if (commentary.getUserId()==deleteCommentary.getUserId()){
+       /* Commentary commentary=commentaryMapper.selectByPrimaryKey(deleteCommentary.getCId());*/
+        commentaryMapper.deleteByPrimaryKey(deleteCommentary.getCId());
+       /* if (commentary.getUserId()==deleteCommentary.getUserId()){
             commentaryMapper.deleteByPrimaryKey(deleteCommentary.getCId());
         }else {
             throw new BizException("api.commentary.delete.authority","您没有删除该评论的权限，只有评价者本人才能删除");
+        }*/
+    }
+
+    @Override
+    public void batchDeleteCommentary(BatchDeleteCommentary batchDeleteCommentary) {
+        String cIds=batchDeleteCommentary.getCIds();
+        String[] split = cIds.split(",");
+        for (String i:split){
+            commentaryMapper.deleteByPrimaryKey(i);
         }
+
     }
 
     @Override
