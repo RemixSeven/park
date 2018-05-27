@@ -11,7 +11,7 @@
     <result column="valid" jdbcType="CHAR" property="valid" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, password, user_type, phone, name
+    user_id, user_name, password, user_type, phone, name,valid
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -58,7 +58,7 @@
     insert into user (user_id, user_name, password, 
       user_type, phone, name,valid)
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=CHAR}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}),#{valid,jdbcType=CHAR})
+      #{userType,jdbcType=CHAR}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{valid,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ymwang.park.model.User">
     insert into user
