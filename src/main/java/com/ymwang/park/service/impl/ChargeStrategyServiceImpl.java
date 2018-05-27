@@ -1,16 +1,20 @@
 package com.ymwang.park.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ymwang.park.dao.ChargeStrategyMapper;
-import com.ymwang.park.dto.ChargeStrategy.AddChargeStrategy;
-import com.ymwang.park.dto.ChargeStrategy.ChargeStrategyDto;
-import com.ymwang.park.dto.ChargeStrategy.DeleteChargeStrategy;
-import com.ymwang.park.dto.ChargeStrategy.QueryChargeStrategyDto;
+import com.ymwang.park.dao.ParkMapper;
+import com.ymwang.park.dto.ChargeStrategy.*;
+import com.ymwang.park.dto.Park.AllParkDto;
 import com.ymwang.park.model.ChargeStrategy;
+import com.ymwang.park.model.Park;
 import com.ymwang.park.service.ChargeStrategyService;
 import com.ymwang.park.utils.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -21,6 +25,8 @@ import java.util.UUID;
 public class ChargeStrategyServiceImpl implements ChargeStrategyService {
     @Autowired
     ChargeStrategyMapper chargeStrategyMapper;
+    @Autowired
+    ParkMapper parkMapper;
 
     @Override
     public void addChargeStrategy(AddChargeStrategy addChargeStrategy) {
@@ -63,5 +69,28 @@ public class ChargeStrategyServiceImpl implements ChargeStrategyService {
         chargeStrategyDto.setFiveHour(chargeStrategy.getFiveHour());
         chargeStrategyDto.setCapping(chargeStrategy.getCapping());
         return chargeStrategyDto;
+    }
+
+    @Override
+    public AllChargeStrategyRe allChargeStrategy(AllParkDto allParkDto) {
+        AllChargeStrategyRe allChargeStrategyRe=new AllChargeStrategyRe();
+        PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
+        List<ChargeStrategy> chargeStrategies=chargeStrategyMapper.allChargeStrategy();
+        List<AllChargeStrategyDto> allChargeStrategyDtos=new ArrayList<>();
+        for (ChargeStrategy chargeStrategy:chargeStrategies){
+            AllChargeStrategyDto allChargeStrategyDto=new AllChargeStrategyDto();
+            Park park =parkMapper.selectByPrimaryKey(chargeStrategy.getParkId());
+            allChargeStrategyDto.setParkName(park.getParkName());
+            allChargeStrategyDto.setOneHour(chargeStrategy.getOneHour());
+            allChargeStrategyDto.setThreeHour(chargeStrategy.getThreeHour());
+            allChargeStrategyDto.setFiveHour(chargeStrategy.getFiveHour());
+            allChargeStrategyDto.setCapping(chargeStrategy.getCapping());
+            allChargeStrategyDtos.add(allChargeStrategyDto);
+        }
+        PageInfo<AllChargeStrategyDto> pageInfo=new PageInfo<AllChargeStrategyDto>(allChargeStrategyDtos);
+        long total=pageInfo.getTotal();
+        allChargeStrategyRe.setCount(String.valueOf(total));
+        allChargeStrategyRe.setAllChargeStrategyDtos(allChargeStrategyDtos);
+        return allChargeStrategyRe;
     }
 }

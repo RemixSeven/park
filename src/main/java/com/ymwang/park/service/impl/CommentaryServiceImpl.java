@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ymwang.park.dao.*;
 import com.ymwang.park.dto.Commentary.*;
+import com.ymwang.park.dto.Park.AllParkDto;
 import com.ymwang.park.model.*;
 import com.ymwang.park.service.CommentaryService;
 import com.ymwang.park.utils.DateUtils;
@@ -121,6 +122,32 @@ public class CommentaryServiceImpl implements CommentaryService {
         QueryCommentaryDto queryCommentaryDto=new QueryCommentaryDto();
         PageHelper.startPage(queryCommentaryByUser.getPageNum(),queryCommentaryByUser.getPageSize());
         List<Commentary> commentaries=commentaryMapper.commentaryByUser(queryCommentaryByUser.getUserId());
+        List<CommentaryDto> commentaryDtos=new ArrayList<>();
+        for (Commentary commentary:commentaries){
+            CommentaryDto commentaryDto=new CommentaryDto();
+            commentaryDto.setCId(commentary.getcId());
+            commentaryDto.setCDetail(commentary.getcDetail());
+            commentaryDto.setUserId(commentary.getUserId());
+            commentaryDto.setParkId(commentary.getParkId());
+            commentaryDto.setCommentaryTime(commentary.getUpdateTime());
+            Park park=parkMapper.selectByPrimaryKey(commentary.getParkId());
+            commentaryDto.setParkName(park.getParkName());
+            User user=userMapper.selectByPrimaryKey(commentary.getUserId());
+            commentaryDto.setUserName(user.getUserName());
+            commentaryDtos.add(commentaryDto);
+        }
+        PageInfo<CommentaryDto> pageInfo=new PageInfo<CommentaryDto>(commentaryDtos);
+        long total=pageInfo.getTotal();
+        queryCommentaryDto.setCount(String.valueOf(total));
+        queryCommentaryDto.setCommentaryDtos(commentaryDtos);
+        return queryCommentaryDto;
+    }
+
+    @Override
+    public QueryCommentaryDto allCommentary(AllParkDto allParkDto) {
+        QueryCommentaryDto queryCommentaryDto=new QueryCommentaryDto();
+        PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
+        List<Commentary> commentaries=commentaryMapper.allCommentary();
         List<CommentaryDto> commentaryDtos=new ArrayList<>();
         for (Commentary commentary:commentaries){
             CommentaryDto commentaryDto=new CommentaryDto();

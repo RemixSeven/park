@@ -1,7 +1,10 @@
 package com.ymwang.park.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ymwang.park.dao.*;
 import com.ymwang.park.dto.Charge.*;
+import com.ymwang.park.dto.Park.AllParkDto;
 import com.ymwang.park.model.*;
 
 import com.ymwang.park.service.ChargeService;
@@ -99,13 +102,15 @@ public class ChargeServiceImpl implements ChargeService {
     @Override
     public DailyIncomeResponse queryDailyIncome(QueryDailyIncomeRequest queryDailyIncomeRequest) {
         DailyIncomeResponse dailyIncomeResponse=new DailyIncomeResponse();
+        PageHelper.startPage(queryDailyIncomeRequest.getPageNum(),queryDailyIncomeRequest.getPageSize());
         HashMap map=new HashMap();
         map.put("parkId",queryDailyIncomeRequest.getParkId());
         map.put("startDate",DateUtils.formatDate(queryDailyIncomeRequest.getStartDate()));
         map.put("endDate",DateUtils.formatDate(queryDailyIncomeRequest.getEndDate()));
         List<DailyIncomeDto> incomes=chargeMapper.queryDailyIncome(map);
-        Park park=parkMapper.selectByPrimaryKey(queryDailyIncomeRequest.getParkId());
-        dailyIncomeResponse.setParkName(park.getParkName());
+        PageInfo<DailyIncomeDto> pageInfo=new PageInfo<DailyIncomeDto>(incomes);
+        long total=pageInfo.getTotal();
+        dailyIncomeResponse.setCount(String.valueOf(total));
         dailyIncomeResponse.setDailyIncomeDtos(incomes);
         return dailyIncomeResponse;
     }
@@ -125,4 +130,19 @@ public class ChargeServiceImpl implements ChargeService {
         }
         return parkIncomes;
     }
+    @Override
+    public DailyIncomeResponse allParkDailyIncome(AllParkDto allParkDto) {
+               DailyIncomeResponse dailyIncomeResponse=new DailyIncomeResponse();
+               PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
+               List<Park> parks=parkMapper.queryPark();
+               Park park=parks.get(0);
+               HashMap map=new HashMap();
+               map.put("parkId",park.getParkId());
+               List<DailyIncomeDto> incomes=chargeMapper.allParkDailyIncome(map);
+               PageInfo<DailyIncomeDto> pageInfo=new PageInfo<DailyIncomeDto>(incomes);
+               long total=pageInfo.getTotal();
+                dailyIncomeResponse.setCount(String.valueOf(total));
+               dailyIncomeResponse.setDailyIncomeDtos(incomes);
+               return dailyIncomeResponse;
+           }
 }

@@ -22,6 +22,11 @@
     from commentary
     where c_id = #{cId,jdbcType=VARCHAR}
   </select>
+  <select id="allCommentary"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from commentary
+  </select>
   <select id="queryAvgScore" parameterType="java.lang.String" resultMap="avgScorePark">
     select AVG(score) as avgScore from commentary where park_id=#{parkId,jdbcType=VARCHAR};
   </select>

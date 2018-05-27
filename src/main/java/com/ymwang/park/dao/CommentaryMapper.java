@@ -22,4 +22,5 @@ public interface CommentaryMapper {
     List<Commentary> queryCommentary(String parkId);
     List<Commentary> commentaryByUser(String userId);
     AvgScoreParkDto queryAvgScore(String parkId);
+    List<Commentary> allCommentary();
 }

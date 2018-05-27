@@ -1,6 +1,7 @@
 package com.ymwang.park.controller;
 
 import com.ymwang.park.dto.Charge.*;
+import com.ymwang.park.dto.Park.AllParkDto;
 import com.ymwang.park.dto.User.QueryUserRequest;
 import com.ymwang.park.service.ChargeService;
 import com.ymwang.park.utils.ResultMessage;
@@ -51,4 +52,12 @@ public class ChargeController {
         response.setData(parkIncomes);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/allParkDailyIncome")
+   public SingleResult<DailyIncomeResponse> allParkDailyIncome(@RequestBody AllParkDto allParkDto)
+    {
+        DailyIncomeResponse dailyIncomeResponse=chargeService.allParkDailyIncome(allParkDto);
+        SingleResult<DailyIncomeResponse> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(dailyIncomeResponse);
+        return response;
+        }
 }

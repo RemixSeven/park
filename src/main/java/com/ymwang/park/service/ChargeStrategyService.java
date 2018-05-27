@@ -1,9 +1,7 @@
 package com.ymwang.park.service;
 
-import com.ymwang.park.dto.ChargeStrategy.AddChargeStrategy;
-import com.ymwang.park.dto.ChargeStrategy.ChargeStrategyDto;
-import com.ymwang.park.dto.ChargeStrategy.DeleteChargeStrategy;
-import com.ymwang.park.dto.ChargeStrategy.QueryChargeStrategyDto;
+import com.ymwang.park.dto.ChargeStrategy.*;
+import com.ymwang.park.dto.Park.AllParkDto;
 
 /**
  * @Author: wym
@@ -14,4 +12,5 @@ public interface ChargeStrategyService {
     void deleteChargeStrategy(DeleteChargeStrategy deleteChargeStrategy);
     void editChargeStrategy(ChargeStrategyDto chargeStrategyDto);
     ChargeStrategyDto queryChargeStrategy(QueryChargeStrategyDto queryChargeStrategyDto);
+    AllChargeStrategyRe allChargeStrategy(AllParkDto allParkDto);
 }

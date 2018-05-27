@@ -1,9 +1,7 @@
 package com.ymwang.park.controller;
 
-import com.ymwang.park.dto.ChargeStrategy.AddChargeStrategy;
-import com.ymwang.park.dto.ChargeStrategy.ChargeStrategyDto;
-import com.ymwang.park.dto.ChargeStrategy.DeleteChargeStrategy;
-import com.ymwang.park.dto.ChargeStrategy.QueryChargeStrategyDto;
+import com.ymwang.park.dto.ChargeStrategy.*;
+import com.ymwang.park.dto.Park.AllParkDto;
 import com.ymwang.park.service.ChargeStrategyService;
 import com.ymwang.park.utils.ResultMessage;
 import com.ymwang.park.utils.SingleResult;
@@ -48,6 +46,13 @@ public class ChargeStrategyController {
         ChargeStrategyDto chargeStrategyDto=chargeStrategyService.queryChargeStrategy(queryChargeStrategyDto);
         SingleResult<ChargeStrategyDto> response = new SingleResult(ResultMessage.SUCCESS);
         response.setData(chargeStrategyDto);
+        return response;
+    }
+    @RequestMapping(method = RequestMethod.POST,value = "/allChargeStrategy")
+    public SingleResult<AllChargeStrategyRe> allChargeStrategy(@RequestBody AllParkDto allParkDto){
+        AllChargeStrategyRe allChargeStrategyRe=chargeStrategyService.allChargeStrategy(allParkDto);
+        SingleResult<AllChargeStrategyRe> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(allChargeStrategyRe);
         return response;
     }
 }

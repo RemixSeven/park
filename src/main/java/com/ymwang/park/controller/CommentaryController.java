@@ -1,6 +1,7 @@
 package com.ymwang.park.controller;
 
 import com.ymwang.park.dto.Commentary.*;
+import com.ymwang.park.dto.Park.AllParkDto;
 import com.ymwang.park.service.CommentaryService;
 import com.ymwang.park.utils.ResultMessage;
 import com.ymwang.park.utils.SingleResult;
@@ -48,13 +49,7 @@ public class CommentaryController {
         response.setData(null);
         return response;
     }
-    @RequestMapping(method = RequestMethod.POST,value = "/batchDeleteCommentary")
-    public SingleResult<String> batchDeleteCommentary(@RequestBody DeleteCommentary deleteCommentary){
-        commentaryService.deleteCommentary(deleteCommentary);
-        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
-        response.setData(null);
-        return response;
-    }
+
     @RequestMapping(method = RequestMethod.POST,value = "/queryCommentary")
     public SingleResult<QueryCommentaryDto> queryCommentary(@RequestBody QueryCommentaryRuquest queryCommentaryRuquest){
         QueryCommentaryDto queryCommentaryDto=commentaryService.queryCommentary(queryCommentaryRuquest);
@@ -69,5 +64,11 @@ public class CommentaryController {
         response.setData(queryCommentaryDto);
         return response;
     }
-
+    @RequestMapping(method = RequestMethod.POST,value = "/allCommentary")
+    public SingleResult<QueryCommentaryDto> allCommentary(@RequestBody AllParkDto allParkDto){
+        QueryCommentaryDto queryCommentaryDto=commentaryService.allCommentary(allParkDto);
+        SingleResult<QueryCommentaryDto> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(queryCommentaryDto);
+        return response;
+    }
 }

@@ -27,17 +27,20 @@ public class CouPonController {
     @Autowired
     CouponService couponService;
     @RequestMapping(value = "/deployCoupon",method = RequestMethod.POST)
-    public void deployKq(@RequestBody CouponDeployDto couponDeployDto){
+    public SingleResult<String> deployKq(@RequestBody CouponDeployDto couponDeployDto){
         String [] couponid=couponDeployDto.getCouponids().split(",");
         for(String id:couponid){
             CouponDeploy couponDeploy=new CouponDeploy();
             couponDeploy.setKaquanid(Integer.valueOf(id));
-            couponDeploy.setActiviStartTime(DateUtils.parseDate(couponDeployDto.getActivi_start_time()));
-            couponDeploy.setActiviEndTime(DateUtils.parseDate(couponDeployDto.getActivi_end_time()));
-            couponDeploy.setEffiStartTime(DateUtils.parseDate(couponDeployDto.getEffi_start_time()));
-            couponDeploy.setEffiEndTime(DateUtils.parseDate(couponDeployDto.getEffi_end_time()));
+            couponDeploy.setActiviStartTime(couponDeployDto.getActivi_start_time());
+            couponDeploy.setActiviEndTime(couponDeployDto.getActivi_end_time());
+            couponDeploy.setEffiStartTime(couponDeployDto.getEffi_start_time());
+            couponDeploy.setEffiEndTime(couponDeployDto.getEffi_end_time());
             couponDeployMapper.insertSelective(couponDeploy);
         }
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
     }
     @RequestMapping(method = RequestMethod.POST,value = "/queryCoupon")
     public SingleResult<List<UserCouponDto>> queryCoupon(@RequestBody QueryCoupon queryCarDto){

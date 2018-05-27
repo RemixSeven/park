@@ -35,8 +35,8 @@ public class SysMsgServiceImpl implements SysMsgService {
 
     @Override
     public List<SysMsg> getSysMsgByPage(MsgRequest m) {
-        int start = (m.getPage() - 1) * m.getSize();
-        return sysMsgMapper.getSysMsg(start,m.getSize(), m.getUserId());
+        int start = (m.getPageNum() - 1) * m.getPageSize();
+        return sysMsgMapper.getSysMsg(start,m.getPageSize(), m.getUserId());
     }
 
     @Override

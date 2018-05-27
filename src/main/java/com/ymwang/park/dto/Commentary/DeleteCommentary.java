@@ -9,5 +9,4 @@ import lombok.Data;
 @Data
 public class DeleteCommentary {
     private String cId;
-    private String userId;
 }

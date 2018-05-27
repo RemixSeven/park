@@ -198,6 +198,7 @@ public class UserServiceImpl implements UserService {
             user.setUserType(userRequest.getUserType());
             user.setName(userRequest.getName());
             user.setPassword(MD5Util.encrypt16(userRequest.getPassword()));
+            user.setValid("1");
             userMapper.insertSelective(user);
             Wallet wallet=new Wallet();
             wallet.setWalletId(UUID.randomUUID().toString().replaceAll("-", ""));

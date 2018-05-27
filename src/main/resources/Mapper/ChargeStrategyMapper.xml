@@ -18,6 +18,11 @@
     from charge_strategy
     where strategy_id = #{strategyId,jdbcType=VARCHAR}
   </select>
+  <select id="allChargeStrategy" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from charge_strategy
+  </select>
   <select id="queryChargeStrategy" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

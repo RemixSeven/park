@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class MsgRequest {
-    private Integer page;
-    private Integer size;
+    private Integer pageNum;
+    private Integer pageSize;
     private String userId;
 }
