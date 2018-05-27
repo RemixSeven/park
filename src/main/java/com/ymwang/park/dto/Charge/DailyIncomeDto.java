@@ -15,5 +15,4 @@ public class DailyIncomeDto {
     private Date parkDate;
     private int num;
     private int money;
-    private String parkName;
 }

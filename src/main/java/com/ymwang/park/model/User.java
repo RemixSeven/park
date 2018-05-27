@@ -14,6 +14,8 @@ public class User {
     private String name;
     private String valid;
 
+
+
     public String getUserId() {
         return userId;
     }
@@ -62,12 +64,11 @@ public class User {
         this.name = name == null ? null : name.trim();
     }
 
-
     public String getValid() {
         return valid;
     }
 
     public void setValid(String valid) {
-        this.valid = valid;
+        this.valid = valid == null ? null : valid.trim();
     }
 }

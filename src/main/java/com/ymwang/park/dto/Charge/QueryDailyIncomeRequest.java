@@ -16,6 +16,4 @@ public class QueryDailyIncomeRequest {
     private Date startDate;
     @JSONField(format = "yyyy-MM-dd")
     private Date endDate;
-    private int pageNum;
-    private int pageSize;
 }
