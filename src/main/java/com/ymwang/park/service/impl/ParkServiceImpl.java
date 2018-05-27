@@ -1,8 +1,10 @@
 package com.ymwang.park.service.impl;
 
 import com.ymwang.park.dao.ChargeStrategyMapper;
+import com.ymwang.park.dao.CommentaryMapper;
 import com.ymwang.park.dao.PlaceMapper;
 import com.ymwang.park.dto.ChargeStrategy.ChargeStrategyDto;
+import com.ymwang.park.dto.Commentary.AvgScoreParkDto;
 import com.ymwang.park.dto.Park.*;
 import com.ymwang.park.dao.ParkMapper;
 import com.ymwang.park.model.ChargeStrategy;
@@ -29,6 +31,8 @@ public class ParkServiceImpl implements ParkService {
     PlaceMapper placeMapper;
     @Autowired
     ChargeStrategyMapper chargeStrategyMapper;
+    @Autowired
+    CommentaryMapper commentaryMapper;
 
     @Override
     public void addPark(AddParkDto addParkDto) {
@@ -101,6 +105,8 @@ public class ParkServiceImpl implements ParkService {
                 int oneHour=chargeStrategy.getOneHour();
                 queryParkReponse.setOneHour(oneHour);
                 queryParkReponse.setPlaceSurplus(placeSurplus);
+                AvgScoreParkDto avgScoreParkDto=commentaryMapper.queryAvgScore(park.getParkId());
+                queryParkReponse.setAvgScore(avgScoreParkDto.getAvgScore());
                 queryParkReponses.add(queryParkReponse);
             }
         }

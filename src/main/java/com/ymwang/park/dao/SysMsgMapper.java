@@ -15,9 +15,9 @@ public interface SysMsgMapper {
 
     int sendMsg(MsgContent msg);
 
-    int addMsg2AllUser(@Param("users") List<User> users, @Param("mid") Long mid);
+    int addMsg2AllUser(@Param("users") List<User> users, @Param("mid") String mid);
 
     List<SysMsg> getSysMsg(@Param("start") int start, @Param("size") Integer size, @Param("userId") String userId);
 
-    int markRead(@Param("flag") Long flag, @Param("userId") String userId);
+    int markRead(@Param("flag") String flag, @Param("userId") String userId);
 }

@@ -17,4 +17,6 @@ public interface UserService {
     QueryUserDto queryUser(QueryUserRequest queryUserRequest);
     QueryUserDto queryUserByContent(QueryUserByContent queryUserByContent);
     List<User> getAllUser();
+    void forbidUser(ForbidUserDto forbidUserDto);
+    void batchForbidUser(BatchForbidUserDto batchForbidUserDto);
 }

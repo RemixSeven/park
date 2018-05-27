@@ -3,7 +3,7 @@ package com.ymwang.park.model;
 
 public class SysMsg {
     private Long id;
-    private Long mid;
+    private String mid;
     private Integer type;
     private String userId;
     private Integer state;
@@ -17,21 +17,7 @@ public class SysMsg {
         this.msgContent = msgContent;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getMid() {
-        return mid;
-    }
-
-    public void setMid(Long mid) {
-        this.mid = mid;
-    }
 
     public Integer getType() {
         return type;
@@ -57,5 +43,23 @@ public class SysMsg {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+
+
+    public String getMid() {
+        return mid;
+    }
+
+    public void setMid(String mid) {
+        this.mid = mid;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -2,19 +2,17 @@ package com.ymwang.park.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ymwang.park.dao.CommentaryMapper;
-import com.ymwang.park.dao.ParkMapper;
-import com.ymwang.park.dao.UserMapper;
+import com.ymwang.park.dao.*;
 import com.ymwang.park.dto.Commentary.*;
-import com.ymwang.park.model.Commentary;
-import com.ymwang.park.model.Park;
-import com.ymwang.park.model.User;
+import com.ymwang.park.model.*;
 import com.ymwang.park.service.CommentaryService;
 import com.ymwang.park.utils.BizException;
+import com.ymwang.park.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,8 +28,13 @@ public class CommentaryServiceImpl implements CommentaryService {
     UserMapper userMapper;
     @Autowired
     ParkMapper parkMapper;
+    @Autowired
+    CouponDeployMapper couponDeployMapper;
+    @Autowired
+    CouponMapper couponMapper;
     @Override
-    public void addCommentary(AddCommentaryDto addCommentaryDto) {
+    public String addCommentary(AddCommentaryDto addCommentaryDto) {
+        String response=null;
         Commentary commentary=new Commentary();
         commentary.setcId(UUID.randomUUID().toString().replaceAll("-", ""));
         commentary.setUserId(addCommentaryDto.getUserId());
@@ -39,6 +42,21 @@ public class CommentaryServiceImpl implements CommentaryService {
         commentary.setcDetail(addCommentaryDto.getCDetail());
         commentary.setScore(addCommentaryDto.getScore());
         commentaryMapper.insertSelective(commentary);
+        if (addCommentaryDto.getScore()==5){
+            HashMap map=new HashMap();
+            map.put("date",DateUtils.getDate());
+            map.put("couponId",1);
+            CouponDeploy couponDeploy=couponDeployMapper.queryCouponByCommentary(map);
+            if (couponDeploy!=null){
+                Coupon coupon=new Coupon();
+                coupon.setCouponId(couponDeploy.getId());
+                coupon.setUserId(addCommentaryDto.getUserId());
+                coupon.setStatus(0);
+                couponMapper.insertSelective(coupon);
+                response="谢谢您的五星好评，我们已赠送一张2元优惠券，请往卡券包查收";
+            }
+        }
+        return response;
     }
 
     @Override

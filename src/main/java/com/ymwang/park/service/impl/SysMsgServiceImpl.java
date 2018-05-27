@@ -26,10 +26,10 @@ public class SysMsgServiceImpl implements SysMsgService {
     @Autowired
     UserService userService;
     @Override
-    public boolean sendMsg(MsgContent msg) {
-        int result = sysMsgMapper.sendMsg(msg);
+    public boolean sendMsg(MsgContent msgContent) {
+        int result = sysMsgMapper.sendMsg(msgContent);
         List<User> allUser = userService.getAllUser();
-        int result2 = sysMsgMapper.addMsg2AllUser(allUser, msg.getId());
+        int result2 = sysMsgMapper.addMsg2AllUser(allUser, msgContent.getId());
         return result2==allUser.size();
     }
 

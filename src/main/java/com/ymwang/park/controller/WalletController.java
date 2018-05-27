@@ -23,9 +23,9 @@ public class WalletController {
     WalletService walletService;
     @RequestMapping(method = RequestMethod.POST,value = "/recharge")
     public SingleResult<String> recharge(@RequestBody RechargeDto rechargeDto){
-        walletService.recharge(rechargeDto);
+        String result=walletService.recharge(rechargeDto);
         SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
-        response.setData(null);
+        response.setData(result);
         return response;
     }
     @RequestMapping(method = RequestMethod.POST,value = "/queryWallet")

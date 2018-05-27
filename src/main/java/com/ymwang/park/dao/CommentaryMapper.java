@@ -1,5 +1,6 @@
 package com.ymwang.park.dao;
 
+import com.ymwang.park.dto.Commentary.AvgScoreParkDto;
 import com.ymwang.park.model.Commentary;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +21,5 @@ public interface CommentaryMapper {
     int updateByPrimaryKey(Commentary record);
     List<Commentary> queryCommentary(String parkId);
     List<Commentary> commentaryByUser(String userId);
+    AvgScoreParkDto queryAvgScore(String parkId);
 }

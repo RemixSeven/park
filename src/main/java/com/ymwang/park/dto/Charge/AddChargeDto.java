@@ -25,4 +25,5 @@ public class AddChargeDto {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date outTime;
     private String pId;
+    private Integer couponId;
 }

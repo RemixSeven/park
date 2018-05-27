@@ -157,6 +157,22 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    @Override
+    public void forbidUser(ForbidUserDto forbidUserDto) {
+        User user=userMapper.selectByPrimaryKey(forbidUserDto.getUserId());
+        user.setValid("0");
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public void batchForbidUser(BatchForbidUserDto batchForbidUserDto) {
+        for (ForbidUserDto forbidUserDto:batchForbidUserDto.getForbidUserDtos()){
+            User user=userMapper.selectByPrimaryKey(forbidUserDto.getUserId());
+            user.setValid("0");
+            userMapper.updateByPrimaryKeySelective(user);
+        }
+    }
+
     private boolean isUserNameExist(UserRequest userRequest) {
         if ((userMapper.selectByUserName(userRequest.getUserName()))==null)
         {

@@ -70,10 +70,6 @@ public class CarServiceImpl implements CarService {
     public List<CarDto> queryCar(QueryCarDto queryCarDto) {
         List<CarDto> carDtoList=new ArrayList<CarDto>();
         List<Car> cars=carMapper.queryCar(queryCarDto.getUserId());
-        if (null == cars || cars.size() ==0){
-            throw new BizException("api.user.noCar", "该用户暂时没有绑定车辆");
-        }
-
         for (Car car:cars){
             CarDto carDto=new CarDto();
             carDto.setCarId(car.getCarId());

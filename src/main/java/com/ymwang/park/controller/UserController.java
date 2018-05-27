@@ -58,4 +58,18 @@ public class UserController {
         response.setData(queryUserDto);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/forbidUser")
+    public SingleResult<String> forbidUser(@RequestBody ForbidUserDto forbidUserDto){
+        userService.forbidUser(forbidUserDto);
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
+    }
+    @RequestMapping(method = RequestMethod.POST,value = "/batchForbidUser")
+    public SingleResult<String> forbidUser(@RequestBody BatchForbidUserDto batchForbidUserDto){
+        userService.batchForbidUser(batchForbidUserDto);
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
+    }
 }

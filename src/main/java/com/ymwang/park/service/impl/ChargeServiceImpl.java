@@ -10,7 +10,6 @@ import com.ymwang.park.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -29,13 +28,29 @@ public class ChargeServiceImpl implements ChargeService {
     ParkMapper parkMapper;
     @Autowired
     BillMapper billMapper;
-
+    @Autowired
+    CouponMapper couponMapper;
+    @Autowired
+    CouponDeployMapper couponDeployMapper;
     @Override
     public void addCharge(AddChargeDto addChargeDto) {
+        int fee=addChargeDto.getMoney();
+        if ("".equals(addChargeDto.getCouponId())){
+            Coupon coupon=couponMapper.selectByPrimaryKey(addChargeDto.getCouponId());
+            CouponDeploy couponDeploy=couponDeployMapper.selectById(coupon.getCouponId());
+            if (couponDeploy.getKaquanid()==1){
+                fee=fee-2;
+            }else {
+                fee=fee-5;
+            }
+        }
         Wallet wallet=walletMapper.queryWallet(addChargeDto.getUserId());
-        if (wallet.getBalance()-addChargeDto.getMoney()<0){
+        if (wallet.getBalance()-fee<0){
             throw new BizException("api.charge.not.sufficient.funds","扣款失败，余额不足，请充值之后再付款");
         }
+        Coupon coupon=couponMapper.selectByPrimaryKey(addChargeDto.getCouponId());
+        coupon.setStatus(1);
+        couponMapper.updateByPrimaryKeySelective(coupon);
         Charge charge=new Charge();
         charge.setChargeId(UUID.randomUUID().toString().replaceAll("-", ""));
         charge.setCarNumber(addChargeDto.getCarNumber());
@@ -45,12 +60,12 @@ public class ChargeServiceImpl implements ChargeService {
         charge.setCarNumber(addChargeDto.getCarNumber());
         charge.setParkId(addChargeDto.getParkId());
         charge.setUserId(addChargeDto.getUserId());
-        charge.setMoney(addChargeDto.getMoney());
+        charge.setMoney(fee);
         chargeMapper.insertSelective(charge);
         Place place=placeMapper.selectByPrimaryKey(addChargeDto.getPId());
         place.setInuserId(null);
         placeMapper.updateByPrimaryKeySelective(place);
-        wallet.setBalance(wallet.getBalance()-addChargeDto.getMoney());
+        wallet.setBalance(wallet.getBalance()-fee);
         walletMapper.updateByPrimaryKeySelective(wallet);
         Bill bill=new Bill();
         bill.setBillId(UUID.randomUUID().toString().replaceAll("-", ""));

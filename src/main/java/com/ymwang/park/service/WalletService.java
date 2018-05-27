@@ -9,6 +9,6 @@ import com.ymwang.park.dto.Wallet.WalletDto;
  * @Date: 2018/5/8
  */
 public interface WalletService {
-    void recharge(RechargeDto rechargeDto);
+    String recharge(RechargeDto rechargeDto);
     WalletDto queryWallet(QueryWalletDto queryWalletDto);
 }

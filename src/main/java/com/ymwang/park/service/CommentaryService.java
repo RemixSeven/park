@@ -9,7 +9,7 @@ import java.util.List;
  * @Date: 2018/5/8
  */
 public interface CommentaryService {
-    void addCommentary(AddCommentaryDto addCommentaryDto);
+    String addCommentary(AddCommentaryDto addCommentaryDto);
     void modifyCommentary(ModifyCommentaryDto modifyCommentaryDto);
     void deleteCommentary(DeleteCommentary deleteCommentary);
     QueryCommentaryDto queryCommentary(QueryCommentaryRuquest queryCommentaryRuquest);

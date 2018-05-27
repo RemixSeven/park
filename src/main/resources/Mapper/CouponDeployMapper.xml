@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ymwang.park.dao.CouponDeployMapper">
+  <resultMap id="BaseResultMap" type="com.ymwang.park.model.CouponDeploy">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="kaquanid" jdbcType="INTEGER" property="kaquanid" />
+    <result column="activi_start_time" jdbcType="TIMESTAMP" property="activiStartTime" />
+    <result column="activi_end_time" jdbcType="TIMESTAMP" property="activiEndTime" />
+    <result column="effi_start_time" jdbcType="TIMESTAMP" property="effiStartTime" />
+    <result column="effi_end_time" jdbcType="TIMESTAMP" property="effiEndTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, kaquanid, activi_start_time, activi_end_time, effi_start_time, effi_end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.ymwang.park.model.CouponDeployKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coupon_deploy
+    where id = #{id,jdbcType=INTEGER}
+      and kaquanid = #{kaquanid,jdbcType=INTEGER}
+  </select>
+  <select id="selectById"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from coupon_deploy
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryCouponByCommentary" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from coupon_deploy
+    where activi_start_time &lt; #{date}
+    and activi_end_time &gt; #{date}
+    and kaquanid = #{couponId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ymwang.park.model.CouponDeployKey">
+    delete from coupon_deploy
+    where id = #{id,jdbcType=INTEGER}
+      and kaquanid = #{kaquanid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ymwang.park.model.CouponDeploy">
+    insert into coupon_deploy (id, kaquanid, activi_start_time, 
+      activi_end_time, effi_start_time, effi_end_time)
+    values (#{id,jdbcType=INTEGER}, #{kaquanid,jdbcType=INTEGER}, #{activiStartTime,jdbcType=TIMESTAMP}, 
+      #{activiEndTime,jdbcType=TIMESTAMP}, #{effiStartTime,jdbcType=TIMESTAMP}, #{effiEndTime,jdbcType=TIMESTAMP}, 
+
+  </insert>
+  <insert id="insertSelective" parameterType="com.ymwang.park.model.CouponDeploy">
+    insert into coupon_deploy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="kaquanid != null">
+        kaquanid,
+      </if>
+      <if test="activiStartTime != null">
+        activi_start_time,
+      </if>
+      <if test="activiEndTime != null">
+        activi_end_time,
+      </if>
+      <if test="effiStartTime != null">
+        effi_start_time,
+      </if>
+      <if test="effiEndTime != null">
+        effi_end_time,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="kaquanid != null">
+        #{kaquanid,jdbcType=INTEGER},
+      </if>
+      <if test="activiStartTime != null">
+        #{activiStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activiEndTime != null">
+        #{activiEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effiStartTime != null">
+        #{effiStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effiEndTime != null">
+        #{effiEndTime,jdbcType=TIMESTAMP},
+      </if>
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ymwang.park.model.CouponDeploy">
+    update coupon_deploy
+    <set>
+      <if test="activiStartTime != null">
+        activi_start_time = #{activiStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activiEndTime != null">
+        activi_end_time = #{activiEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effiStartTime != null">
+        effi_start_time = #{effiStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effiEndTime != null">
+        effi_end_time = #{effiEndTime,jdbcType=TIMESTAMP},
+      </if>
+
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and kaquanid = #{kaquanid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ymwang.park.model.CouponDeploy">
+    update coupon_deploy
+    set activi_start_time = #{activiStartTime,jdbcType=TIMESTAMP},
+      activi_end_time = #{activiEndTime,jdbcType=TIMESTAMP},
+      effi_start_time = #{effiStartTime,jdbcType=TIMESTAMP},
+      effi_end_time = #{effiEndTime,jdbcType=TIMESTAMP}
+
+    where id = #{id,jdbcType=INTEGER}
+      and kaquanid = #{kaquanid,jdbcType=INTEGER}
+  </update>
+</mapper>

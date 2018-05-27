@@ -2,6 +2,7 @@ package com.ymwang.park.controller;
 
 import com.ymwang.park.dto.Msg.MarkMsgDto;
 import com.ymwang.park.dto.Msg.MsgRequest;
+import com.ymwang.park.dto.Msg.SendMsgDto;
 import com.ymwang.park.model.MsgContent;
 import com.ymwang.park.model.SysMsg;
 import com.ymwang.park.service.SysMsgService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author: wym
@@ -28,20 +30,23 @@ public class ChatController {
     @Autowired
     SysMsgService sysMsgService;
     @RequestMapping(value = "/nf", method = RequestMethod.POST)
-    public SingleResult<String> sendNf(@RequestBody MsgContent msg) {
-        if (sysMsgService.sendMsg(msg)) {
-            SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
-            response.setData(null);
-            return response;
-        }else {
+    public SingleResult<String> sendNf(@RequestBody SendMsgDto sendMsgDto) {
+        MsgContent msgContent=new MsgContent();
+        msgContent.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+        msgContent.setTitle(sendMsgDto.getTitle());
+        msgContent.setMessage(sendMsgDto.getMessage());
+        if (!sysMsgService.sendMsg(msgContent)) {
             throw new BizException("error", "发送失败!");
         }
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
     }
     @RequestMapping(value ="/sysmsgs",method = RequestMethod.POST)
     public List<SysMsg> getSysMsg(@RequestBody MsgRequest msgRequest) {
         return sysMsgService.getSysMsgByPage(msgRequest);
     }
-    @RequestMapping(value = "/markread", method = RequestMethod.POST)
+    @RequestMapping(value = "/markRead", method = RequestMethod.POST)
     public SingleResult<String> markRead(@RequestBody MarkMsgDto markMsgDto) {
         sysMsgService.markRead(markMsgDto);
         SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);

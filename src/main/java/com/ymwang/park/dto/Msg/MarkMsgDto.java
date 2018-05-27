@@ -7,8 +7,7 @@ import lombok.Data;
  * @Date: 2018/5/26
  */
 @Data
-public class MsgRequest {
-    private Integer page;
-    private Integer size;
+public class MarkMsgDto {
+    private String flag;
     private String userId;
 }

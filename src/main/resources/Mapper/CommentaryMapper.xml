@@ -10,6 +10,9 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="score" jdbcType="INTEGER" property="score" />
   </resultMap>
+  <resultMap id="avgScorePark" type="com.ymwang.park.dto.Commentary.AvgScoreParkDto">
+    <result column="avgScore" jdbcType="FLOAT" property="avgScore" />
+  </resultMap>
   <sql id="Base_Column_List">
     c_id, user_id, park_id, c_detail, create_time, update_time,score
   </sql>
@@ -19,7 +22,9 @@
     from commentary
     where c_id = #{cId,jdbcType=VARCHAR}
   </select>
-
+  <select id="queryAvgScore" parameterType="java.lang.String" resultMap="avgScorePark">
+    select AVG(score) as avgScore from commentary where park_id=#{parkId,jdbcType=VARCHAR};
+  </select>
   <select id="queryCommentary" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -66,7 +71,7 @@
         update_time,
       </if>
       <if test="score != null">
-        update_time,
+        score,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -124,7 +129,7 @@
       c_detail = #{cDetail,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      score=#{score,jdbcType=INTEGER},
+      score=#{score,jdbcType=INTEGER}
     where c_id = #{cId,jdbcType=VARCHAR}
   </update>
 </mapper>

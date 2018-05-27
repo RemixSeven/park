@@ -22,9 +22,9 @@ public class CommentaryController {
     CommentaryService commentaryService;
     @RequestMapping(method = RequestMethod.POST,value = "/addCommentary")
     public SingleResult<String> addCommentary(@RequestBody AddCommentaryDto addCommentaryDto){
-        commentaryService.addCommentary(addCommentaryDto);
+        String result=commentaryService.addCommentary(addCommentaryDto);
         SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
-        response.setData(null);
+        response.setData(result);
         return response;
     }
     @RequestMapping(method = RequestMethod.POST,value = "/modifyCommentary")
@@ -36,6 +36,13 @@ public class CommentaryController {
     }
     @RequestMapping(method = RequestMethod.POST,value = "/deleteCommentary")
     public SingleResult<String> deleteCommentary(@RequestBody DeleteCommentary deleteCommentary){
+        commentaryService.deleteCommentary(deleteCommentary);
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
+    }
+    @RequestMapping(method = RequestMethod.POST,value = "/batchDeleteCommentary")
+    public SingleResult<String> batchDeleteCommentary(@RequestBody DeleteCommentary deleteCommentary){
         commentaryService.deleteCommentary(deleteCommentary);
         SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
         response.setData(null);
