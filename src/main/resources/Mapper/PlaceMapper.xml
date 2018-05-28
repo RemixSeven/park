@@ -11,7 +11,7 @@
   <sql id="Base_Column_List">
     p_id, park_id, p_num, reserve_id, inuser_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from place
@@ -41,7 +41,7 @@
     from place where park_id = #{parkId,jdbcType=VARCHAR} AND reserve_id IS NULL AND inuser_id IS NULL
   </select>
 
-  <select id="inusePlace" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="inusePlace" parameterType="java.util.HashMap" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from place

@@ -32,8 +32,8 @@ public class ParkController {
         return response;
     }
     @RequestMapping(method = RequestMethod.POST,value = "/editPark")
-    public SingleResult<String> editPark(@RequestBody ParkDto parkDto){
-        parkService.editPark(parkDto);
+    public SingleResult<String> editPark(@RequestBody EditParkDto editParkDto){
+        parkService.editPark(editParkDto);
         SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
         response.setData(null);
         return response;

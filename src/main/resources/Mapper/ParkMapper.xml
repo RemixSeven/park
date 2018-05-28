@@ -36,7 +36,7 @@
   <select id="queryParkByContent"  resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from park where valid='1'AND park_name like concat(concat('%',#{parkName}),'%') AND rownum &lt;=10
+    from park where valid='1'AND park_name like concat(concat('%',#{parkName}),'%')
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from park

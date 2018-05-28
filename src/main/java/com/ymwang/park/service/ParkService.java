@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ParkService {
     void addPark(AddParkDto addParkDto);
-    void editPark(ParkDto parkDto);
+    void editPark(EditParkDto editParkDto);
     void deletePark(DeleteParkDto deleteParkDto);
     List<QueryParkReponse> queryPark(QueryParkDto queryParkDto);
     List<ParkDto> queryParkByContent(QueryParkByContentDto queryParkByContentDto);

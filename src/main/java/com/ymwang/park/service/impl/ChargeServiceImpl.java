@@ -64,10 +64,11 @@ public class ChargeServiceImpl implements ChargeService {
         charge.setParkId(addChargeDto.getParkId());
         charge.setUserId(addChargeDto.getUserId());
         charge.setMoney(fee);
-        chargeMapper.insertSelective(charge);
+        charge.setValid("1");
+        chargeMapper.insert(charge);
         Place place=placeMapper.selectByPrimaryKey(addChargeDto.getPId());
         place.setInuserId(null);
-        placeMapper.updateByPrimaryKeySelective(place);
+        placeMapper.updateByPrimaryKey(place);
         wallet.setBalance(wallet.getBalance()-fee);
         walletMapper.updateByPrimaryKeySelective(wallet);
         Bill bill=new Bill();

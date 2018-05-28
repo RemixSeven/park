@@ -50,6 +50,7 @@ public class ParkServiceImpl implements ParkService {
             park.setCloseTime(addParkDto.getCloseTime());
             park.setLatitude(addParkDto.getLatitude());
             park.setLongitude(addParkDto.getLongitude());
+            park.setValid("1");
             parkMapper.insertSelective(park);
         }
     }
@@ -63,16 +64,12 @@ public class ParkServiceImpl implements ParkService {
     }
 
     @Override
-    public void editPark(ParkDto parkDto) {
+    public void editPark(EditParkDto editParkDto) {
         Park park=new Park();
-        park.setParkId(parkDto.getParkId());
-        park.setParkName(parkDto.getParkName());
-        park.setParkAddress(parkDto.getParkAddress());
-        park.setParkDetail(parkDto.getParkDetail());
-        park.setOpenTime(parkDto.getOpenTime());
-        park.setCloseTime(parkDto.getCloseTime());
-        park.setLatitude(parkDto.getLatitude());
-        park.setLongitude(parkDto.getLongitude());
+        park.setParkId(editParkDto.getParkId());
+        park.setParkDetail(editParkDto.getParkDetail());
+        park.setOpenTime(editParkDto.getOpenTime());
+        park.setCloseTime(editParkDto.getCloseTime());
         parkMapper.updateByPrimaryKeySelective(park);
     }
 
