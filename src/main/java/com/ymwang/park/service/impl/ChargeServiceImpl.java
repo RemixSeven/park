@@ -38,7 +38,7 @@ public class ChargeServiceImpl implements ChargeService {
     @Override
     public void addCharge(AddChargeDto addChargeDto) {
         int fee=addChargeDto.getMoney();
-        if ("".equals(addChargeDto.getCouponId())){
+        if (!"".equals(addChargeDto.getCouponId())){
             Coupon coupon=couponMapper.selectByPrimaryKey(addChargeDto.getCouponId());
             CouponDeploy couponDeploy=couponDeployMapper.selectById(coupon.getCouponId());
             if (couponDeploy.getKaquanid()==1){
@@ -76,8 +76,8 @@ public class ChargeServiceImpl implements ChargeService {
         bill.setType("1");
         bill.setIsDelete("0");
         bill.setUserId(addChargeDto.getUserId());
-        bill.setConsume(addChargeDto.getMoney());
-        billMapper.insertSelective(bill);
+        bill.setConsume(fee);
+        billMapper.insert(bill);
     }
 
     @Override
