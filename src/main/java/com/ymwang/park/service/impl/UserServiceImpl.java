@@ -55,6 +55,8 @@ public class UserServiceImpl implements UserService {
             userDto.setUserName(user.getUserName());
             userDto.setPhone(user.getPhone());
             userDto.setUserType(user.getUserType());
+            Wallet wallet=walletMapper.queryWallet(user.getUserId());
+            userDto.setWalletId(wallet.getWalletId());
             return userDto;
         }else {
             throw new BizException("api.password","密码错误");
