@@ -144,8 +144,10 @@ public class ParkServiceImpl implements ParkService {
     @Override
     public AllParkResponse allPark(AllParkDto allParkDto) {
         AllParkResponse allParkResponse=new AllParkResponse();
+        List<Park> parkList=parkMapper.queryPark();
         PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
         List<Park> parks=parkMapper.queryPark();
+        int sum=parkList.size();
         List<ParkDto> parkDtos=new ArrayList<>();
         for (Park park:parks){
             ParkDto parkDto=new ParkDto();
@@ -159,10 +161,12 @@ public class ParkServiceImpl implements ParkService {
             parkDto.setLongitude(park.getLongitude());
             parkDtos.add(parkDto);
         }
+
         PageInfo<ParkDto> pageInfo=new PageInfo<ParkDto>(parkDtos);
         long total=pageInfo.getTotal();
         allParkResponse.setCount(String.valueOf(total));
         allParkResponse.setParkDtos(parkDtos);
+        allParkResponse.setSum(sum);
         return allParkResponse;
     }
 }

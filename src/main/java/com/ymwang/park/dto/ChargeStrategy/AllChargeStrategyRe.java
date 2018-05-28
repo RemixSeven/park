@@ -12,4 +12,5 @@ import java.util.List;
 public class AllChargeStrategyRe {
     private List<AllChargeStrategyDto> allChargeStrategyDtos;
     private String count;
+    private int sum;
 }

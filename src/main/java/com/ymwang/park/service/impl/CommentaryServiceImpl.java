@@ -120,6 +120,8 @@ public class CommentaryServiceImpl implements CommentaryService {
     @Override
     public QueryCommentaryDto commentaryByUser(QueryCommentaryByUser queryCommentaryByUser) {
         QueryCommentaryDto queryCommentaryDto=new QueryCommentaryDto();
+        List<Commentary> commentaryList=commentaryMapper.commentaryByUser(queryCommentaryByUser.getUserId());
+        int sum=commentaryList.size();
         PageHelper.startPage(queryCommentaryByUser.getPageNum(),queryCommentaryByUser.getPageSize());
         List<Commentary> commentaries=commentaryMapper.commentaryByUser(queryCommentaryByUser.getUserId());
         List<CommentaryDto> commentaryDtos=new ArrayList<>();
@@ -140,12 +142,15 @@ public class CommentaryServiceImpl implements CommentaryService {
         long total=pageInfo.getTotal();
         queryCommentaryDto.setCount(String.valueOf(total));
         queryCommentaryDto.setCommentaryDtos(commentaryDtos);
+        queryCommentaryDto.setSum(sum);
         return queryCommentaryDto;
     }
 
     @Override
     public QueryCommentaryDto allCommentary(AllParkDto allParkDto) {
         QueryCommentaryDto queryCommentaryDto=new QueryCommentaryDto();
+        List<Commentary> commentaryList=commentaryMapper.allCommentary();
+        int sum=commentaryList.size();
         PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
         List<Commentary> commentaries=commentaryMapper.allCommentary();
         List<CommentaryDto> commentaryDtos=new ArrayList<>();
@@ -166,6 +171,7 @@ public class CommentaryServiceImpl implements CommentaryService {
         long total=pageInfo.getTotal();
         queryCommentaryDto.setCount(String.valueOf(total));
         queryCommentaryDto.setCommentaryDtos(commentaryDtos);
+        queryCommentaryDto.setSum(sum);
         return queryCommentaryDto;
     }
 }

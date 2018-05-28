@@ -13,4 +13,5 @@ import java.util.List;
 public class QueryUserDto {
     private List<UserDto> userDtos;
     private String count;
+    private int sum;
 }

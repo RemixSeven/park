@@ -13,4 +13,5 @@ import java.util.List;
 public class QueryCommentaryDto {
     private List<CommentaryDto> commentaryDtos;
     private String count;
+    private int sum;
 }

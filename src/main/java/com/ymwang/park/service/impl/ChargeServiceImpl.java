@@ -109,10 +109,13 @@ public class ChargeServiceImpl implements ChargeService {
         map.put("startDate",DateUtils.formatDate(queryDailyIncomeRequest.getStartDate()));
         map.put("endDate",DateUtils.formatDate(queryDailyIncomeRequest.getEndDate()));
         List<DailyIncomeDto> incomes=chargeMapper.queryDailyIncome(map);
+        List<DailyIncomeDto> incomeDtoList=chargeMapper.queryDailyIncome(map);
+        int sum=incomeDtoList.size();
         PageInfo<DailyIncomeDto> pageInfo=new PageInfo<DailyIncomeDto>(incomes);
         long total=pageInfo.getTotal();
         dailyIncomeResponse.setCount(String.valueOf(total));
         dailyIncomeResponse.setDailyIncomeDtos(incomes);
+        dailyIncomeResponse.setSum(sum);
         return dailyIncomeResponse;
     }
 
@@ -140,10 +143,13 @@ public class ChargeServiceImpl implements ChargeService {
                HashMap map=new HashMap();
                map.put("parkId",park.getParkId());
                List<DailyIncomeDto> incomes=chargeMapper.allParkDailyIncome(map);
+               List<DailyIncomeDto> incomeDtoList=chargeMapper.allParkDailyIncome(map);
+               int sum=incomeDtoList.size();
                PageInfo<DailyIncomeDto> pageInfo=new PageInfo<DailyIncomeDto>(incomes);
                long total=pageInfo.getTotal();
                 dailyIncomeResponse.setCount(String.valueOf(total));
                dailyIncomeResponse.setDailyIncomeDtos(incomes);
+               dailyIncomeResponse.setSum(sum);
                return dailyIncomeResponse;
            }
 }

@@ -74,6 +74,8 @@ public class ChargeStrategyServiceImpl implements ChargeStrategyService {
     @Override
     public AllChargeStrategyRe allChargeStrategy(AllParkDto allParkDto) {
         AllChargeStrategyRe allChargeStrategyRe=new AllChargeStrategyRe();
+        List<ChargeStrategy> chargeStrategyList=chargeStrategyMapper.allChargeStrategy();
+        int sum=chargeStrategyList.size();
         PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
         List<ChargeStrategy> chargeStrategies=chargeStrategyMapper.allChargeStrategy();
         List<AllChargeStrategyDto> allChargeStrategyDtos=new ArrayList<>();
@@ -91,6 +93,7 @@ public class ChargeStrategyServiceImpl implements ChargeStrategyService {
         long total=pageInfo.getTotal();
         allChargeStrategyRe.setCount(String.valueOf(total));
         allChargeStrategyRe.setAllChargeStrategyDtos(allChargeStrategyDtos);
+        allChargeStrategyRe.setSum(sum);
         return allChargeStrategyRe;
     }
 }

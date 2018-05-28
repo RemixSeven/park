@@ -12,4 +12,5 @@ import java.util.List;
 public class DailyIncomeResponse {
     private List<DailyIncomeDto> dailyIncomeDtos;
     private String count;
+    private int sum;
 }

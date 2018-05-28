@@ -97,6 +97,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public QueryUserDto queryUser(QueryUserRequest queryUserRequest) {
         QueryUserDto queryUserDto=new QueryUserDto();
+        List<User> userList=userMapper.selectByList();
         PageHelper.startPage(queryUserRequest.getPageNum(),queryUserRequest.getPageSize());
         List<User> users=userMapper.selectByList();
         List<UserDto> userDtos=new ArrayList<>();
@@ -109,11 +110,12 @@ public class UserServiceImpl implements UserService {
             userDto.setUserType(user.getUserType());
             userDtos.add(userDto);
         }
+        int sum=userList.size();
         PageInfo<UserDto> pageInfo=new PageInfo<UserDto>(userDtos);
         long total=pageInfo.getTotal();
         queryUserDto.setCount(String.valueOf(total));
         queryUserDto.setUserDtos(userDtos);
-
+        queryUserDto.setSum(sum);
         return queryUserDto;
     }
 
@@ -121,16 +123,21 @@ public class UserServiceImpl implements UserService {
     public QueryUserDto queryUserByContent(QueryUserByContent queryUserByContent) {
         QueryUserDto queryUserDto=new QueryUserDto();
         List<User> users=new ArrayList<>();
+        List<User> userList=new ArrayList<>();
+        PageHelper.startPage(queryUserByContent.getPageNum(),queryUserByContent.getPageSize());
         PatternUtil.PatternEnum patternEnum=PatternUtil.transform(queryUserByContent.getContent());
         switch (patternEnum){
             case CHARACTER:
                 users=userMapper.getByUserName(queryUserByContent.getContent());
+                userList=userMapper.getByUserName(queryUserByContent.getContent());
                 break;
             case CHINESE:
                 users=userMapper.getByName(queryUserByContent.getContent());
+                userList=userMapper.getByName(queryUserByContent.getContent());
                 break;
             case MOBILE:
                 users=userMapper.getByPhone(queryUserByContent.getContent());
+                userList=userMapper.getByName(queryUserByContent.getContent());
                 break;
             default:
                 break;
@@ -147,8 +154,10 @@ public class UserServiceImpl implements UserService {
         }
         PageInfo<UserDto> pageInfo=new PageInfo<UserDto>(userDtos);
         long total=pageInfo.getTotal();
+        int sum=userList.size();
         queryUserDto.setCount(String.valueOf(total));
         queryUserDto.setUserDtos(userDtos);
+        queryUserDto.setSum(sum);
         return queryUserDto;
     }
 

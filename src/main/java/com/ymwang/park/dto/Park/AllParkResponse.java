@@ -12,4 +12,5 @@ import java.util.List;
 public class AllParkResponse {
     private List<ParkDto> parkDtos;
     private String count;
+    private int sum;
 }
