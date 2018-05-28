@@ -55,7 +55,7 @@ public class ParkServiceImpl implements ParkService {
     }
 
     private boolean isParkNameExist(AddParkDto addParkDto) {
-        if ((parkMapper.queryParkByContent(addParkDto.getParkName()))==null)
+        if ((parkMapper.selectByParkName(addParkDto.getParkName()))==null)
         {
             return false;
         }

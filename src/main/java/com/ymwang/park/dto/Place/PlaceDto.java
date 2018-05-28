@@ -14,7 +14,5 @@ public class PlaceDto {
 
     private Integer pNum;
 
-    private String reserveId;
-
-    private String inuserId;
+    private String status;
 }

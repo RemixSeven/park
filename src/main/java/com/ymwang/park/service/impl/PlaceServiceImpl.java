@@ -60,8 +60,13 @@ public class PlaceServiceImpl implements PlaceService {
             placeDto.setPId(place.getpId());
             placeDto.setParkId(place.getParkId());
             placeDto.setPNum(place.getpNum());
-            placeDto.setReserveId(place.getReserveId());
-            placeDto.setInuserId(place.getInuserId());
+            placeDto.setStatus("1");
+            if (place.getReserveId()!=null&&place.getReserveId().length() != 0){
+                placeDto.setStatus("2");
+            }
+            if (place.getInuserId()!=null&&place.getReserveId().length()!=0){
+                placeDto.setStatus("3");
+            }
             placeDtos.add(placeDto);
         }
         return placeDtos;

@@ -20,4 +20,5 @@ public interface ParkMapper {
     int updateByPrimaryKey(Park record);
     List<Park> queryPark();
     List<Park> queryParkByContent(String parkName);
+    Park selectByParkName(String parkName);
 }
