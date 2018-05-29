@@ -89,6 +89,9 @@ public class PlaceServiceImpl implements PlaceService {
         Place place=placeMapper.reservePlace(parkPlaceDto.getUserId());
         User user=userMapper.selectByPrimaryKey(parkPlaceDto.getUserId());
         List<Car> cars=carMapper.queryCar(parkPlaceDto.getUserId());
+        if (cars.size()==0){
+            throw new BizException("api.car.noBind","您尚未绑定车辆，请绑定车辆之后才能停车");
+        }
         Car car=cars.get(0);
         Charge charge=new Charge();
         charge.setChargeId(UUID.randomUUID().toString().replaceAll("-", ""));
