@@ -29,7 +29,7 @@ import java.util.UUID;
 public class ChatController {
     @Autowired
     SysMsgService sysMsgService;
-    @RequestMapping(value = "/sendNf", method = RequestMethod.POST)
+    @RequestMapping(value = "/nf", method = RequestMethod.POST)
     public SingleResult<String> sendNf(@RequestBody SendMsgDto sendMsgDto) {
         MsgContent msgContent=new MsgContent();
         msgContent.setId(UUID.randomUUID().toString().replaceAll("-", ""));
