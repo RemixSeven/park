@@ -10,10 +10,14 @@ import com.ymwang.park.model.*;
 import com.ymwang.park.service.ChargeService;
 import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static com.ymwang.park.utils.DateUtils.getDate;
+import static com.ymwang.park.utils.DateUtils.getDistanceOfTwoDate;
 
 /**
  * @Author: wym
@@ -35,11 +39,27 @@ public class ChargeServiceImpl implements ChargeService {
     CouponMapper couponMapper;
     @Autowired
     CouponDeployMapper couponDeployMapper;
+    @Autowired
+    ChargeStrategyMapper chargeStrategyMapper;
     @Override
-    public void addCharge(AddChargeDto addChargeDto) {
-        int fee=addChargeDto.getMoney();
-        if (!"".equals(addChargeDto.getCouponId())){
-            Coupon coupon=couponMapper.selectByPrimaryKey(addChargeDto.getCouponId());
+    public ChargeDto addCharge(AddChargeDto addChargeDto) {
+        Charge charge=chargeMapper.parkCharge(addChargeDto.getUserId());
+        Date date=DateUtils.parseDate(getDate("yyyy-MM-dd HH:mm:ss"));
+        long disTime=getDistanceOfTwoDate(charge.getEnterTime(),date);
+        ChargeStrategy chargeStrategy=chargeStrategyMapper.queryChargeStrategy(charge.getParkId());
+        int fee=0;
+        if (disTime<=1){
+            fee=chargeStrategy.getOneHour();
+        }else if (disTime<=3){
+            fee=chargeStrategy.getOneHour();
+        }else if (disTime<=5){
+            fee=chargeStrategy.getFiveHour();
+        }else {
+            fee=chargeStrategy.getCapping();
+        }
+        if (addChargeDto.getCouponId()!=0)
+        {
+            Coupon coupon=couponMapper.selectByPrimaryKey(Integer.valueOf(addChargeDto.getCouponId()));
             CouponDeploy couponDeploy=couponDeployMapper.selectById(coupon.getCouponId());
             if (couponDeploy.getKaquanid()==1){
                 fee=fee-2;
@@ -47,26 +67,21 @@ public class ChargeServiceImpl implements ChargeService {
                 fee=fee-5;
             }
         }
-        Wallet wallet=walletMapper.queryWallet(addChargeDto.getUserId());
+        Wallet wallet=walletMapper.queryWallet(charge.getUserId());
         if (wallet.getBalance()-fee<0){
             throw new BizException("api.charge.not.sufficient.funds","扣款失败，余额不足，请充值之后再付款");
         }
-        Coupon coupon=couponMapper.selectByPrimaryKey(addChargeDto.getCouponId());
-        coupon.setStatus(1);
-        couponMapper.updateByPrimaryKeySelective(coupon);
-        Charge charge=new Charge();
-        charge.setChargeId(UUID.randomUUID().toString().replaceAll("-", ""));
-        charge.setCarNumber(addChargeDto.getCarNumber());
-        charge.setEnterTime(addChargeDto.getEnterTime());
-        charge.setOutTime(addChargeDto.getOutTime());
-        charge.setUserName(addChargeDto.getUserName());
-        charge.setCarNumber(addChargeDto.getCarNumber());
-        charge.setParkId(addChargeDto.getParkId());
-        charge.setUserId(addChargeDto.getUserId());
+        if (addChargeDto.getCouponId()!=0) {
+            Coupon coupon = couponMapper.selectByPrimaryKey(addChargeDto.getCouponId());
+            coupon.setStatus(1);
+            couponMapper.updateByPrimaryKeySelective(coupon);
+        }
+        charge.setChargeId(charge.getChargeId());
+        charge.setOutTime(date);
         charge.setMoney(fee);
         charge.setValid("1");
-        chargeMapper.insert(charge);
-        Place place=placeMapper.selectByPrimaryKey(addChargeDto.getPId());
+        chargeMapper.updateByPrimaryKeySelective(charge);
+        Place place=placeMapper.inusePlace(charge.getUserId());
         place.setInuserId(null);
         placeMapper.updateByPrimaryKey(place);
         wallet.setBalance(wallet.getBalance()-fee);
@@ -75,9 +90,12 @@ public class ChargeServiceImpl implements ChargeService {
         bill.setBillId(UUID.randomUUID().toString().replaceAll("-", ""));
         bill.setType("1");
         bill.setIsDelete("0");
-        bill.setUserId(addChargeDto.getUserId());
+        bill.setUserId(charge.getUserId());
         bill.setConsume(fee);
         billMapper.insert(bill);
+        ChargeDto chargeDto=new ChargeDto();
+        chargeDto.setMoney(fee);
+        return chargeDto;
     }
 
     @Override

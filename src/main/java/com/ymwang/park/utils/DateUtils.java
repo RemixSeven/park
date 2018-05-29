@@ -106,7 +106,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     public static long getDistanceOfTwoDate(Date before, Date after) {
         long beforeTime = before.getTime();
         long afterTime = after.getTime();
-        return (afterTime - beforeTime) / 1000L;
+        return (afterTime - beforeTime) / 3600000L;
     }
 
     public static boolean validate(String dateString, String pattern) {

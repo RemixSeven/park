@@ -8,6 +8,6 @@ import lombok.Data;
  */
 @Data
 public class ReservePlaceDto {
-    private String carNumber;
+    private String userId;
     private String pId;
 }

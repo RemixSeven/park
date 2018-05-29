@@ -10,7 +10,7 @@ import java.util.List;
  * @Date: 2018/4/30
  */
 public interface ChargeService {
-    void addCharge(AddChargeDto addChargeDto);
+    ChargeDto addCharge(AddChargeDto addChargeDto);
     List<QueryCharyDto> queryCharge(QueryChargeRequest queryChargeRequest);
     DailyIncomeResponse queryDailyIncome(QueryDailyIncomeRequest queryDailyIncomeRequest);
     List<ParkIncome> queryParkIncome(QueryParkIncomeRequest queryParkIncomeRequest);

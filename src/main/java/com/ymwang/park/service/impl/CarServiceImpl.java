@@ -29,6 +29,10 @@ public class CarServiceImpl implements CarService {
         if (isCarNumberExist(addCarDto.getCarNumber())){
             throw new BizException("api.car.carNumber.exist", "该车已绑定，请勿重复添加");
         }
+        List<Car> cars=carMapper.queryCar(addCarDto.getUserId());
+        if (cars.size()>=1){
+            throw new BizException("api.car.oneCar", "一个用户只能绑定一辆车");
+        }
         Car car=new Car();
         car.setCarId(UUID.randomUUID().toString().replaceAll("-", ""));
         car.setCarNumber(addCarDto.getCarNumber());
@@ -52,6 +56,7 @@ public class CarServiceImpl implements CarService {
         if (isCarNumberExist(carDto.getCarNumber())){
             throw new BizException("api.car.carNumber.exist", "该车已绑定，请勿重复添加");
         }
+
         Car car=new Car();
         car.setCarId(carDto.getCarId());
         car.setCarNumber(carDto.getCarNumber());

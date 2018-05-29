@@ -56,4 +56,11 @@ public class PlaceController {
         response.setData(null);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/queryPark")
+    public SingleResult<ParkStatus> queryPark(@RequestBody ParkPlaceDto parkPlaceDto){
+        ParkStatus parkStatus=placeService.queryPark(parkPlaceDto);
+        SingleResult<ParkStatus> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(parkStatus);
+        return response;
+    }
 }

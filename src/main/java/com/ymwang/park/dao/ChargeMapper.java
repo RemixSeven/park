@@ -28,4 +28,5 @@ public interface ChargeMapper {
     List<DailyIncomeDto> queryDailyIncome( HashMap map);
     List<ParkIncomeByParkId> queryParkIncome(HashMap map);
     List<DailyIncomeDto> allParkDailyIncome(HashMap map);
+    Charge parkCharge(String userId);
 }

@@ -22,7 +22,7 @@ public interface PlaceMapper {
     int updateByPrimaryKey(Place record);
     List<Place> queryPlace(String parkId);
     Place reservePlace(String reserveId);
-    Place inusePlace(HashMap map);
+    Place inusePlace(String inuserId);
     int placeTotal(@Param("parkId")String parkId);
     int placeSurplus(@Param("parkId")String parkId);
 }

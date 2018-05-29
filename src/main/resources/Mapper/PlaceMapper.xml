@@ -41,11 +41,11 @@
     from place where park_id = #{parkId,jdbcType=VARCHAR} AND reserve_id IS NULL AND inuser_id IS NULL
   </select>
 
-  <select id="inusePlace" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+  <select id="inusePlace" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from place
-    where p_num = #{pNum,jdbcType=INTEGER} and park_id = #{parkId,jdbcType=VARCHAR}
+    where inuser_id = #{inuserId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from place

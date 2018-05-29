@@ -1,10 +1,17 @@
 package com.ymwang.park.service.impl;
 
+import com.ymwang.park.dao.CarMapper;
+import com.ymwang.park.dao.ChargeMapper;
 import com.ymwang.park.dao.PlaceMapper;
+import com.ymwang.park.dao.UserMapper;
 import com.ymwang.park.dto.Place.*;
+import com.ymwang.park.model.Car;
+import com.ymwang.park.model.Charge;
 import com.ymwang.park.model.Place;
+import com.ymwang.park.model.User;
 import com.ymwang.park.service.PlaceService;
 import com.ymwang.park.utils.BizException;
+import com.ymwang.park.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import static com.ymwang.park.utils.DateUtils.getDate;
 
 /**
  * @Author: wym
@@ -21,6 +30,12 @@ import java.util.UUID;
 public class PlaceServiceImpl implements PlaceService {
     @Autowired
     PlaceMapper placeMapper;
+    @Autowired
+    ChargeMapper chargeMapper;
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    CarMapper carMapper;
     @Override
     public void addPlace(AddPlaceDto addPlaceDto) {
         Place place=new Place();
@@ -43,7 +58,7 @@ public class PlaceServiceImpl implements PlaceService {
         }
         Place place=new Place();
         place.setpId(placeInfo.getpId());
-        place.setReserveId(reservePlaceDto.getCarNumber());
+        place.setReserveId(reservePlaceDto.getUserId());
         placeMapper.updateByPrimaryKeySelective(place);
     }
 
@@ -75,37 +90,44 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public void parkPlace(ParkPlaceDto parkPlaceDto) {
-        if (isReservePlace(parkPlaceDto)){
-            Place reservePlace=placeMapper.reservePlace(parkPlaceDto.getCarNumber());
-            if (reservePlace.getpNum()!=parkPlaceDto.getPNum()){
-                throw new BizException("api.place.park.reserve","停车失败,停车位与预约车位不一致");
-            }
-        }
-        if (isInusePlace(parkPlaceDto)){
-            throw new BizException("api.place.isUsed","停车失败,该车位已被使用");
-        }
-        HashMap map=new HashMap();
-        map.put("pNum",parkPlaceDto.getPNum());
-        map.put("parkId",parkPlaceDto.getParkId());
-        Place place=placeMapper.inusePlace(map);
+        Place place=placeMapper.reservePlace(parkPlaceDto.getUserId());
+        User user=userMapper.selectByPrimaryKey(parkPlaceDto.getUserId());
+        List<Car> cars=carMapper.queryCar(parkPlaceDto.getUserId());
+        Car car=cars.get(0);
+        Charge charge=new Charge();
+        charge.setChargeId(UUID.randomUUID().toString().replaceAll("-", ""));
+        charge.setCarNumber(car.getCarNumber());
+        charge.setEnterTime(DateUtils.parseDate(getDate("yyyy-MM-dd HH:mm:ss")));
+        charge.setUserName(user.getUserName());
+        charge.setParkId(place.getParkId());
+        charge.setUserId(parkPlaceDto.getUserId());
+        charge.setMoney(0);
+        charge.setValid("2");
+        chargeMapper.insert(charge);
         place.setReserveId(null);
-        place.setInuserId(parkPlaceDto.getCarNumber());
-        placeMapper.updateByPrimaryKey(place);
+        place.setInuserId(parkPlaceDto.getUserId());
+        placeMapper.updateByPrimaryKeySelective(place);
     }
 
-    private boolean isInusePlace(ParkPlaceDto parkPlaceDto) {
-        HashMap map=new HashMap();
-        map.put("pNum",parkPlaceDto.getPNum());
-        map.put("parkId",parkPlaceDto.getParkId());
-        Place place=placeMapper.inusePlace(map);
-        if (place.getInuserId()==null||place.getInuserId().length() == 0){
-            return false;
+    @Override
+    public ParkStatus queryPark(ParkPlaceDto parkPlaceDto) {
+        ParkStatus parkStatus=new ParkStatus();
+        parkStatus.setStatus("3");
+        Charge charge=chargeMapper.parkCharge(parkPlaceDto.getUserId());
+        if (charge!=null){
+            parkStatus.setEnterTime(charge.getEnterTime());
+            parkStatus.setStatus("1");
         }
-        return true;
+        Place place=placeMapper.reservePlace(parkPlaceDto.getUserId());
+        if (place!=null){
+            parkStatus.setStatus("2");
+        }
+        return parkStatus;
     }
+
 
     private boolean isReservePlace(ParkPlaceDto parkPlaceDto) {
-        if (placeMapper.reservePlace(parkPlaceDto.getCarNumber())==null){
+        if (placeMapper.reservePlace(parkPlaceDto.getUserId())==null){
             return false;
         }
         return true;

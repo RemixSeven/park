@@ -36,19 +36,19 @@
     select date_format(out_time ,'%Y-%m-%d' ) as parkDate,
       count(user_id) as num, sum(money) as  money,(select park_name from park where park_id = #{parkId}) as parkName
     from charge where park_id = #{parkId} and
-    date_format(out_time ,'%Y-%m-%d' ) between #{startDate} and #{endDate}
+    date_format(out_time ,'%Y-%m-%d' ) between #{startDate} and #{endDate} and valid='1'
     group by date_format(out_time ,'%Y-%m-%d' )
   </select>
   <select id="allParkDailyIncome" parameterType="java.util.HashMap"  resultMap="queryDailyIncome">
      select date_format(out_time ,'%Y-%m-%d' ) as parkDate,
             count(user_id) as num, sum(money) as  money,(select park_name from park where park_id = #{parkId}) as parkName
-    from charge where park_id = #{parkId}
+    from charge where park_id = #{parkId} where  valid='1'
      group by date_format(out_time ,'%Y-%m-%d' )
    </select>
   <select id="queryParkIncome" parameterType="java.util.HashMap"  resultMap="queryParkIncome">
     select park_id as parkId,
     sum(money) as  money from charge where
-    date_format(out_time ,'%Y-%m' ) = #{month}
+    date_format(out_time ,'%Y-%m' ) = #{month} AND valid='1'
     group by park_id
   </select>
   <select id="queryCharge" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -56,6 +56,12 @@
     <include refid="Base_Column_List" />
     from charge
     where user_id = #{userId,jdbcType=VARCHAR} AND valid='1'
+  </select>
+  <select id="parkCharge" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from charge
+    where user_id = #{userId,jdbcType=VARCHAR} AND valid='2'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from charge

@@ -24,10 +24,10 @@ public class ChargeController {
     @Autowired
     ChargeService chargeService;
     @RequestMapping(method = RequestMethod.POST,value = "/addCharge")
-    public SingleResult<String> addCharge(@RequestBody AddChargeDto addChargeDto){
-        chargeService.addCharge(addChargeDto);
-        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
-        response.setData(null);
+    public SingleResult<ChargeDto> addCharge(@RequestBody AddChargeDto addChargeDto){
+        ChargeDto chargeDto=chargeService.addCharge(addChargeDto);
+        SingleResult<ChargeDto> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(chargeDto);
         return response;
     }
 
@@ -59,5 +59,5 @@ public class ChargeController {
         SingleResult<DailyIncomeResponse> response = new SingleResult(ResultMessage.SUCCESS);
         response.setData(dailyIncomeResponse);
         return response;
-        }
+    }
 }
