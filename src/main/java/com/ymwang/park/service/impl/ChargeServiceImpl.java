@@ -94,6 +94,7 @@ public class ChargeServiceImpl implements ChargeService {
         bill.setConsume(fee);
         billMapper.insert(bill);
         ChargeDto chargeDto=new ChargeDto();
+        chargeDto.setParkId(place.getParkId());
         chargeDto.setMoney(fee);
         return chargeDto;
     }

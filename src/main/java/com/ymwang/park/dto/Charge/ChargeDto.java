@@ -9,4 +9,5 @@ import lombok.Data;
 @Data
 public class ChargeDto {
     private int money;
+    private String parkId;
 }
