@@ -44,6 +44,9 @@ public class ChargeServiceImpl implements ChargeService {
     @Override
     public ChargeDto addCharge(AddChargeDto addChargeDto) {
         Charge charge=chargeMapper.parkCharge(addChargeDto.getUserId());
+        if (charge==null){
+            throw new BizException("api.charge.noPark","您没有车辆驶入记录");
+        }
         Date date=DateUtils.parseDate(getDate("yyyy-MM-dd HH:mm:ss"));
         long disTime=getDistanceOfTwoDate(charge.getEnterTime(),date);
         ChargeStrategy chargeStrategy=chargeStrategyMapper.queryChargeStrategy(charge.getParkId());
