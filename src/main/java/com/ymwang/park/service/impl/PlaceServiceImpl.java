@@ -1,14 +1,8 @@
 package com.ymwang.park.service.impl;
 
-import com.ymwang.park.dao.CarMapper;
-import com.ymwang.park.dao.ChargeMapper;
-import com.ymwang.park.dao.PlaceMapper;
-import com.ymwang.park.dao.UserMapper;
+import com.ymwang.park.dao.*;
 import com.ymwang.park.dto.Place.*;
-import com.ymwang.park.model.Car;
-import com.ymwang.park.model.Charge;
-import com.ymwang.park.model.Place;
-import com.ymwang.park.model.User;
+import com.ymwang.park.model.*;
 import com.ymwang.park.service.PlaceService;
 import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.DateUtils;
@@ -36,6 +30,8 @@ public class PlaceServiceImpl implements PlaceService {
     UserMapper userMapper;
     @Autowired
     CarMapper carMapper;
+    @Autowired
+    ParkMapper parkMapper;
     @Override
     public void addPlace(AddPlaceDto addPlaceDto) {
         Place place=new Place();
@@ -123,6 +119,26 @@ public class PlaceServiceImpl implements PlaceService {
             parkStatus.setStatus("2");
         }
         return parkStatus;
+    }
+
+    @Override
+    public ReservationDto myReservation(ParkPlaceDto parkPlaceDto) {
+        ReservationDto reservationDto=new ReservationDto();
+        Place place=placeMapper.reservePlace(parkPlaceDto.getUserId());
+        if (place!=null) {
+            Park park = parkMapper.selectByPrimaryKey(place.getParkId());
+            reservationDto.setParkName(park.getParkName());
+            reservationDto.setPId(place.getpId());
+            reservationDto.setPNum(place.getpNum());
+        }
+        return reservationDto;
+    }
+
+    @Override
+    public void cancelReserve(DeletePlaceDto deletePlaceDto) {
+        Place place=placeMapper.selectByPrimaryKey(deletePlaceDto.getPId());
+        place.setReserveId(null);
+        placeMapper.updateByPrimaryKey(place);
     }
 
 

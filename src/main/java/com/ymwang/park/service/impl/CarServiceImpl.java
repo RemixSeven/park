@@ -26,12 +26,9 @@ public class CarServiceImpl implements CarService {
         if(!PatternUtil.checkCarNumber(addCarDto.getCarNumber())){
             throw new BizException("api.car.carNumber", "车牌号格式错误");
         }
-        if (isCarNumberExist(addCarDto.getCarNumber())){
-            throw new BizException("api.car.carNumber.exist", "该车已绑定，请勿重复添加");
-        }
         List<Car> cars=carMapper.queryCar(addCarDto.getUserId());
         if (cars.size()>=1){
-            throw new BizException("api.car.oneCar", "一个用户只能绑定一辆车");
+            throw new BizException("api.car.carNumber.exist", "一个用户只能绑定一辆车");
         }
         Car car=new Car();
         car.setCarId(UUID.randomUUID().toString().replaceAll("-", ""));

@@ -16,5 +16,6 @@ public interface PlaceService {
     List<PlaceDto> queryPlace(QueryPlaceDto queryPlaceDto);
     void parkPlace(ParkPlaceDto parkPlaceDto);
     ParkStatus queryPark(ParkPlaceDto parkPlaceDto);
-
+    ReservationDto myReservation(ParkPlaceDto parkPlaceDto);
+    void cancelReserve(DeletePlaceDto deletePlaceDto);
 }

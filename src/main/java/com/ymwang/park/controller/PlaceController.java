@@ -56,11 +56,25 @@ public class PlaceController {
         response.setData(null);
         return response;
     }
-    @RequestMapping(method = RequestMethod.POST,value = "/queryPark")
-    public SingleResult<ParkStatus> queryPark(@RequestBody ParkPlaceDto parkPlaceDto){
+    @RequestMapping(method = RequestMethod.POST,value = "/parkStatus")
+    public SingleResult<ParkStatus> parkStatus(@RequestBody ParkPlaceDto parkPlaceDto){
         ParkStatus parkStatus=placeService.queryPark(parkPlaceDto);
         SingleResult<ParkStatus> response = new SingleResult(ResultMessage.SUCCESS);
         response.setData(parkStatus);
+        return response;
+    }
+    @RequestMapping(method = RequestMethod.POST,value = "/myReservation")
+    public SingleResult<ReservationDto> myReservation(@RequestBody ParkPlaceDto parkPlaceDto){
+        ReservationDto reservationDto=placeService.myReservation(parkPlaceDto);
+        SingleResult<ReservationDto> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(reservationDto);
+        return response;
+    }
+    @RequestMapping(method = RequestMethod.POST,value = "/cancelReserve")
+    public SingleResult<String> cancelReserve(@RequestBody DeletePlaceDto deletePlaceDto){
+        placeService.cancelReserve(deletePlaceDto);
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
         return response;
     }
 }
