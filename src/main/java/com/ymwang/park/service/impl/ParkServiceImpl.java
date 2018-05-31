@@ -86,7 +86,7 @@ public class ParkServiceImpl implements ParkService {
         List<Park> parks=parkMapper.queryPark();
         for (Park park:parks){
             double distance=LocationUtils.getDistance(Double.parseDouble(queryParkDto.getLatitude()),Double.parseDouble(queryParkDto.getLongitude()),Double.parseDouble(park.getLatitude()),Double.parseDouble(park.getLongitude()));
-            if (distance<5000.00) {
+           /* if (distance<5000.00) {*/
                 QueryParkReponse queryParkReponse = new QueryParkReponse();
                 queryParkReponse.setParkId(park.getParkId());
                 queryParkReponse.setParkName(park.getParkName());
@@ -107,7 +107,7 @@ public class ParkServiceImpl implements ParkService {
                 AvgScoreParkDto avgScoreParkDto=commentaryMapper.queryAvgScore(park.getParkId());
                 queryParkReponse.setAvgScore(avgScoreParkDto.getAvgScore());
                 queryParkReponses.add(queryParkReponse);
-            }
+         /*   }*/
         }
         Collections.sort(queryParkReponses,new Comparator<QueryParkReponse>() {
 
