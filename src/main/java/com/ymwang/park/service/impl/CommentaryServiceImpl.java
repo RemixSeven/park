@@ -105,6 +105,8 @@ public class CommentaryServiceImpl implements CommentaryService {
             commentaryDto.setParkId(commentary.getParkId());
             commentaryDto.setScore(commentary.getScore());
             commentaryDto.setCommentaryTime(commentary.getUpdateTime());
+            Park park=parkMapper.selectByPrimaryKey(commentary.getParkId());
+            commentaryDto.setParkName(park.getParkName());
             User user=userMapper.selectByPrimaryKey(commentary.getUserId());
             commentaryDto.setUserName(user.getUserName());
             commentaryDto.setName(user.getName());

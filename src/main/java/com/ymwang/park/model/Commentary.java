@@ -10,6 +10,7 @@ public class Commentary {
     private String userId;
 
     private String parkId;
+    private String parkName;
 
     private String cDetail;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
