@@ -28,6 +28,7 @@ public class CouPonController {
     CouponService couponService;
     @RequestMapping(value = "/deployCoupon",method = RequestMethod.POST)
     public SingleResult<String> deployKq(@RequestBody CouponDeployDto couponDeployDto){
+
         String [] couponid=couponDeployDto.getCouponids().split(",");
         for(String id:couponid){
             CouponDeploy couponDeploy=new CouponDeploy();

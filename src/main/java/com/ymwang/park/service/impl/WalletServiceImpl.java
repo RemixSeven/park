@@ -47,11 +47,11 @@ public class WalletServiceImpl implements WalletService {
             CouponDeploy couponDeploy=couponDeployMapper.queryCouponByCommentary(map);
             if (couponDeploy!=null){
                 Coupon coupon=new Coupon();
-                coupon.setCouponId(2);
+                coupon.setCouponId(couponDeploy.getId());
                 coupon.setUserId(rechargeDto.getUserId());
                 coupon.setStatus(0);
                 couponMapper.insertSelective(coupon);
-                response="谢谢您的支持，我们已赠送一张5元优惠券，请往卡券包查收";
+                response="充值成功，谢谢您的支持，我们已赠送一张5元优惠券，请往卡券包查收";
             }
         }
         Bill bill=new Bill();

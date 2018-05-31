@@ -105,7 +105,7 @@ public class PlaceServiceImpl implements PlaceService {
         chargeMapper.insert(charge);
         place.setReserveId(null);
         place.setInuserId(parkPlaceDto.getUserId());
-        placeMapper.updateByPrimaryKeySelective(place);
+        placeMapper.updateByPrimaryKey(place);
     }
 
     @Override
