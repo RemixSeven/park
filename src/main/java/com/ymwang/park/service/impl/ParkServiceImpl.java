@@ -136,6 +136,12 @@ public class ParkServiceImpl implements ParkService {
             parkDto.setCloseTime(park.getCloseTime());
             parkDto.setLatitude(park.getLatitude());
             parkDto.setLongitude(park.getLongitude());
+            int placeTotal=placeMapper.placeTotal(park.getParkId());
+            parkDto.setPlaceTotal(placeTotal);
+            int placeSurplus=placeMapper.placeSurplus(park.getParkId());
+            parkDto.setPlaceSurplus(placeSurplus);
+            AvgScoreParkDto avgScoreParkDto=commentaryMapper.queryAvgScore(park.getParkId());
+            parkDto.setAvgScore(avgScoreParkDto.getAvgScore());
             parkDtos.add(parkDto);
         }
         return parkDtos;

@@ -25,4 +25,9 @@ public class ParkDto {
     private String longitude;
 
     private String latitude;
+    private int placeTotal;
+    /*    车位剩余数*/
+    private int placeSurplus;
+    /*    private ChargeStrategyDto chargeStrategyDto;*/
+    private float avgScore;
 }
