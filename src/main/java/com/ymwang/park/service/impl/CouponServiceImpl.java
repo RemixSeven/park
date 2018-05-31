@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 /**
  * @Author: wym
@@ -42,5 +43,11 @@ public class CouponServiceImpl implements CouponService {
             userCouponDtos.add(userCouponDto);
         }
         return userCouponDtos;
+    }
+
+    public List<CouponDeploy> queryAllDeployCoupon(){
+        List<CouponDeploy> couponDeploys= couponDeployMapper.queryAllDeployCoupon();
+        return couponDeploys;
+
     }
 }

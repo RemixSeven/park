@@ -21,7 +21,7 @@
     select
     <include refid="Base_Column_List" />
     from place
-    where park_id = #{parkId,jdbcType=VARCHAR}
+    where park_id = #{parkId,jdbcType=VARCHAR} order by p_num asc
   </select>
   <select id="reservePlace" parameterType="java.lang.String" resultMap="BaseResultMap">
     select

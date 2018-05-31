@@ -66,8 +66,14 @@ public class ChargeServiceImpl implements ChargeService {
             CouponDeploy couponDeploy=couponDeployMapper.selectById(coupon.getCouponId());
             if (couponDeploy.getKaquanid()==1){
                 fee=fee-2;
+                if (fee<=0){
+                    fee=0;
+                }
             }else {
                 fee=fee-5;
+                if (fee<=0){
+                    fee=0;
+                }
             }
         }
         Wallet wallet=walletMapper.queryWallet(charge.getUserId());
@@ -160,12 +166,12 @@ public class ChargeServiceImpl implements ChargeService {
     public DailyIncomeResponse allParkDailyIncome(AllParkDto allParkDto) {
                DailyIncomeResponse dailyIncomeResponse=new DailyIncomeResponse();
                PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
-               List<Park> parks=parkMapper.queryPark();
+               /*List<Park> parks=parkMapper.queryPark();
                Park park=parks.get(0);
                HashMap map=new HashMap();
-               map.put("parkId",park.getParkId());
-               List<DailyIncomeDto> incomes=chargeMapper.allParkDailyIncome(map);
-               List<DailyIncomeDto> incomeDtoList=chargeMapper.allParkDailyIncome(map);
+               map.put("parkId",park.getParkId());*/
+               List<DailyIncomeDto> incomes=chargeMapper.allParkDailyIncome();
+               List<DailyIncomeDto> incomeDtoList=chargeMapper.allParkDailyIncome();
                int sum=incomeDtoList.size();
                PageInfo<DailyIncomeDto> pageInfo=new PageInfo<DailyIncomeDto>(incomes);
                long total=pageInfo.getTotal();

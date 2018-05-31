@@ -34,6 +34,14 @@
     and activi_end_time &gt; #{date}
     and kaquanid = #{couponId,jdbcType=INTEGER}
   </select>
+  <!--获取所有的优惠活动-->
+  <select id="queryAllDeployCoupon"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from coupon_deploy
+  </select>
+  <!--end-->
+
   <delete id="deleteByPrimaryKey" parameterType="com.ymwang.park.model.CouponDeployKey">
     delete from coupon_deploy
     where id = #{id,jdbcType=INTEGER}
@@ -43,7 +51,7 @@
     insert into coupon_deploy (id, kaquanid, activi_start_time, 
       activi_end_time, effi_start_time, effi_end_time)
     values (#{id,jdbcType=INTEGER}, #{kaquanid,jdbcType=INTEGER}, #{activiStartTime,jdbcType=TIMESTAMP}, 
-      #{activiEndTime,jdbcType=TIMESTAMP}, #{effiStartTime,jdbcType=TIMESTAMP}, #{effiEndTime,jdbcType=TIMESTAMP}, 
+      #{activiEndTime,jdbcType=TIMESTAMP}, #{effiStartTime,jdbcType=TIMESTAMP}, #{effiEndTime,jdbcType=TIMESTAMP}
 
   </insert>
   <insert id="insertSelective" parameterType="com.ymwang.park.model.CouponDeploy">

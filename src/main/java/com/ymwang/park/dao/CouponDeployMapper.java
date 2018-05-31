@@ -5,6 +5,8 @@ import com.ymwang.park.model.CouponDeployKey;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface CouponDeployMapper {
@@ -20,4 +22,5 @@ public interface CouponDeployMapper {
 
     int updateByPrimaryKey(CouponDeploy record);
     CouponDeploy queryCouponByCommentary( HashMap map);
+    List<CouponDeploy> queryAllDeployCoupon();
 }

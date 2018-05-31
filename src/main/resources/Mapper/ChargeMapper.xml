@@ -39,11 +39,12 @@
     date_format(out_time ,'%Y-%m-%d' ) between #{startDate} and #{endDate} and valid='1'
     group by date_format(out_time ,'%Y-%m-%d' )
   </select>
-  <select id="allParkDailyIncome" parameterType="java.util.HashMap"  resultMap="queryDailyIncome">
-     select date_format(out_time ,'%Y-%m-%d' ) as parkDate,
-            count(user_id) as num, sum(money) as  money,(select park_name from park where park_id = #{parkId}) as parkName
-    from charge where park_id = #{parkId} where  valid='1'
-     group by date_format(out_time ,'%Y-%m-%d' )
+  <select id="allParkDailyIncome"   resultMap="queryDailyIncome">
+    select date_format(t1.out_time ,'%Y-%m-%d' ) as parkDate,
+      count(t1.user_id) as num, sum(t1.money) as  money,t2.park_name as parkName
+    from charge as t1, park as t2 where
+      t1.park_id=t2.park_id  and t1.valid='1' group by date_format(t1.out_time ,'%Y-%m-%d' ) ,t2.park_name
+
    </select>
   <select id="queryParkIncome" parameterType="java.util.HashMap"  resultMap="queryParkIncome">
     select park_id as parkId,
