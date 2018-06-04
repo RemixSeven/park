@@ -164,20 +164,16 @@ public class ChargeServiceImpl implements ChargeService {
     }
     @Override
     public DailyIncomeResponse allParkDailyIncome(AllParkDto allParkDto) {
-               DailyIncomeResponse dailyIncomeResponse=new DailyIncomeResponse();
-               PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
-               /*List<Park> parks=parkMapper.queryPark();
-               Park park=parks.get(0);
-               HashMap map=new HashMap();
-               map.put("parkId",park.getParkId());*/
-               List<DailyIncomeDto> incomes=chargeMapper.allParkDailyIncome();
-               List<DailyIncomeDto> incomeDtoList=chargeMapper.allParkDailyIncome();
-               int sum=incomeDtoList.size();
-               PageInfo<DailyIncomeDto> pageInfo=new PageInfo<DailyIncomeDto>(incomes);
-               long total=pageInfo.getTotal();
-                dailyIncomeResponse.setCount(String.valueOf(total));
-               dailyIncomeResponse.setDailyIncomeDtos(incomes);
-               dailyIncomeResponse.setSum(sum);
-               return dailyIncomeResponse;
-           }
+        DailyIncomeResponse dailyIncomeResponse=new DailyIncomeResponse();
+        PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
+        List<DailyIncomeDto> incomes=chargeMapper.allParkDailyIncome();
+        List<DailyIncomeDto> incomeDtoList=chargeMapper.allParkDailyIncome();
+        int sum=incomeDtoList.size();
+        PageInfo<DailyIncomeDto> pageInfo=new PageInfo<DailyIncomeDto>(incomes);
+        long total=pageInfo.getTotal();
+        dailyIncomeResponse.setCount(String.valueOf(total));
+        dailyIncomeResponse.setDailyIncomeDtos(incomes);
+        dailyIncomeResponse.setSum(sum);
+        return dailyIncomeResponse;
+    }
 }

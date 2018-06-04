@@ -77,4 +77,11 @@ public class PlaceController {
         response.setData(null);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/ordinaryPark")
+    public SingleResult<String> ordinaryPark(@RequestBody ReservePlaceDto reservePlaceDto){
+        placeService.ordinaryPark(reservePlaceDto);
+        SingleResult<String> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(null);
+        return response;
+    }
 }

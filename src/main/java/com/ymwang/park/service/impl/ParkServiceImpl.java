@@ -141,7 +141,9 @@ public class ParkServiceImpl implements ParkService {
             int placeSurplus=placeMapper.placeSurplus(park.getParkId());
             parkDto.setPlaceSurplus(placeSurplus);
             AvgScoreParkDto avgScoreParkDto=commentaryMapper.queryAvgScore(park.getParkId());
-            parkDto.setAvgScore(avgScoreParkDto.getAvgScore());
+            if (avgScoreParkDto!=null){
+                parkDto.setAvgScore(avgScoreParkDto.getAvgScore());
+            }
             parkDtos.add(parkDto);
         }
         return parkDtos;
@@ -153,6 +155,35 @@ public class ParkServiceImpl implements ParkService {
         List<Park> parkList=parkMapper.queryPark();
         PageHelper.startPage(allParkDto.getPageNum(),allParkDto.getPageSize());
         List<Park> parks=parkMapper.queryPark();
+        int sum=parkList.size();
+        List<ParkDto> parkDtos=new ArrayList<>();
+        for (Park park:parks){
+            ParkDto parkDto=new ParkDto();
+            parkDto.setParkId(park.getParkId());
+            parkDto.setParkName(park.getParkName());
+            parkDto.setParkDetail(park.getParkDetail());
+            parkDto.setParkAddress(park.getParkAddress());
+            parkDto.setOpenTime(park.getOpenTime());
+            parkDto.setCloseTime(park.getCloseTime());
+            parkDto.setLatitude(park.getLatitude());
+            parkDto.setLongitude(park.getLongitude());
+            parkDtos.add(parkDto);
+        }
+
+        PageInfo<ParkDto> pageInfo=new PageInfo<ParkDto>(parkDtos);
+        long total=pageInfo.getTotal();
+        allParkResponse.setCount(String.valueOf(total));
+        allParkResponse.setParkDtos(parkDtos);
+        allParkResponse.setSum(sum);
+        return allParkResponse;
+    }
+
+    @Override
+    public AllParkResponse queryParkByParkName(QueryParkByParkName queryParkByParkName) {
+        AllParkResponse allParkResponse=new AllParkResponse();
+        List<Park> parkList=parkMapper.queryParkByContent(queryParkByParkName.getParkName());
+        PageHelper.startPage(queryParkByParkName.getPageNum(),queryParkByParkName.getPageSize());
+        List<Park> parks=parkMapper.queryParkByContent(queryParkByParkName.getParkName());
         int sum=parkList.size();
         List<ParkDto> parkDtos=new ArrayList<>();
         for (Park park:parks){

@@ -18,4 +18,5 @@ public interface PlaceService {
     ParkStatus queryPark(ParkPlaceDto parkPlaceDto);
     ReservationDto myReservation(ParkPlaceDto parkPlaceDto);
     void cancelReserve(DeletePlaceDto deletePlaceDto);
+    void ordinaryPark(ReservePlaceDto reservePlaceDto);
 }

@@ -66,5 +66,12 @@ public class ParkController {
         response.setData(allParkResponse);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/queryParkByParkName")
+    public SingleResult<AllParkResponse> queryParkByParkName(@RequestBody QueryParkByParkName queryParkByParkName){
+        AllParkResponse allParkResponse=parkService.queryParkByParkName(queryParkByParkName);
+        SingleResult<AllParkResponse> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(allParkResponse);
+        return response;
+    }
 
 }

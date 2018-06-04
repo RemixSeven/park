@@ -13,4 +13,5 @@ public interface ChargeStrategyService {
     void editChargeStrategy(ChargeStrategyDto chargeStrategyDto);
     ChargeStrategyDto queryChargeStrategy(QueryChargeStrategyDto queryChargeStrategyDto);
     AllChargeStrategyRe allChargeStrategy(AllParkDto allParkDto);
+    AllChargeStrategyRe chargeStrategyByContent(ChargeStrategyByContent chargeStrategyByContent);
 }

@@ -96,6 +96,7 @@ public class CommentaryServiceImpl implements CommentaryService {
         QueryCommentaryDto queryCommentaryDto=new QueryCommentaryDto();
         PageHelper.startPage(queryCommentaryRuquest.getPageNum(),queryCommentaryRuquest.getPageSize());
         List<Commentary> commentaries=commentaryMapper.queryCommentary(queryCommentaryRuquest.getParkId());
+        List<Commentary> commentarieList=commentaryMapper.queryCommentary(queryCommentaryRuquest.getParkId());
         List<CommentaryDto> commentaryDtos=new ArrayList<>();
         for (Commentary commentary:commentaries){
             CommentaryDto commentaryDto=new CommentaryDto();
@@ -113,6 +114,7 @@ public class CommentaryServiceImpl implements CommentaryService {
             commentaryDtos.add(commentaryDto);
         }
         PageInfo<CommentaryDto> pageInfo=new PageInfo<CommentaryDto>(commentaryDtos);
+        queryCommentaryDto.setSum(commentarieList.size());
         long total=pageInfo.getTotal();
         queryCommentaryDto.setCount(String.valueOf(total));
         queryCommentaryDto.setCommentaryDtos(commentaryDtos);
@@ -133,6 +135,7 @@ public class CommentaryServiceImpl implements CommentaryService {
             commentaryDto.setCDetail(commentary.getcDetail());
             commentaryDto.setUserId(commentary.getUserId());
             commentaryDto.setParkId(commentary.getParkId());
+            commentaryDto.setScore(commentary.getScore());
             commentaryDto.setCommentaryTime(commentary.getUpdateTime());
             Park park=parkMapper.selectByPrimaryKey(commentary.getParkId());
             commentaryDto.setParkName(park.getParkName());
@@ -160,6 +163,7 @@ public class CommentaryServiceImpl implements CommentaryService {
             CommentaryDto commentaryDto=new CommentaryDto();
             commentaryDto.setCId(commentary.getcId());
             commentaryDto.setCDetail(commentary.getcDetail());
+            commentaryDto.setScore(commentary.getScore());
             commentaryDto.setUserId(commentary.getUserId());
             commentaryDto.setParkId(commentary.getParkId());
             commentaryDto.setCommentaryTime(commentary.getUpdateTime());

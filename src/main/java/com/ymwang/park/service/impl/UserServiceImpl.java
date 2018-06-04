@@ -46,9 +46,6 @@ public class UserServiceImpl implements UserService {
     public UserDto login(LoginRequest loginRequest) {
         User user=userMapper.selectByUserName(loginRequest.getUsername());
         if (user != null && user.getPassword().equals(MD5Util.encrypt16(loginRequest.getPassword()))) {
-            if (user.getValid().equals("0")){
-                throw new BizException("api.user.forbid","账户被禁用，请联系管理人员");
-            }
             UserDto userDto=new UserDto();
             userDto.setName(user.getName());
             userDto.setUserId(user.getUserId());
@@ -58,6 +55,8 @@ public class UserServiceImpl implements UserService {
             Wallet wallet=walletMapper.queryWallet(user.getUserId());
             userDto.setWalletId(wallet.getWalletId());
             return userDto;
+        }else if (user==null){
+            throw new BizException("api.user.noExist","账户不存在");
         }else {
             throw new BizException("api.password","密码错误");
         }

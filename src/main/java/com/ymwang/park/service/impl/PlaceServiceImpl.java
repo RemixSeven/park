@@ -76,7 +76,7 @@ public class PlaceServiceImpl implements PlaceService {
             if (place.getReserveId()!=null&&place.getReserveId().length() != 0){
                 placeDto.setStatus("2");
             }
-            if (place.getInuserId()!=null&&place.getReserveId().length()!=0){
+            if (place.getInuserId()!=null&&place.getInuserId().length()!=0){
                 placeDto.setStatus("3");
             }
             placeDtos.add(placeDto);
@@ -142,6 +142,36 @@ public class PlaceServiceImpl implements PlaceService {
         Place place=placeMapper.selectByPrimaryKey(deletePlaceDto.getPId());
         place.setReserveId(null);
         placeMapper.updateByPrimaryKey(place);
+    }
+
+    @Override
+    public void ordinaryPark(ReservePlaceDto reservePlaceDto) {
+        Place placeInfo=placeMapper.selectByPrimaryKey(reservePlaceDto.getPId());
+        if (placeInfo.getReserveId()!=null&&placeInfo.getReserveId().length() != 0){
+            throw new BizException("api.place.reserve.isReserve","预约失败,该车位已被预订");
+        }
+        if (placeInfo.getInuserId()!=null&&placeInfo.getInuserId().length() != 0){
+            throw new BizException("api.place.reserve.isUsed","预约失败,该车位已被使用");
+        }
+        List<Car> cars=carMapper.queryCar(reservePlaceDto.getUserId());
+        if (cars.size()==0){
+            throw new BizException("api.car.noBind","您尚未绑定车辆，请绑定车辆之后才能停车");
+        }
+        User user=userMapper.selectByPrimaryKey(reservePlaceDto.getUserId());
+        Car car=cars.get(0);
+        Charge charge=new Charge();
+        charge.setChargeId(UUID.randomUUID().toString().replaceAll("-", ""));
+        charge.setCarNumber(car.getCarNumber());
+        charge.setEnterTime(DateUtils.parseDate(getDate("yyyy-MM-dd HH:mm:ss")));
+        charge.setUserName(user.getUserName());
+        charge.setParkId(placeInfo.getParkId());
+        charge.setUserId(user.getUserId());
+        charge.setMoney(0);
+        charge.setValid("2");
+        chargeMapper.insert(charge);
+        placeInfo.setReserveId(null);
+        placeInfo.setInuserId(user.getUserId());
+        placeMapper.updateByPrimaryKey(placeInfo);
     }
 
 

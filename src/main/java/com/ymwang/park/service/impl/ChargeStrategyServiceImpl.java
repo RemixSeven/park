@@ -96,4 +96,30 @@ public class ChargeStrategyServiceImpl implements ChargeStrategyService {
         allChargeStrategyRe.setSum(sum);
         return allChargeStrategyRe;
     }
+
+    @Override
+    public AllChargeStrategyRe chargeStrategyByContent(ChargeStrategyByContent chargeStrategyByContent) {
+        AllChargeStrategyRe allChargeStrategyRe=new AllChargeStrategyRe();
+        List<Park> parks=parkMapper.queryParkByContent(chargeStrategyByContent.getParkName());
+        List<Park> parkList=parkMapper.queryParkByContent(chargeStrategyByContent.getParkName());
+        int sum=parkList.size();
+        PageHelper.startPage(chargeStrategyByContent.getPageNum(),chargeStrategyByContent.getPageSize());
+        List<AllChargeStrategyDto> allChargeStrategyDtos=new ArrayList<>();
+        for (Park park:parks){
+            AllChargeStrategyDto allChargeStrategyDto=new AllChargeStrategyDto();
+            ChargeStrategy chargeStrategy=chargeStrategyMapper.queryChargeStrategy(park.getParkId());
+            allChargeStrategyDto.setParkName(park.getParkName());
+            allChargeStrategyDto.setOneHour(chargeStrategy.getOneHour());
+            allChargeStrategyDto.setThreeHour(chargeStrategy.getThreeHour());
+            allChargeStrategyDto.setFiveHour(chargeStrategy.getFiveHour());
+            allChargeStrategyDto.setCapping(chargeStrategy.getCapping());
+            allChargeStrategyDtos.add(allChargeStrategyDto);
+        }
+        PageInfo<AllChargeStrategyDto> pageInfo=new PageInfo<AllChargeStrategyDto>(allChargeStrategyDtos);
+        long total=pageInfo.getTotal();
+        allChargeStrategyRe.setCount(String.valueOf(total));
+        allChargeStrategyRe.setAllChargeStrategyDtos(allChargeStrategyDtos);
+        allChargeStrategyRe.setSum(sum);
+        return allChargeStrategyRe;
+    }
 }

@@ -55,4 +55,11 @@ public class ChargeStrategyController {
         response.setData(allChargeStrategyRe);
         return response;
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/chargeStrategyByContent")
+    public SingleResult<AllChargeStrategyRe> chargeStrategyByContent(@RequestBody ChargeStrategyByContent chargeStrategyByContent){
+        AllChargeStrategyRe allChargeStrategyRe=chargeStrategyService.chargeStrategyByContent(chargeStrategyByContent);
+        SingleResult<AllChargeStrategyRe> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(allChargeStrategyRe);
+        return response;
+    }
 }
