@@ -11,5 +11,5 @@ public class RechargeDto {
     private String walletId;
     private String userId;
 
-    private Integer balance;
+    private int balance;
 }

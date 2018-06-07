@@ -15,6 +15,7 @@ import com.ymwang.park.model.Place;
 import com.ymwang.park.service.ParkService;
 import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.LocationUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,12 @@ public class ParkServiceImpl implements ParkService {
 
     @Override
     public void addPark(AddParkDto addParkDto) {
+        if (StringUtils.isEmpty(addParkDto.getParkName())||StringUtils.isEmpty(addParkDto.getParkAddress())||
+                StringUtils.isEmpty(addParkDto.getParkDetail())||StringUtils.isEmpty(addParkDto.getLatitude())||
+                StringUtils.isEmpty(addParkDto.getLongitude())||addParkDto.getOpenTime()==null||
+                addParkDto.getCloseTime()==null){
+            throw new BizException("api.park.empty", "停车场信息都为必填项,请检查未填项");
+        }
         if (isParkNameExist(addParkDto)) {
             throw new BizException("api.parkName.exist", "停车场名称不能重复");
         }else {
@@ -66,6 +73,11 @@ public class ParkServiceImpl implements ParkService {
     @Override
     public void editPark(EditParkDto editParkDto) {
         Park park=new Park();
+        if (StringUtils.isEmpty(editParkDto.getParkDetail())
+                ||editParkDto.getOpenTime()==null||
+                editParkDto.getCloseTime()==null){
+            throw new BizException("api.park.empty", "修改的内容都为必填项,请检查未填项后再修改");
+        }
         park.setParkId(editParkDto.getParkId());
         park.setParkDetail(editParkDto.getParkDetail());
         park.setOpenTime(editParkDto.getOpenTime());
@@ -205,5 +217,46 @@ public class ParkServiceImpl implements ParkService {
         allParkResponse.setParkDtos(parkDtos);
         allParkResponse.setSum(sum);
         return allParkResponse;
+    }
+
+    @Override
+    public List<ParkDto> queryParkNearby(QueryParkByContentDto queryParkByContentDto) {
+        List<Park> parks=parkMapper.queryParkByContent(queryParkByContentDto.getContent());
+        List<ParkDto> parkDtos=new ArrayList<>();
+        for (Park park:parks){
+            double distance=LocationUtils.getDistance(30.320964,120.351044,Double.parseDouble(park.getLatitude()),Double.parseDouble(park.getLongitude()));
+             if (distance<5000.00) {
+                 ParkDto parkDto = new ParkDto();
+                 parkDto.setParkId(park.getParkId());
+                 parkDto.setParkName(park.getParkName());
+                 parkDto.setParkDetail(park.getParkDetail());
+                 parkDto.setParkAddress(park.getParkAddress());
+                 parkDto.setOpenTime(park.getOpenTime());
+                 parkDto.setCloseTime(park.getCloseTime());
+                 parkDto.setLatitude(park.getLatitude());
+                 parkDto.setLongitude(park.getLongitude());
+                 int placeTotal = placeMapper.placeTotal(park.getParkId());
+                 parkDto.setPlaceTotal(placeTotal);
+                 int placeSurplus = placeMapper.placeSurplus(park.getParkId());
+                 parkDto.setPlaceSurplus(placeSurplus);
+                 AvgScoreParkDto avgScoreParkDto = commentaryMapper.queryAvgScore(park.getParkId());
+                 if (avgScoreParkDto != null) {
+                     parkDto.setAvgScore(avgScoreParkDto.getAvgScore());
+                 }
+                 parkDto.setDistance(distance);
+                 parkDtos.add(parkDto);
+             }
+        }
+        Collections.sort(parkDtos,new Comparator<ParkDto>() {
+
+            @Override
+            public int compare(ParkDto o1, ParkDto o2) {
+                // TODO Auto-generated method stub
+                BigDecimal b1 = new BigDecimal(o1.getDistance());
+                BigDecimal b2 = new BigDecimal(o2.getDistance());
+                return (int) b1.subtract(b2).doubleValue();
+            }
+        });
+        return parkDtos;
     }
 }

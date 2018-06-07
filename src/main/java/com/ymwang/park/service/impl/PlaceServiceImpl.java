@@ -60,6 +60,13 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public void deletePlace(DeletePlaceDto deletePlaceDto) {
+        Place placeInfo=placeMapper.selectByPrimaryKey(deletePlaceDto.getPId());
+        if (placeInfo.getReserveId()!=null&&placeInfo.getReserveId().length() != 0){
+            throw new BizException("api.place.delete.isReserve","删除车位失败,该车位已被预订");
+        }
+        if (placeInfo.getInuserId()!=null&&placeInfo.getInuserId().length() != 0){
+            throw new BizException("api.place.delete.isUsed","删除车位失败,该车位已被使用");
+        }
         placeMapper.deleteByPrimaryKey(deletePlaceDto.getPId());
     }
 
@@ -148,10 +155,10 @@ public class PlaceServiceImpl implements PlaceService {
     public void ordinaryPark(ReservePlaceDto reservePlaceDto) {
         Place placeInfo=placeMapper.selectByPrimaryKey(reservePlaceDto.getPId());
         if (placeInfo.getReserveId()!=null&&placeInfo.getReserveId().length() != 0){
-            throw new BizException("api.place.reserve.isReserve","预约失败,该车位已被预订");
+            throw new BizException("api.place.reserve.isReserve","停车失败,该车位已被预订");
         }
         if (placeInfo.getInuserId()!=null&&placeInfo.getInuserId().length() != 0){
-            throw new BizException("api.place.reserve.isUsed","预约失败,该车位已被使用");
+            throw new BizException("api.place.reserve.isUsed","停车失败,该车位已被使用");
         }
         List<Car> cars=carMapper.queryCar(reservePlaceDto.getUserId());
         if (cars.size()==0){

@@ -40,7 +40,9 @@ public class CouponServiceImpl implements CouponService {
             }else {
                 userCouponDto.setName("5元停车优惠券");
             }
-            userCouponDtos.add(userCouponDto);
+            if (userCouponDto.getStatus()!=1) {
+                userCouponDtos.add(userCouponDto);
+            }
         }
         return userCouponDtos;
     }

@@ -31,10 +31,13 @@ public class UserServiceImpl implements UserService {
     WalletMapper walletMapper;
     @Override
     public void userRegister(UserRequest userRequest) throws BizException{
+        if (StringUtils.isEmpty(userRequest.getPhone())){
+            throw new BizException("api.phone.empty","手机号不能为空");
+        }
         if (userRequest.getUserType().equals("0")) {
            register(userRequest);
         }else {
-            if (StringUtils.equals(userRequest.getCode(),"WSQAJL")){
+            if (StringUtils.equals(userRequest.getCode(),"WYM")){
                 register(userRequest);
             }else {
                 throw new BizException("api.register.authority","您没有权限注册管理员");
@@ -46,6 +49,9 @@ public class UserServiceImpl implements UserService {
     public UserDto login(LoginRequest loginRequest) {
         User user=userMapper.selectByUserName(loginRequest.getUsername());
         if (user != null && user.getPassword().equals(MD5Util.encrypt16(loginRequest.getPassword()))) {
+            if (!user.getUserType().equals(loginRequest.getUserType())){
+                throw new BizException("api.user.authority","您的账户没有权限登录该系统");
+            }
             UserDto userDto=new UserDto();
             userDto.setName(user.getName());
             userDto.setUserId(user.getUserId());
@@ -139,6 +145,8 @@ public class UserServiceImpl implements UserService {
                 userList=userMapper.getByName(queryUserByContent.getContent());
                 break;
             default:
+                users=userMapper.getByUserName(queryUserByContent.getContent());
+                userList=userMapper.getByUserName(queryUserByContent.getContent());
                 break;
         }
         List<UserDto> userDtos=new ArrayList<>();

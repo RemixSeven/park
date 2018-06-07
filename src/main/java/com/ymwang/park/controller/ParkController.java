@@ -74,4 +74,11 @@ public class ParkController {
         return response;
     }
 
+    @RequestMapping(method = RequestMethod.POST,value = "/queryParkNearby")
+    public SingleResult<List<ParkDto>> queryParkNearby(@RequestBody QueryParkByContentDto queryParkByContentDto){
+        List<ParkDto> parkDtos=parkService.queryParkNearby(queryParkByContentDto);
+        SingleResult<List<ParkDto>> response = new SingleResult(ResultMessage.SUCCESS);
+        response.setData(parkDtos);
+        return response;
+    }
 }

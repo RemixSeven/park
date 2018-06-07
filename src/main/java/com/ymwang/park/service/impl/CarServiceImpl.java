@@ -6,6 +6,7 @@ import com.ymwang.park.model.Car;
 import com.ymwang.park.service.CarService;
 import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.PatternUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class CarServiceImpl implements CarService {
     CarMapper carMapper;
     @Override
     public void addCar(AddCarDto addCarDto) {
+        if (StringUtils.isEmpty(addCarDto.getCarNumber())||StringUtils.isEmpty(addCarDto.getCarColor())||StringUtils.isEmpty(addCarDto.getCarName())){
+            throw new BizException("api.car.empty","车辆信息都为必填项");
+        }
         if(!PatternUtil.checkCarNumber(addCarDto.getCarNumber())){
             throw new BizException("api.car.carNumber", "车牌号格式错误");
         }
@@ -47,6 +51,9 @@ public class CarServiceImpl implements CarService {
     }
     @Override
     public void editCar(CarDto carDto) {
+        if (StringUtils.isEmpty(carDto.getCarNumber())||StringUtils.isEmpty(carDto.getCarColor())||StringUtils.isEmpty(carDto.getCarName())){
+            throw new BizException("api.car.empty","车辆信息都为必填项");
+        }
         if(PatternUtil.checkCarNumber(carDto.getCarNumber())==false){
             throw new BizException("api.car.carNumber", "车牌号格式错误");
         }

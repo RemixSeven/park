@@ -16,4 +16,5 @@ public interface ParkService {
     List<ParkDto> queryParkByContent(QueryParkByContentDto queryParkByContentDto);
     AllParkResponse allPark(AllParkDto allParkDto);
     AllParkResponse queryParkByParkName(QueryParkByParkName queryParkByParkName);
+    List<ParkDto> queryParkNearby(QueryParkByContentDto queryParkByContentDto);
 }

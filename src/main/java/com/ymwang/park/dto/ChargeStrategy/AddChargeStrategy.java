@@ -10,11 +10,11 @@ import lombok.Data;
 public class AddChargeStrategy {
     private String parkId;
 
-    private Integer oneHour;
+    private int oneHour;
 
-    private Integer threeHour;
+    private int threeHour;
 
-    private Integer fiveHour;
+    private int fiveHour;
 
-    private Integer capping;
+    private int capping;
 }

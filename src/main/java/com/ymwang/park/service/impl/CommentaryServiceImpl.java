@@ -7,7 +7,9 @@ import com.ymwang.park.dto.Commentary.*;
 import com.ymwang.park.dto.Park.AllParkDto;
 import com.ymwang.park.model.*;
 import com.ymwang.park.service.CommentaryService;
+import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,10 @@ public class CommentaryServiceImpl implements CommentaryService {
     CouponMapper couponMapper;
     @Override
     public String addCommentary(AddCommentaryDto addCommentaryDto) {
-        String response=null;
+        String response="评价成功";
+        if (addCommentaryDto.getScore()==0||StringUtils.isEmpty(addCommentaryDto.getCDetail())){
+            throw new BizException("api.commentary.empty","评价内容或打分不能为空");
+        }
         Commentary commentary=new Commentary();
         commentary.setcId(UUID.randomUUID().toString().replaceAll("-", ""));
         commentary.setUserId(addCommentaryDto.getUserId());

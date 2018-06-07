@@ -10,6 +10,7 @@ import com.ymwang.park.model.ChargeStrategy;
 import com.ymwang.park.model.Park;
 import com.ymwang.park.service.ChargeStrategyService;
 import com.ymwang.park.utils.BizException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,11 @@ public class ChargeStrategyServiceImpl implements ChargeStrategyService {
 
     @Override
     public void addChargeStrategy(AddChargeStrategy addChargeStrategy) {
+        if (StringUtils.isEmpty(addChargeStrategy.getParkId())||addChargeStrategy.getOneHour()==0||
+               addChargeStrategy.getThreeHour()==0||
+                addChargeStrategy.getFiveHour()==0||addChargeStrategy.getCapping()==0){
+            throw new BizException("api.addChargeStrategy.empty", "收费策略相关信息都为必填项且收费金额不能为0,请检查未填项");
+        }
         ChargeStrategy chargeStrategyInfo=chargeStrategyMapper.queryChargeStrategy(addChargeStrategy.getParkId());
         if (chargeStrategyInfo!=null){
             throw new BizException("api.chargeStrategy.park.unique","一个停车场只能有一个收费策略");
@@ -46,11 +52,17 @@ public class ChargeStrategyServiceImpl implements ChargeStrategyService {
 
     @Override
     public void deleteChargeStrategy(DeleteChargeStrategy deleteChargeStrategy) {
+
         chargeStrategyMapper.deleteByPrimaryKey(deleteChargeStrategy.getStrategyId());
     }
 
     @Override
     public void editChargeStrategy(ChargeStrategyDto chargeStrategyDto) {
+        if (chargeStrategyDto.getOneHour()==0||
+               chargeStrategyDto.getThreeHour()==0||
+                chargeStrategyDto.getFiveHour()==0||chargeStrategyDto.getCapping()==0){
+            throw new BizException("api.editChargeStrategy.empty", "收费金额不能为空或0，请检查后再修改");
+        }
         ChargeStrategy chargeStrategy= chargeStrategyMapper.selectByPrimaryKey(chargeStrategyDto.getStrategyId());
         chargeStrategy.setOneHour(chargeStrategyDto.getOneHour());
         chargeStrategy.setThreeHour(chargeStrategyDto.getThreeHour());

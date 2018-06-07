@@ -12,7 +12,9 @@ import com.ymwang.park.model.Coupon;
 import com.ymwang.park.model.CouponDeploy;
 import com.ymwang.park.model.Wallet;
 import com.ymwang.park.service.WalletService;
+import com.ymwang.park.utils.BizException;
 import com.ymwang.park.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,10 @@ public class WalletServiceImpl implements WalletService {
     CouponMapper couponMapper;
     @Override
     public String recharge(RechargeDto rechargeDto) {
-        String response=null;
+        String response="充值成功，谢谢您的支持";
+        if (rechargeDto.getBalance()==0){
+            throw new BizException("api.charge.empty","充值金额不能为空或为0");
+        }
         Wallet wallet=walletMapper.selectByPrimaryKey(rechargeDto.getWalletId());
         int balance=wallet.getBalance()+rechargeDto.getBalance();
         wallet.setBalance(balance);

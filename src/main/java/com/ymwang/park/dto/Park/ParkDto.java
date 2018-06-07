@@ -30,4 +30,5 @@ public class ParkDto {
     private int placeSurplus;
     /*    private ChargeStrategyDto chargeStrategyDto;*/
     private float avgScore;
+    private double distance;
 }
