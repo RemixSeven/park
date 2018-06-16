@@ -117,7 +117,11 @@ public class ParkServiceImpl implements ParkService {
                 queryParkReponse.setOneHour(oneHour);
                 queryParkReponse.setPlaceSurplus(placeSurplus);
                 AvgScoreParkDto avgScoreParkDto=commentaryMapper.queryAvgScore(park.getParkId());
-                queryParkReponse.setAvgScore(avgScoreParkDto.getAvgScore());
+                if(avgScoreParkDto!=null) {
+                    queryParkReponse.setAvgScore(avgScoreParkDto.getAvgScore());
+                }else {
+                    queryParkReponse.setAvgScore(5.00);
+                }
                 queryParkReponses.add(queryParkReponse);
          /*   }*/
         }
@@ -242,6 +246,8 @@ public class ParkServiceImpl implements ParkService {
                  AvgScoreParkDto avgScoreParkDto = commentaryMapper.queryAvgScore(park.getParkId());
                  if (avgScoreParkDto != null) {
                      parkDto.setAvgScore(avgScoreParkDto.getAvgScore());
+                 }else {
+                     parkDto.setAvgScore(5.00);
                  }
                  parkDto.setDistance(distance);
                  parkDtos.add(parkDto);

@@ -11,7 +11,7 @@
     <result column="score" jdbcType="INTEGER" property="score" />
   </resultMap>
   <resultMap id="avgScorePark" type="com.ymwang.park.dto.Commentary.AvgScoreParkDto">
-    <result column="avgScore" jdbcType="FLOAT" property="avgScore" />
+    <result column="avgScore" jdbcType="DOUBLE" property="avgScore" />
   </resultMap>
   <sql id="Base_Column_List">
     c_id, user_id, park_id, c_detail, create_time, update_time,score

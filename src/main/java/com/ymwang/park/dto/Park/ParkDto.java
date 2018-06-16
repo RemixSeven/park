@@ -29,6 +29,6 @@ public class ParkDto {
     /*    车位剩余数*/
     private int placeSurplus;
     /*    private ChargeStrategyDto chargeStrategyDto;*/
-    private float avgScore;
+    private double avgScore;
     private double distance;
 }

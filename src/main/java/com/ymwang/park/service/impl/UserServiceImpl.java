@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.ws.soap.Addressing;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -66,7 +67,6 @@ public class UserServiceImpl implements UserService {
         }else {
             throw new BizException("api.password","密码错误");
         }
-
     }
 
     @Override
@@ -142,8 +142,9 @@ public class UserServiceImpl implements UserService {
                 break;
             case MOBILE:
                 users=userMapper.getByPhone(queryUserByContent.getContent());
-                userList=userMapper.getByName(queryUserByContent.getContent());
+                userList=userMapper.getByPhone(queryUserByContent.getContent());
                 break;
+
             default:
                 users=userMapper.getByUserName(queryUserByContent.getContent());
                 userList=userMapper.getByUserName(queryUserByContent.getContent());

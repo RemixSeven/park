@@ -8,5 +8,5 @@ import lombok.Data;
  */
 @Data
 public class AvgScoreParkDto {
-    private float avgScore;
+    private double avgScore;
 }

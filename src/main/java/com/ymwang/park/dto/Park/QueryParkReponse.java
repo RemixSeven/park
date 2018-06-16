@@ -33,5 +33,5 @@ public class QueryParkReponse {
     private int placeSurplus;
 /*    private ChargeStrategyDto chargeStrategyDto;*/
     private int OneHour;
-    private float avgScore;
+    private double avgScore;
 }
